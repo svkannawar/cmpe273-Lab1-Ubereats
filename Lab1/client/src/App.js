@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
-import Signup from './components/Signup';
-import './App.css';
-import { BrowserRouter } from 'react-router-dom';
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Routes from "./components/Routes/Routes";
+import { BrowserRouter } from "react-router-dom";
 
-export class App extends Component {
-  render () {
-    return (
+function App() {
+  return (
+    <>
       <BrowserRouter>
-        <div>
-          <Signup />
-        </div>
+        <Routes />
       </BrowserRouter>
-    )
-  }
+    </>
+  );
 }
 
 export default App;
