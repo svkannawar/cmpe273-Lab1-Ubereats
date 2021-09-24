@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { Link } from "react-router-dom";
+import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 const schema = yup.object().shape({
   email: yup.string().required("Please enter email"),
@@ -11,15 +13,43 @@ const schema = yup.object().shape({
 });
 
 function Login() {
-  const onSubmit = (data) => {
-    console.log(data);
+  
+  const [role, setRole] = useState("customer");
+
+  let history = useHistory();
+
+  const radioChange = (e) => {
+    setRole(e.target.value);
+  
   };
 
-  const [value, setValue] = useState();
 
-  const handleChange1 = (val) => setValue(val);
+  const sbmt = (data, { resetForm }) => {
+    // console.log(data, role);
+
+   const creds = {email:data.email, password:data.password, role:role };
+   resetForm();
+  console.log(creds);
+   axios.post('http://localhost:5000/signin', creds)
+       .then(response => {
+        if(response.data.role==="customer"){
+          history.push('/custDashboard');
+        }
+        if(response.data.role==="restaurant"){
+          history.push('/restDashboard');
+        }
+       } )
+       .catch(error => {
+        
+           console.error('There was an error!', error);
+       });
+
+       
+   };
 
   return (
+
+   
     <Container className="p-5">
       <div>
         <h2 className=" text-center mb-3 t-5" style={{ marginTop: "10%" }}>
@@ -28,7 +58,7 @@ function Login() {
       </div>
       <Formik
         validationSchema={schema}
-        onSubmit={onSubmit}
+        onSubmit={sbmt}
         initialValues={{
           email: "",
           password: "",
@@ -45,22 +75,15 @@ function Login() {
         }) => (
           <Row className="mb-3">
             <Col lg={6} md={8} sm={12} className="p-5 m-auto">
-              <ToggleButtonGroup
-                className="mb-4"
-                style={{ width: "80%", marginInlineStart: "12%" }}
-                type="checkbox"
-                value={value}
-                onChange={handleChange1}
-              >
-                <ToggleButton variant="dark" vid="btn-cust" value={"customer"}>
-                  Customer
-                </ToggleButton>
-                <ToggleButton
-                  variant="dark" id="btn-rest" value={"restaurant"}
-                >
-                  Restaurant
-                </ToggleButton>
-              </ToggleButtonGroup>
+            <ToggleButtonGroup className="mb-4" style={{ width: '80%', marginInlineStart:"12%" }} type="radio" name="options" required>
+                 
+                 <ToggleButton variant="dark" id="tbg-radio-2" value={"customer"} onChange={radioChange}>
+                   <span style={{padding: "10px"}}>Customer</span>
+                 </ToggleButton>
+                 <ToggleButton variant="dark" id="tbg-radio-3" value={"restaurant"} onChange={radioChange}>
+                 <span style={{padding: "10px"}}>Restaurant</span>  
+                 </ToggleButton>
+               </ToggleButtonGroup>
 
               <Form noValidate onSubmit={handleSubmit}>
                 <Form.Group

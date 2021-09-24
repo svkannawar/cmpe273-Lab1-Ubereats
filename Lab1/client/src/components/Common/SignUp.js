@@ -3,44 +3,48 @@ import { Row,  Button, ToggleButtonGroup, ToggleButton, InputGroup, Col, Form, C
   import * as yup from "yup";
   import { Formik } from "formik";
   import { Link } from "react-router-dom";
-  
+  import axios from 'axios';
+  import { useHistory } from "react-router-dom";
+
   const schema = yup.object().shape({
     name: yup
       .string()
-      .required("Please enter the name")
-      .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for name field "),
+      .required("Please enter the name"),
+      // .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for name field "),
   
     email: yup
       .string()
-      .email("Invalid email format")
+      // .email("Invalid email format")
       .required("Please enter email"),
   
     location: yup
       .string()
-      .required("Please enter the location")
       .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for location field "),
   
     password: yup
       .string()
       .required("Please Enter your password")
-      .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-      ),
+      // .matches(
+      //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      //   "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+      // ),
   });
   
   function SignUp() {
+
+    let history = useHistory();
+
     const [role, setRole] = useState("customer");
     // const [name, setName] = useState("");
     // const [email, setEmail] = useState("");
     // const [location, setLocation] = useState("");
     // const [password, setPassword] = useState("");
-    const [error, setError] = useState(false);
+    // const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
   
     const radioChange = (e) => {
       setRole(e.target.value);
-      console.log(e.target.value);
+     // console.log(e.target.value);
     };
   
     // const nameChange =(e) =>{
@@ -58,16 +62,39 @@ import { Row,  Button, ToggleButtonGroup, ToggleButton, InputGroup, Col, Form, C
     // const passwordChange=(e) =>{
     //   setPassword(e.target.value);
     // }
-    const sbmt = (data) => {
-      console.log(data, role);
+    const sbmt = (data, { resetForm }) => {
+     // console.log(data, role);
+
+    const creds = { name: data.name, email:data.email, password:data.password, location:data.location, role:role };
+    resetForm();
+  //  console.log(creds);
+    axios.post('http://localhost:5000/creds', creds)
+        .then(response => {
+          console.log (response);
+          if(response.status===200){
+            history.push("/login");
+          }
+        
+        } )
+        .catch(error => {
+          console.log(error);
+          alert("Error occured while signing up")
+          //.response.data.message
+         
+         // console.log ("------400", error.response.data.data.errors[0]     );
+            // console.error('There was an error!', error.response.data.errors[0].msg);
+           // alert(error.response.data.errors[0].msg);
+            //console.log(error.errors)
+        });
+
     };
   
     return (
       <Container className="p-5">
         <div>
-          <h2 className=" text-center mb-3 t-5" style={{ marginTop: "10%" }}>
+          <h1 className=" text-center mb-3 t-5" style={{ marginTop: "10%" }}>
             Uber<span style={{ color: "#3FC060" }}>Eats</span>
-          </h2>
+          </h1>
         </div>
         <Formik
           validationSchema={schema}
@@ -89,28 +116,17 @@ import { Row,  Button, ToggleButtonGroup, ToggleButton, InputGroup, Col, Form, C
             errors,
           }) => (
             <Row className="mb-3">
-              <Col lg={6} md={8} sm={12} className="p-5 m-auto">
-                <ToggleButtonGroup className="mb-4" style={{ width: '80%', marginInlineStart:"12%" }} type="radio" name="options" defaultValue={1}>
+              <Col lg={7} md={8} sm={10} className="p-5 m-auto">
+                <ToggleButtonGroup className="mb-4" style={{ width: '80%', marginInlineStart:"12%" }} type="radio" name="options" required>
                  
                   <ToggleButton variant="dark" id="tbg-radio-2" value={"customer"} onChange={radioChange}>
-                    Customer
+                  <span style={{padding: "10px"}}>Customer</span>
                   </ToggleButton>
                   <ToggleButton variant="dark" id="tbg-radio-3" value={"restaurant"} onChange={radioChange}>
-                     Restaurant
+                  <span style={{padding: "10px"}}>Restaurant</span>
                   </ToggleButton>
                 </ToggleButtonGroup>
 
-                <ToggleButtonGroup type="checkbox" value={1} onChange={handleChange}>
-      <ToggleButton id="tbg-btn-1" value={1}>
-        Option 1
-      </ToggleButton>
-      <ToggleButton id="tbg-btn-2" value={2}>
-        Option 2
-      </ToggleButton>
-      <ToggleButton id="tbg-btn-3" value={3}>
-        Option 3
-      </ToggleButton>
-    </ToggleButtonGroup>
   
                 {/* <ToggleButtonGroup className="mb-4" style={{ width: '80%', marginInlineStart:"12%" }}
                   type="radio" 
@@ -126,11 +142,7 @@ import { Row,  Button, ToggleButtonGroup, ToggleButton, InputGroup, Col, Form, C
                   
                 </ToggleButtonGroup> */}
   
-                {/* <input type="radio" class="btn-check" name="role" id="success-outlined" value='customer' onChange={ radioChange } checked/>
-          <label class="btn btn-outline-success" for="customer">Customer</label>
-  
-          <input type="radio" class="btn-check" name="role" id="danger-outlined" value='restaurant' onChange={ radioChange }/>
-          <label class="btn btn-outline-danger" for="restaurant">Restaurant</label>  */}
+               
   
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group className="mb-2" controlId="validationFormikName">
@@ -183,6 +195,7 @@ import { Row,  Button, ToggleButtonGroup, ToggleButton, InputGroup, Col, Form, C
                           value={values.location}
                           onChange={handleChange}
                           isInvalid={!!errors.location}
+                          required
                         />
                         <Form.Control.Feedback type="invalid">
                           {errors.location}
