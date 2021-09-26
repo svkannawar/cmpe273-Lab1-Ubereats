@@ -3,7 +3,7 @@ module.exports = app => {
     const credentials = require("../controllers/creds.controller.js");
     
   
-    const { check } = require("express-validator");
+    //const { check } = require("express-validator");
 
     // Create a new Customer
      app.post("/creds",

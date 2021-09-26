@@ -3,7 +3,7 @@ import React from 'react'
 function RestDashboard() {
     return (
         <div>
-            RestDashboard
+            <span>RestDashboard</span>
         </div>
     )
 }

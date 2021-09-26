@@ -32,6 +32,7 @@ function Login() {
   console.log(creds);
    axios.post('http://localhost:5000/signin', creds)
        .then(response => {
+         
         if(response.data.role==="customer"){
           history.push('/custDashboard');
         }

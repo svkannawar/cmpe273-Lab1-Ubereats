@@ -184,7 +184,7 @@ exports.jwtcheck= async (req, res)=>{
 
 // const db = require("../models");
 // const Creds = db.creds;
-// const Op = db.Sequelize.Op;
+
 // const bcrypt = require('bcrypt');
 // const saltRounds = 10;
 
