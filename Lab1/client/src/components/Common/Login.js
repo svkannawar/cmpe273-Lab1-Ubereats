@@ -5,6 +5,7 @@ import { Formik } from "formik";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
+import Backend_URL from '../../config/configBackendURL'
 
 const schema = yup.object().shape({
   email: yup.string().required("Please enter email"),
@@ -14,23 +15,24 @@ const schema = yup.object().shape({
 
 function Login() {
   
-  const [role, setRole] = useState("customer");
+  // const [role, setRole] = useState("customer");
 
   let history = useHistory();
 
-  const radioChange = (e) => {
-    setRole(e.target.value);
+  // const radioChange = (e) => {
+  //   setRole(e.target.value);
   
-  };
+  // };
 
 
   const sbmt = (data, { resetForm }) => {
     // console.log(data, role);
 
-   const creds = {email:data.email, password:data.password, role:role };
+    //, role:role
+   const creds = {email:data.email, password:data.password };
    resetForm();
   console.log(creds);
-   axios.post('http://localhost:5000/signin', creds)
+   axios.post(Backend_URL + "/signin", creds)
        .then(response => {
          
         if(response.data.role==="customer"){
@@ -76,7 +78,7 @@ function Login() {
         }) => (
           <Row className="mb-3">
             <Col lg={6} md={8} sm={12} className="p-5 m-auto">
-            <ToggleButtonGroup className="mb-4" style={{ width: '80%', marginInlineStart:"12%" }} type="radio" name="options" required>
+            {/* <ToggleButtonGroup className="mb-4" style={{ width: '80%', marginInlineStart:"12%" }} type="radio" name="options" required>
                  
                  <ToggleButton variant="dark" id="tbg-radio-2" value={"customer"} onChange={radioChange}>
                    <span style={{padding: "10px"}}>Customer</span>
@@ -84,7 +86,7 @@ function Login() {
                  <ToggleButton variant="dark" id="tbg-radio-3" value={"restaurant"} onChange={radioChange}>
                  <span style={{padding: "10px"}}>Restaurant</span>  
                  </ToggleButton>
-               </ToggleButtonGroup>
+               </ToggleButtonGroup> */}
 
               <Form noValidate onSubmit={handleSubmit}>
                 <Form.Group
