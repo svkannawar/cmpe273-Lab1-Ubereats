@@ -1,9 +1,10 @@
 import React from 'react'
+import CustNavbar from './CustNavbar'
 
 function CustDashBoard() {
     return (
         <div>
-            <span>CustDashboard</span>
+            <CustNavbar/>
         </div>
     )
 }

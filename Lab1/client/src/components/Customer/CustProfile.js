@@ -27,6 +27,7 @@ function CustProfile ({props})  {
         const [profileImageUpdate, setProfileImageUpdate] = useState('');
         const [profileImagePath, setProfileImagePath] = useState('');
         const [error, setError] = useState('');
+        const [newProfileImage, setNewProfileImage] = useState('');
         const [errorMessage, setErrorMessage] = useState('');
         const options = useMemo(() => countryList().getData(), [])   
         
@@ -67,27 +68,22 @@ const handleCountryChange = (e) => {
     }
 
 //     //Image Upload toggle
-//    const toggleImageUpdate = ( e ) => {
-//         setProfileImageUpdate(!profileImageUpdate)
-//     }
+   const toggleImageUpdate = ( e ) => {
+        setProfileImageUpdate(!profileImageUpdate)
+    }
 
 //     //Image Upload
-//   const handleImageUpload = ( e ) => {
-//         setnewProfileImage(e.target.files[ 0 ])
-//     }
+  const handleImageUpload = ( e ) => {
+        setNewProfileImage(e.target.files[ 0 ])
+    }
 
 //     //Image Submit
-//    const handleImageSubmit = ( e ) => {
-//         e.preventDefault();
-//         console.log("in on submit for image change");
+   const handleImageSubmit = ( e ) => {
+        e.preventDefault();
+        console.log("in on submit for image change");
         
+    }
 
-//     }
-
-
-
-
-    
         // var redirectVar = null;
         // if ( !( cookie.load( "auth" ) && cookie.load( "type" ) === "users" ) ) {
         //     redirectVar = <Redirect to="/login" />
@@ -109,24 +105,23 @@ const handleCountryChange = (e) => {
                         </div>
                         <div className="col-10">
 
-                            {/* <div className="row ml-3">
-                                <button className="btn btn-primary" onClick={ this.toggleImageUpdate }>Change Profile Picture</button>
-                                {/* <ReactModal isOpen={ this.state.profileImageUpdate } >
-                                    <form onSubmit={ this.handleImageSubmit } encType='multipart/form-data' style={ { textAlign: "Center" } }>
-                                        <input type="file" name="newProfileImage" onChange={ this.handleImageUpload } />
+                             <div className="row ml-3">
+                                <button className="btn btn-primary" onClick={ toggleImageUpdate }>Change Profile Picture</button>
+                                 <ReactModal isOpen={ profileImageUpdate } >
+                                    <form onSubmit={ handleImageSubmit } encType='multipart/form-data' style={ { textAlign: "Center" } }>
+                                        <input type="file" name="newProfileImage" onChange={ handleImageUpload } />
                                         <button className="btn btn-primary" type="submit">Done</button>
                                         <button className="btn btn-primary" onClick={ this.toggleImageUpdate }>Cancel</button>
                                     </form>
                                 </ReactModal> 
 
-                            </div> */}
+                            </div> 
                             <form onSubmit={ handleOnSubmit }>
                                 <div className="row m-1">
                                     <div className="col-5">
                                         <label>Name:</label>
                                         <input type="text" className="form-control" name="name"
                                             placeholder={ name } onChange={ handleNameChange } />
-
 
                                     </div>
                                     <div className="col-5">
@@ -151,7 +146,6 @@ const handleCountryChange = (e) => {
                                         <input type="number" className="form-control" name="contactNumber"
                                             placeholder={ contactNumber } onChange={ handlecontactNumberChange } />
 
-
                                     </div>
                                     <div className="col-5">
                                         <label>Date Of Birth: (YYYY-MM-DD)</label>
@@ -165,7 +159,6 @@ const handleCountryChange = (e) => {
                                         <input type="text" className="form-control" name="city"
                                             placeholder={ city } onChange={ handleCityChange } />
 
-
                                     </div>
                                     <div className="col-3">
                                         <label>State:</label>
@@ -175,16 +168,10 @@ const handleCountryChange = (e) => {
                                     </div>
                                     <div className="col-3">
                                         <label>Country:</label>
-                                        {/* <input type="text" className="form-control" name="country"
-                                            placeholder={ this.state.country } onChange={ this.handleInputChange } /> */}
-                                        {/* <select id="countries" name="country" placeholder={ this.state.country } onChange={ this.handleInputChange }>
-
-                                        </select> */}
                                         <Select options={options} value={country} onChange={handleCountryChange} />
 
                                     </div>
                                 </div>
-                               
 
                                 
                                 <div className="row mt-3 ml-1">
