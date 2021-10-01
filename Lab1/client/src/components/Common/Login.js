@@ -1,59 +1,76 @@
-import { Row, Button, InputGroup, Col, Form, Container, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
-import React, { useState } from "react";
+import { Row, Button, InputGroup, Col, Form, Container } from "react-bootstrap";
+import React, { useEffect } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+//import axios from 'axios';
 import { useHistory } from "react-router-dom";
-import Backend_URL from '../../config/configBackendURL'
+//import Backend_URL from '../../config/configBackendURL'
+
+import {login, clear} from "../../action/LoginActions";
+import { useSelector, useDispatch } from "react-redux";
 
 const schema = yup.object().shape({
-  email: yup.string().required("Please enter email"),
+  email: yup.string().email("Email must be in email format").required("Please enter email"),
 
-  password: yup.string().required("Please enter password"),
+  password: yup.string().min(8, "Password is too short - should be 8 characters minimum").required("Please enter password"),
 });
 
 function Login() {
-  
-  // const [role, setRole] = useState("customer");
-
   let history = useHistory();
 
-  // const radioChange = (e) => {
-  //   setRole(e.target.value);
-  
-  // };
+  const dispatch = useDispatch();
+  const redux_data=useSelector(state=>state.signin);
 
+  const isPassedCust=redux_data.passCust;
+  const isPassedRest=redux_data.passRest;
+  const isError=redux_data.error;
+
+  useEffect(()=>{
+    // console.log(redux_data);
+    if(isPassedCust){
+      // console.log("----customer---",redux_data);
+      dispatch(clear());
+      history.push('/custDashboard');
+    }else if(isPassedRest){
+      // console.log("----restaurant---",redux_data);
+      dispatch(clear());
+      history.push('/restDashboard');
+    }else if(isError){
+
+      // console.log(isError);
+      dispatch(clear());
+      history.push('/login');
+    }
+    
+  })
 
   const sbmt = (data, { resetForm }) => {
-    // console.log(data, role);
-
-    //, role:role
-   const creds = {email:data.email, password:data.password };
-   resetForm();
-  console.log(creds);
-   axios.post(Backend_URL + "/signin", creds)
-       .then(response => {
+  dispatch(login(data));
+  resetForm();
+  
+  //  axios.post(Backend_URL + "/signin", creds)
+  //      .then(response => {
          
-        if(response.data.role==="customer"){
-          history.push('/custDashboard');
-        }
-        if(response.data.role==="restaurant"){
-          history.push('/restDashboard');
-        }
-       } )
-       .catch(error => {
+  //       if(response.data.role==="customer"){
+  //         console.log("----customer---",response);
+  //         history.push('/custDashboard');
+  //       }
+  //       if(response.data.role==="restaurant"){
+  //         console.log(response);
+  //         history.push('/restDashboard');
+  //       }
+  //      } )
+  //      .catch(error => {
         
-           console.error('There was an error!', error);
-       });
+  //          console.error('There was an error!', error);
+  //      });
 
        
    };
 
   return (
-
-   
-    <Container className="p-5">
+       <Container className="p-5">
       <div>
         <h2 className=" text-center mb-3 t-5" style={{ marginTop: "10%" }}>
           Uber<span style={{ color: "#3FC060" }}>Eats</span>

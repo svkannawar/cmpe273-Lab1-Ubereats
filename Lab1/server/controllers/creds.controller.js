@@ -118,7 +118,7 @@ exports.signin = async (req, res) =>{
       message: "Content can not be empty!!"
     });
   }
-  console.log("fghj");
+  //console.log("fghj");
   // res.status(400).send({
   //   message: "signin up!"
   // })

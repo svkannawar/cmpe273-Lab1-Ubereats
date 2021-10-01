@@ -56,7 +56,7 @@ function HomeNavbar() {
                 <Button
                   className="auto-ms"
                   type="submit"
-                  variant="primary"
+                  variant="dark"
                   size="md"
                   style={{ width: "100%", borderRadius: "10px" }}
                 >

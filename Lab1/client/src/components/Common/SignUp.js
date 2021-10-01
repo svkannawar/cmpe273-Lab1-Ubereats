@@ -1,11 +1,14 @@
 import { Row,  Button, ToggleButtonGroup, ToggleButton, InputGroup, Col, Form, Container, } from "react-bootstrap";
-  import React, { useState } from "react";
+  import React, { useState , useEffect} from "react";
   import * as yup from "yup";
   import { Formik } from "formik";
   import { Link } from "react-router-dom";
   import axios from 'axios';
   import { useHistory } from "react-router-dom";
   import Backend_URL from '../../config/configBackendURL'
+
+  import { signup, clear } from "../../action/SignupActions";
+  import { useSelector, useDispatch } from "react-redux";
 
   const schema = yup.object().shape({
     name: yup
@@ -35,6 +38,8 @@ import { Row,  Button, ToggleButtonGroup, ToggleButton, InputGroup, Col, Form, C
 
     let history = useHistory();
 
+    
+
     const [role, setRole] = useState("customer");
     // const [name, setName] = useState("");
     // const [email, setEmail] = useState("");
@@ -42,6 +47,25 @@ import { Row,  Button, ToggleButtonGroup, ToggleButton, InputGroup, Col, Form, C
     // const [password, setPassword] = useState("");
     // const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+
+    const dispatch = useDispatch();
+  const redux_data=useSelector(state => state.signup);
+
+  const isPassSignup=redux_data.passSignup;
+  
+  const isError=redux_data.error;
+
+  useEffect(()=>{
+    if(isPassSignup){
+      console.log("----customer---",redux_data);
+       dispatch(clear());
+      history.push('/login');
+    }else if(isError){
+
+      console.log(isError);
+      // dispatch(clear());
+    }
+  })
   
     const radioChange = (e) => {
       setRole(e.target.value);
@@ -64,29 +88,30 @@ import { Row,  Button, ToggleButtonGroup, ToggleButton, InputGroup, Col, Form, C
     //   setPassword(e.target.value);
     // }
     const sbmt = (data, { resetForm }) => {
-     // console.log(data, role);
-
+     
+   
     const creds = { name: data.name, email:data.email, password:data.password, location:data.location, role:role };
+    dispatch(signup(creds));
     resetForm();
   //  console.log(creds);
-    axios.post(Backend_URL + "/creds", creds)
-        .then(response => {
-          console.log (response);
-          if(response.status===200){
-            history.push("/login");
-          }
+    // axios.post(Backend_URL + "/creds", creds)
+    //     .then(response => {
+    //       console.log (response);
+    //       if(response.status===200){
+    //         history.push("/login");
+    //       }
         
-        } )
-        .catch(error => {
-          console.log(error);
-          alert("Error occured while signing up")
-          //.response.data.message
+    //     } )
+    //     .catch(error => {
+    //       console.log(error);
+    //       alert("Error occured while signing up")
+    //       //.response.data.message
          
-         // console.log ("------400", error.response.data.data.errors[0]     );
-            // console.error('There was an error!', error.response.data.errors[0].msg);
-           // alert(error.response.data.errors[0].msg);
-            //console.log(error.errors)
-        });
+    //      // console.log ("------400", error.response.data.data.errors[0]     );
+    //         // console.error('There was an error!', error.response.data.errors[0].msg);
+    //        // alert(error.response.data.errors[0].msg);
+    //         //console.log(error.errors)
+    //     });
 
     };
   

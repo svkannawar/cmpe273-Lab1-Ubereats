@@ -41,8 +41,36 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const multer = require('multer');
 
 const app = express();
+
+const fileStorageEngine=multer.diskStorage({
+  destination: (req, file, cb)=>{
+    cb(null, "./images" );
+  },
+  filename: (req, file, cb)=>{
+    cb(null, Date.now() + "--" + file.originalname);
+  },
+})
+
+const upload= multer({storage: fileStorageEngine});
+
+
+// route for multer
+app.post("/single", upload.single("image"), (req, res)=>{
+  console.log("--------",req.file);
+  res.send("Single file upload successfull")
+});
+
+
+app.post("/multiple", upload.array('images', 3), (req, res)=>{
+  console.log("----multiple----",req.files);
+  res.send("Multiple files upload successfull")
+});
+
+
+
 
 // parse requests of content-type: application/json
 app.use(express.json());
