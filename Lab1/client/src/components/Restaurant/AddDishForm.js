@@ -3,27 +3,58 @@ import { Link } from "react-router-dom";
 import { Container } from 'react-bootstrap';
 
 function AddDishForm() {
-  const [id, setId] = useState("");
-  const [dishName, setDishName] = useState("");
-  const [location, setLocaion] = useState("");
-  const [dishPrice, setDishPrice] = useState("");
+  const [restId, setRestId] = useState("");
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [ingredients, setIngredients] = useState("");
   const [description, setDescription] = useState("");
-  const [profileImageUpdate, setProfileImageUpdate] = useState(false);
-  const [profileImagePath, setProfileImagePath] = useState("");
-  const [error, setError] = useState("");
+  const [category, setCategory] = useState("");
+  const [type, setType] = useState("");
+  const [dishImageUrl, setDishImageUrl] = useState("");
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handlePriceChange = (e) => {
+    setPrice(e.target.value);
+  };
+
+  const handleIngredientsChange = (e) => {
+    setIngredients(e.target.value);
+  };
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
+  };
+  const handleTypeChange = (e) => {
+    setType(e.target.value);
+  };
+  const handleDishImageUrlChange = (e) => {
+    setDishImageUrl(e.target.value);
+  };
+
+  const addDish=(e)=>{
+    e.preventDefault();
+    console.log("inside Adddish");
+    const dish={name:name, price:price, ingredients:ingredients, description:description, category:category, type:type }
+    console.log("inside Adddish data object", dish);
+    
+  }
   return (
         <Container style={{width:"50%"}}>
             <h1 className="text-center"> Add New Dish</h1>
-      <form>
+      <form onSubmit={addDish}>
         <div className="row m-1">
           <label>Dish Name </label>
           <input
             type="text"
             className="form-control"
-            name="dishName"
+            name="name"
             required
-            // placeholder={name}
-            // onChange={handleNameChange}
+            onChange={handleNameChange}
           />
         </div>
         <div className="row m-1">
@@ -31,10 +62,9 @@ function AddDishForm() {
           <input
             type="text"
             className="form-control"
-            name="mainIngredients"
+            name="ingredients"
             required
-            // placeholder={location}
-            // onChange={handleLocationChange}
+            onChange={handleIngredientsChange}
           />
         </div>
 
@@ -43,10 +73,9 @@ function AddDishForm() {
           <input
             type="number"
             className="form-control"
-            name="dishPrice"
+            name="price"
             required
-            // placeholder={location}
-            // onChange={handleLocationChange}
+            onChange={handlePriceChange}
           />
         </div>
 
@@ -57,8 +86,7 @@ function AddDishForm() {
             className="form-control"
             name="description"
             required
-            // placeholder={description}
-            // onChange={handleDescriptionChange}
+            onChange={handleDescriptionChange}
           />
         </div>
 
@@ -67,9 +95,7 @@ function AddDishForm() {
             <select
               className="dropcustom p-2"
               required
-             
-              // value={toTime}
-              // onChange={handleToTimeChange}
+              onChange={handleCategoryChange}
             >
               <option disabled selected>
                 {" "}
@@ -84,7 +110,23 @@ function AddDishForm() {
             </select>
           </div>
 
-       
+          <div className="row m-1">
+            <label >Dish Type</label>
+            <select
+              className="dropcustom p-2"
+              required
+              onChange={handleTypeChange}
+            >
+              <option disabled selected>
+                {" "}
+                -- select category --{" "}
+              </option>
+              <option value="Veg">Veg</option>
+              <option value="Non-Veg">Non-Veg</option>
+              <option value="Vegan">Vegan</option>
+                         
+            </select>
+          </div>
 
         
 

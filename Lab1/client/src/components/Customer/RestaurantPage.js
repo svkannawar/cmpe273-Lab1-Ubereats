@@ -1,11 +1,24 @@
-import React from "react";
-import RestNavbar from "./RestNavbar";
-import restimg from "./../../images/restaurant_home.jpg";
-import { Container, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { Row, Col, Container } from "react-bootstrap";
+import CustNavbar from "./../Customer/CustNavbar";
 import DishList from "../Customer/DishList";
-function RestDashboard() {
-  const dummy_data = [
+import restimg from "./../../images/rest2.jpg";
+
+function RestaurantPage() {
+  let { id } = useParams();
+
+  const [restId, setRestId] = useState("");
+  const [name, setName] = useState("name");
+  const [address, setAddress] = useState("");
+  const [location, setLocation] = useState("location");
+  const [description, setDescription] = useState("description");
+  const [phone, setPhone] = useState("phone");
+  const [timing, setTiming] = useState("");
+  const [restProfileUrl, setRestProfileUrl] = useState("");
+  const [modeOfDelivery, setMdeOfDelivery] = useState("modeOfDelivery");
+
+  const dummy_rest_data = [
     {
       id: 83,
       name: "Swaraj",
@@ -19,6 +32,17 @@ function RestDashboard() {
       modeOfDelivery: "delivery",
     },
   ];
+  useEffect(() => {
+    setName(dummy_rest_data[0].name);
+    setAddress(dummy_rest_data[0].address);
+    setLocation(dummy_rest_data[0].location);
+    setDescription(dummy_rest_data[0].description);
+    setTiming(dummy_rest_data[0].timing);
+    setRestProfileUrl(dummy_rest_data[0].restProfileUrl);
+    setMdeOfDelivery(dummy_rest_data[0].modeOfDelivery);
+    setPhone(dummy_rest_data[0].phone);
+  }, []);
+
   const dishes_data = [
     {
       restid: 83,
@@ -129,60 +153,40 @@ function RestDashboard() {
         "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
     },
   ];
+  console.log("rest image", restProfileUrl);
   return (
-    <div>
-      <RestNavbar />
-      <Container fluid>
-        <Row className="p-4">
-          <img
-            className="centerimg mt-4"
-            style={{
-              width: "100%",
-              height: "70vh",
-              paddingRight: "20px",
-              float: "left",
-            }}
-            src={dummy_data[0].restProfileUrl}
-            alt={dummy_data[0].name}
-          />
-        </Row>
-        <Row>
-          <Col sm={9} md={9} lg={9}>
-            <h1 style={{ paddingRight: "20px", float: "left" }}>
-              Restaurant Menu
-            </h1>
-          </Col>
-          <Col sm={3} md={3} lg={3}>
-            <Link
-              className="float-end mt-2"
-              style={{ paddingRight: "20px", textDecoration: "none" }}
-              to="/addDish"
-            >
-              <h5>Add New Dish</h5>
-            </Link>
-          </Col>
-        </Row>
-        {/* <Row>
-          <h1 class="display-6 mt-2">Salads</h1>
-        </Row>
-        <Row>
-          <h1 class="display-6 mt-2">Main Course</h1>
-        </Row>
-        <Row>
-          <h1 class="display-6 mt-2">Desserts</h1>
-        </Row>
-        <Row>
-          <h1 class="display-6 mt-2">Beverages</h1>
-        </Row> */}
-
-        <Row>
-          <Col className="mt-3">
-            <DishList dishes={dishes_data} />
-          </Col>
-        </Row>
-      </Container>
-    </div>
+    <Container fluid>
+      <CustNavbar />
+      <Row className="p-4">
+        <div class="card-body">
+          <h5 class="card-title">{name}</h5>
+          <p class="card-text">{description}</p>
+          <p class="card-text">
+            <p>{address}</p>
+            <p>{timing}</p>
+          </p>
+        </div>
+        <img
+          class="card-img-bottom"
+          style={{
+            width: "100%",
+            height: "70vh",
+            paddingRight: "20px",
+            float: "left",
+          }}
+          src={restProfileUrl}
+          alt={name}
+        />
+      </Row>
+      <h2>Our Menu</h2>
+      <Row>
+        <Col className="mt-3">
+            <DishList dishes={dishes_data} />   
+        </Col>
+      </Row>
+      {}
+    </Container>
   );
 }
 
-export default RestDashboard;
+export default RestaurantPage;

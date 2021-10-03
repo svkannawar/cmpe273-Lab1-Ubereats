@@ -13,14 +13,14 @@ function CustDashBoard() {
     const [isVeg, setIsVeg] = useState('');
     const [isNonVeg, setIsNonVeg] = useState('');
     const [isVegan, setIsVegan] = useState('');
-    const [restId, setRestId] = useState('');
-    const [name, setName] = useState('name');
-    const [location, setLocation] = useState('location');
-    const [description, setDescription] = useState('description');
-    const [phone, setPhone] = useState('phone');
-    const [timing, setTiming] = useState('');
-    const [restProfileUrl, setrestProfileUrl] = useState(img);
-    const [modeOfDelivery, setmMdeOfDelivery] = useState('modeOfDelivery');
+    // const [restId, setRestId] = useState('');
+    // const [name, setName] = useState('name');
+    // const [location, setLocation] = useState('location');
+    // const [description, setDescription] = useState('description');
+    // const [phone, setPhone] = useState('phone');
+    // const [timing, setTiming] = useState('');
+    // const [restProfileUrl, setrestProfileUrl] = useState(img);
+    // const [modeOfDelivery, setmMdeOfDelivery] = useState('modeOfDelivery');
 
    const dummy_data=[
         {
@@ -38,6 +38,54 @@ function CustDashBoard() {
         },
         {
             id: 84,
+            name: "Sukanta",
+            address: "562, Trends Avenue, Milpitas",
+            location: "San Jose",
+            description: "We serve Rajasthani thali!",
+            phone: 536276727,
+            timing: "Monday to Sunday 10 am to 10 pm",
+            restProfileUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg',
+            modeOfDelivery: "pickup"
+        },
+        {
+            id: 85,
+            name: "Swaraj",
+            address: "562, Trends Avenue, Milpitas",
+            location: "San Jose",
+            description: "We serve Maharashtrian chat!!",
+            phone: 536276727,
+            timing: "Monday to Sunday 10 am to 10 pm",
+            restProfileUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg',
+            modeOfDelivery: "delivery"
+
+
+        },
+        {
+            id: 86,
+            name: "Sukanta",
+            address: "562, Trends Avenue, Milpitas",
+            location: "San Jose",
+            description: "We serve Rajasthani thali!",
+            phone: 536276727,
+            timing: "Monday to Sunday 10 am to 10 pm",
+            restProfileUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg',
+            modeOfDelivery: "pickup"
+        },
+        {
+            id: 87,
+            name: "Swaraj",
+            address: "562, Trends Avenue, Milpitas",
+            location: "San Jose",
+            description: "We serve Maharashtrian chat!!",
+            phone: 536276727,
+            timing: "Monday to Sunday 10 am to 10 pm",
+            restProfileUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg',
+            modeOfDelivery: "delivery"
+
+
+        },
+        {
+            id: 88,
             name: "Sukanta",
             address: "562, Trends Avenue, Milpitas",
             location: "San Jose",
@@ -111,7 +159,7 @@ function CustDashBoard() {
                        
                     </Col>
                 </Row>
-                {console.log(isVeg, isNonVeg, isVegan)}
+                {/* {console.log(isVeg, isNonVeg, isVegan)} */}
             </Container>
             
         </div>

@@ -14,6 +14,10 @@ import CustNavbar from '../Customer/CustNavbar'
 import HomeNavbar from '../Common/HomeNavbar'
 import Favourites from '../Customer/Favourites'
 import AddDishForm from '../Restaurant/AddDishForm'
+import RestaurantPage from '../Customer/RestaurantPage';
+import DishEdit from '../Restaurant/DishEdit';
+
+
 function Routes() {
    
         return (
@@ -22,15 +26,18 @@ function Routes() {
                 <Route exact path='/' component={ HomeNavbar } />
                 <Route path='/signup' component={ SignUp } />
                 <Route path='/login' component={ Login } />
-                <Route path='/restaunt/orders' component={ RestOrders } />
+                <Route path='/restaurants/orders' component={ RestOrders } />
                 <Route path='/addDish' component={ AddDishForm } />
-                <Route path='/custDashboard' component={ CustDashboard } />
-                <Route path='/restDashBoard' component={ RestDashboard } />
+                <Route path='/custDashboard' exact component={ CustDashboard } />
+                <Route path='/restDashBoard' exact component={ RestDashboard } />
                 <Route path='/customer/profile' component={ CustProfile } />
-                <Route path='/restaurant/profile' component={ RestProfile } />
+                <Route path='/restaurants/profile' exact component={ RestProfile } />
                 <Route path='/customer/orders' component={ CustOrdrs } />
                 <Route path='/customer/about' component={ CustAbout } />
                 <Route path='/customer/favourites' component={ Favourites } />
+                
+                <Route path='/restaurant/:id'  component={ RestaurantPage } exact />
+                <Route path='/dishEdit/:id' component={ DishEdit } />
 
             </div>
         )

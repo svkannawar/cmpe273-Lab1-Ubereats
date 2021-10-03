@@ -8,8 +8,9 @@ import BACKEND_URL from "../../config/configBackendURL";
 import { useMemo } from "react";
 import Select from "react-select";
 import countryList from "react-select-country-list";
+import RestNavbar from "./RestNavbar";
 
-function CustProfile({ props }) {
+function RestProfile({ props }) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [location, setLocaion] = useState("");
@@ -89,6 +90,7 @@ function CustProfile({ props }) {
   return (
     <div>
       {/* { redirectVar } */}
+      <RestNavbar />
       <div className="container-fluid">
         <div className="row h-100 mt-2">
           <div className="col-2">
@@ -99,7 +101,7 @@ function CustProfile({ props }) {
           </div>
           <div className="col-10">
             <div className="row ml-3">
-              <button className="btn btn-primary" onClick={toggleImageUpdate}>
+              <button className="btn btn-primary text-center" style={{width:"15%", marginLeft: "34%"}} onClick={toggleImageUpdate}>
                 Change Profile Picture
               </button>
               <ReactModal isOpen={profileImageUpdate}>
@@ -299,12 +301,12 @@ function CustProfile({ props }) {
               </div>
 
               <div className="row mt-3 ml-1 ">
-                <div className="col-6 text-end">
+                <div className="col-5 text-end">
                   <button type="submit" className="btn btn-primary ">
                     Update
                   </button>
                 </div>
-                <div className="col-6">
+                <div className="col-5">
                   <Link className="btn btn-danger" to="/restDashboard">
                     Cancel
                   </Link>
@@ -319,4 +321,4 @@ function CustProfile({ props }) {
   );
 }
 
-export default CustProfile;
+export default RestProfile;

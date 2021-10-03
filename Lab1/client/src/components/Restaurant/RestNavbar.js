@@ -42,9 +42,9 @@ function RestNavbar() {
               <NavDropdown.Item>
                 {" "}
                 <Link style={{ textDecoration: 'none', color:"black" }} 
-                  id="tocustprofile"
+                  id="torestprofile"
                   className="nav-link"
-                  to="/restaurant/profile"
+                  to="/restaurants/profile"
                 >
                   {" "}
                   Profile
@@ -52,7 +52,7 @@ function RestNavbar() {
               </NavDropdown.Item>
               <NavDropdown.Item>
                 {" "}
-                <Link style={{ textDecoration: 'none', color:"black" }}  id="toorders" className="nav-link" to="/restaunt/orders">
+                <Link style={{ textDecoration: 'none', color:"black" }}  id="toorders" className="nav-link" to="/restaurants/orders">
                   {" "}
                   Orders
                 </Link>
