@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {  } from 'react';
 import { Route } from 'react-router-dom';
 import Login from '../Common/Login';
 import SignUp from '../Common/SignUp';
@@ -13,8 +13,9 @@ import CustAbout from '../Customer/CustAbout'
 import CustNavbar from '../Customer/CustNavbar'
 import HomeNavbar from '../Common/HomeNavbar'
 import Favourites from '../Customer/Favourites'
-export class Routes extends Component {
-    render () {
+import AddDishForm from '../Restaurant/AddDishForm'
+function Routes() {
+   
         return (
             <div>
                 {/* <Route exact path='/' component={ Home } /> */}
@@ -22,7 +23,7 @@ export class Routes extends Component {
                 <Route path='/signup' component={ SignUp } />
                 <Route path='/login' component={ Login } />
                 <Route path='/restaunt/orders' component={ RestOrders } />
-                
+                <Route path='/addDish' component={ AddDishForm } />
                 <Route path='/custDashboard' component={ CustDashboard } />
                 <Route path='/restDashBoard' component={ RestDashboard } />
                 <Route path='/customer/profile' component={ CustProfile } />
@@ -34,6 +35,6 @@ export class Routes extends Component {
             </div>
         )
     }
-}
+
 
 export default Routes

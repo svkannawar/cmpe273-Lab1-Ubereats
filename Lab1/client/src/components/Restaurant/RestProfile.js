@@ -1,12 +1,10 @@
 import CustNavbar from "./../Customer/CustNavbar";
-
 import React, { Component, useState } from "react";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
-//import cookie from 'react-cookies';
 import axios from "axios";
 import ReactModal from "react-modal";
-//import BACKEND_URL from '../../../config/config'
+import BACKEND_URL from "../../config/configBackendURL";
 import { useMemo } from "react";
 import Select from "react-select";
 import countryList from "react-select-country-list";
@@ -15,7 +13,6 @@ function CustProfile({ props }) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [location, setLocaion] = useState("");
-//   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [description, setDescription] = useState("");
   const [profileImageUpdate, setProfileImageUpdate] = useState(false);
@@ -23,10 +20,10 @@ function CustProfile({ props }) {
   const [error, setError] = useState("");
   const [newProfileImage, setNewProfileImage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
-  const [fromTime, setFromTime] = useState("");
-  const [toTime, setToTime] = useState("");
+  const [fromDate, setFromDate] = useState("thisday");
+  const [toDate, setToDate] = useState("thatday");
+  const [fromTime, setFromTime] = useState("thistime");
+  const [toTime, setToTime] = useState("thattime");
 
   const options = useMemo(() => countryList().getData(), []);
 
@@ -38,9 +35,9 @@ function CustProfile({ props }) {
     setLocaion(e.target.value);
   };
 
-//   const handleEmailChange = (e) => {
-//     setEmail(e.target.value);
-//   };
+  //   const handleEmailChange = (e) => {
+  //     setEmail(e.target.value);
+  //   };
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
   };
@@ -153,18 +150,6 @@ function CustProfile({ props }) {
               </div>
 
               <div className="row m-1">
-                {/* <div className="col-10">
-                  <label>Email:</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    name="email"
-                    placeholder={email}
-                    onChange={handleEmailChange}
-                  />
-                </div> */}
-              </div>
-              <div className="row m-1">
                 <div className="col-5">
                   <label>Contact Number:</label>
                   <input
@@ -193,14 +178,13 @@ function CustProfile({ props }) {
                   <label className="p-2">From day</label>
                   <select
                     className="drop p-2"
-                    style={{ marginLeft: -5, border: "none" }}
                     value={fromDate}
                     onChange={handleFromDateChange}
                   >
                     <option disabled selected>
-                      {" select day"}
                       -- select an option --{" "}
                     </option>
+                    <option value={fromDate}>{fromDate}</option>
                     <option value="Sunday">Sunday</option>
                     <option value="Monday">Monday</option>
                     <option value="Tuesday">Tuesday</option>
@@ -210,15 +194,11 @@ function CustProfile({ props }) {
                     <option value="Saturday">Saturday</option>
                   </select>
                 </div>
-                
-              
 
-            
                 <div className="col-5">
                   <label className="p-2">To Day:</label>
                   <select
                     className="drop p-2"
-                    style={{ marginLeft: -5, border: "none" }}
                     value={toDate}
                     onChange={handleToDateChange}
                   >
@@ -226,6 +206,7 @@ function CustProfile({ props }) {
                       {" "}
                       -- select an option --{" "}
                     </option>
+                    <option value={toDate}>{toDate}</option>
                     <option value="Sunday">Sunday</option>
                     <option value="Monday">Monday</option>
                     <option value="Tuesday">Tuesday</option>
@@ -234,16 +215,14 @@ function CustProfile({ props }) {
                     <option value="Friday">Friday</option>
                     <option value="Saturday">Saturday</option>
                   </select>
-               </div>
-               </div>
-             
-               <div className="row m-1">
-               <div className="col-5">
+                </div>
+              </div>
 
+              <div className="row m-1">
+                <div className="col-5">
                   <label className="p-2">From time</label>
                   <select
                     className="drop p-2"
-                    style={{ marginLeft: -5, border: "none" }}
                     value={fromTime}
                     onChange={handleFromTimeChange}
                   >
@@ -251,6 +230,7 @@ function CustProfile({ props }) {
                       {" "}
                       -- select an option --{" "}
                     </option>
+                    <option value={fromTime}>{fromTime}</option>
                     <option value="12:00 am">12:00 am</option>
                     <option value="1:00 am">1:00 am</option>
                     <option value="2:00 am">2:00 am</option>
@@ -276,14 +256,12 @@ function CustProfile({ props }) {
                     <option value="10:00 pm">10:00 pm</option>
                     <option value="11:00 pm">11:00 pm</option>
                   </select>
-               </div>
-             
-              
-               <div className="col-5">
+                </div>
+
+                <div className="col-5">
                   <label className="p-2">To time:</label>
                   <select
                     className="drop p-2"
-                    style={{ marginLeft: -5, border: "none" }}
                     value={toTime}
                     onChange={handleToTimeChange}
                   >
@@ -291,6 +269,7 @@ function CustProfile({ props }) {
                       {" "}
                       -- select an option --{" "}
                     </option>
+                    <option value={toTime}>{toTime}</option>
                     <option value="12:00 am">12:00 am</option>
                     <option value="1:00 am">1:00 am</option>
                     <option value="2:00 am">2:00 am</option>
@@ -316,17 +295,17 @@ function CustProfile({ props }) {
                     <option value="10:00 pm">10:00 pm</option>
                     <option value="11:00 pm">11:00 pm</option>
                   </select>
-               </div>
-               </div>
-             
-              <div className="row mt-3 ml-1">
-                <div className="col-2">
-                  <button type="submit" className="btn btn-primary">
+                </div>
+              </div>
+
+              <div className="row mt-3 ml-1 ">
+                <div className="col-6 text-end">
+                  <button type="submit" className="btn btn-primary ">
                     Update
                   </button>
                 </div>
-                <div className="col-8">
-                  <Link className="btn btn-danger" to="/users/about">
+                <div className="col-6">
+                  <Link className="btn btn-danger" to="/restDashboard">
                     Cancel
                   </Link>
                 </div>

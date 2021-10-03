@@ -60,6 +60,7 @@ import { Row,  Button, ToggleButtonGroup, ToggleButton, InputGroup, Col, Form, C
       console.log("----customer---",redux_data);
        dispatch(clear());
       history.push('/login');
+      
     }else if(isError){
 
       console.log(isError);

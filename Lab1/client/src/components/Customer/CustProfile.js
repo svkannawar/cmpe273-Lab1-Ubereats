@@ -111,7 +111,7 @@ const handleCountryChange = (e) => {
                                     <form onSubmit={ handleImageSubmit } encType='multipart/form-data' style={ { textAlign: "Center" } }>
                                         <input type="file" name="newProfileImage" onChange={ handleImageUpload } />
                                         <button className="btn btn-primary" type="submit">Done</button>
-                                        <button className="btn btn-primary" onClick={ this.toggleImageUpdate }>Cancel</button>
+                                        <button className="btn btn-primary" onClick={ toggleImageUpdate }>Cancel</button>
                                     </form>
                                 </ReactModal> 
 
