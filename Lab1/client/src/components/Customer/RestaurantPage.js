@@ -6,17 +6,19 @@ import DishList from "../Customer/DishList";
 import restimg from "./../../images/rest2.jpg";
 
 function RestaurantPage() {
+
   let { id } = useParams();
 
   const [restId, setRestId] = useState("");
   const [name, setName] = useState("name");
+  const [custName, setCustName] = useState("custName");
   const [address, setAddress] = useState("");
   const [location, setLocation] = useState("location");
   const [description, setDescription] = useState("description");
   const [phone, setPhone] = useState("phone");
   const [timing, setTiming] = useState("");
   const [restProfileUrl, setRestProfileUrl] = useState("");
-  const [modeOfDelivery, setMdeOfDelivery] = useState("modeOfDelivery");
+  const [modeOfDelivery, setMdeOfDelivery] = useState("delivery");
 
   const dummy_rest_data = [
     {
@@ -181,7 +183,7 @@ function RestaurantPage() {
       <h2>Our Menu</h2>
       <Row>
         <Col className="mt-3">
-            <DishList dishes={dishes_data} />   
+            <DishList dishes={dishes_data} custName={custName} restName={name} modeOfDelivery={modeOfDelivery}  />   
         </Col>
       </Row>
       {}

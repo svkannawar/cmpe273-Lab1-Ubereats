@@ -14,7 +14,6 @@ import countryList from 'react-select-country-list'
 
 function CustProfile ({props})  {
     
-   
         const [id, setId] = useState('');
         const [name, setName] = useState('');
         const [nickName, setNickName] = useState('');

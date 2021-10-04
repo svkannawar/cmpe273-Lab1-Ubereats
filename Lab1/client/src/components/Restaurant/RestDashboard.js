@@ -3,7 +3,7 @@ import RestNavbar from "./RestNavbar";
 import restimg from "./../../images/restaurant_home.jpg";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import DishList from "../Customer/DishList";
+import DishList from "./DishList";
 function RestDashboard() {
   const dummy_data = [
     {

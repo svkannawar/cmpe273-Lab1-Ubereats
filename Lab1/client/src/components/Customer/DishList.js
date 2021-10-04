@@ -1,13 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row } from "react-bootstrap";
-import DishForRest from "../Restaurant/DishForRest";
+import Dish from "./Dish";
+
+
+const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
+const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || "[]");
 
 function DishList(props) {
+
+  const [cart, setCart] = useState(cartFromLocalStorage);
+  const [items, setItems] = useState(itemsFromLocalStorage);
+
+  useEffect(() => {
+    
+    localStorage.setItem("cart", JSON.stringify(cart));
+    
+    localStorage.setItem("items", JSON.stringify(items));
+  }, [cart, items]);
+
+  const addToCart = (cartaa, itemsaa) => {
+    setCart(cartaa);
+    setItems([...items, { ...itemsaa }]);
+  };
   return (
     <Row >
       <div className="card-group p-3">
         {props.dishes.map((dish) => (
-          <DishForRest
+          <Dish
+          cart={cart}
+          addToCart={addToCart}
             key={dish.id}
             id={dish.id}
             name={dish.name}
@@ -18,6 +39,9 @@ function DishList(props) {
             price={dish.price}
             ingredients={dish.ingredients}
             restid={dish.restid}
+            custName={props.custName}
+            restName={props.restName}
+            modeOfDelivery={props.modeOfDelivery}
           />
         ))}
       </div>

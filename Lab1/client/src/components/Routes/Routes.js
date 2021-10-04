@@ -16,6 +16,9 @@ import Favourites from '../Customer/Favourites'
 import AddDishForm from '../Restaurant/AddDishForm'
 import RestaurantPage from '../Customer/RestaurantPage';
 import DishEdit from '../Restaurant/DishEdit';
+//import Cart  from '../Customer/Cart';
+import CustOrderPage from '../Customer/CustOrderPage';
+import RestaurantOrdersPage from '../Restaurant/RestaurantOrdersPage';
 
 
 function Routes() {
@@ -35,8 +38,10 @@ function Routes() {
                 <Route path='/customer/orders' component={ CustOrdrs } />
                 <Route path='/customer/about' component={ CustAbout } />
                 <Route path='/customer/favourites' component={ Favourites } />
-                
-                <Route path='/restaurant/:id'  component={ RestaurantPage } exact />
+               
+                <Route path='/custrestaurant/:id'  component={ RestaurantPage } exact />
+                <Route path='/custorder/:id'  component={ CustOrderPage } exact />
+                <Route path='/restorder/:id'  component={ RestaurantOrdersPage } exact />
                 <Route path='/dishEdit/:id' component={ DishEdit } />
 
             </div>

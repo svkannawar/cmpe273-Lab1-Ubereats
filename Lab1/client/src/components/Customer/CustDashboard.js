@@ -1,14 +1,14 @@
 import React from 'react'
 import CustNavbar from './CustNavbar'
 import img from './../../images/showcase.svg'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import RestList from '../Restaurant/RestList';
+import RestList from './RestList';
 import rest2 from './../../images/rest2.jpg';
 import rest3 from './../../images/rest3.jpg';
 
 function CustDashBoard() {
-
+    const [cart, setCart] = useState([]);
     const [id, setId] = useState('id');
     const [isVeg, setIsVeg] = useState('');
     const [isNonVeg, setIsNonVeg] = useState('');
@@ -21,6 +21,11 @@ function CustDashBoard() {
     // const [timing, setTiming] = useState('');
     // const [restProfileUrl, setrestProfileUrl] = useState(img);
     // const [modeOfDelivery, setmMdeOfDelivery] = useState('modeOfDelivery');
+
+useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+   
+}, [cart])
 
    const dummy_data=[
         {
@@ -160,6 +165,7 @@ function CustDashBoard() {
                     </Col>
                 </Row>
                 {/* {console.log(isVeg, isNonVeg, isVegan)} */}
+                
             </Container>
             
         </div>
