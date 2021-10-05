@@ -19,7 +19,7 @@ import DishEdit from '../Restaurant/DishEdit';
 //import Cart  from '../Customer/Cart';
 import CustOrderPage from '../Customer/CustOrderPage';
 import RestaurantOrdersPage from '../Restaurant/RestaurantOrdersPage';
-
+import OrderConfirm from '../Customer/OrderConfim'
 
 function Routes() {
    
@@ -38,7 +38,7 @@ function Routes() {
                 <Route path='/customer/orders' component={ CustOrdrs } />
                 <Route path='/customer/about' component={ CustAbout } />
                 <Route path='/customer/favourites' component={ Favourites } />
-               
+                <Route path='/orderConfirm' component={ OrderConfirm } exact />
                 <Route path='/custrestaurant/:id'  component={ RestaurantPage } exact />
                 <Route path='/custorder/:id'  component={ CustOrderPage } exact />
                 <Route path='/restorder/:id'  component={ RestaurantOrdersPage } exact />

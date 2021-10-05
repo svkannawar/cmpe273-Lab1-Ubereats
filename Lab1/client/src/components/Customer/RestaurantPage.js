@@ -5,6 +5,8 @@ import CustNavbar from "./../Customer/CustNavbar";
 import DishList from "../Customer/DishList";
 import restimg from "./../../images/rest2.jpg";
 
+
+const idFromLS= localStorage.getItem("id");
 function RestaurantPage() {
 
   let { id } = useParams();
@@ -13,6 +15,7 @@ function RestaurantPage() {
   const [name, setName] = useState("name");
   const [custName, setCustName] = useState("custName");
   const [address, setAddress] = useState("");
+  const [custId, setCustId] = useState(idFromLS);
   const [location, setLocation] = useState("location");
   const [description, setDescription] = useState("description");
   const [phone, setPhone] = useState("phone");
@@ -183,7 +186,7 @@ function RestaurantPage() {
       <h2>Our Menu</h2>
       <Row>
         <Col className="mt-3">
-            <DishList dishes={dishes_data} custName={custName} restName={name} modeOfDelivery={modeOfDelivery}  />   
+            <DishList dishes={dishes_data} custName={custName} restName={name} modeOfDelivery={modeOfDelivery} custId={custId} />   
         </Col>
       </Row>
       {}

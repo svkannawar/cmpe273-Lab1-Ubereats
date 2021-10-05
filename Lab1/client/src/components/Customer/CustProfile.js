@@ -93,6 +93,7 @@ const handleCountryChange = (e) => {
         // }
         return (
             <div>
+                <CustNavbar/>
                 {/* { redirectVar } */}
                 <div className="container-fluid">
                     <div className="row h-100 mt-2">

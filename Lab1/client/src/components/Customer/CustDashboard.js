@@ -25,7 +25,7 @@ function CustDashBoard() {
 useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
    
-}, [cart])
+}, [])
 
    const dummy_data=[
         {

@@ -20,12 +20,13 @@ import { useHistory } from "react-router-dom";
 
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 
-const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || []);
-const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || []);
+const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || '[]');
+const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || '[]');
 
-function CustNavbar() {
+ function CustNavbar() {
+ 
   let history = useHistory();
-  //const [cart, setCart] = useState(cartFromLocalStorage);
+  
 
   const [show, setShow] = useState(false);
 
@@ -39,33 +40,54 @@ function CustNavbar() {
   const [restName, setRestName] = useState("");
   const [restId, setRestId] = useState("");
   const [modeOfDelivery, setModeOfDelivery] = useState("");
-  const [total, setTotal] = useState("");
+  const [total, setTotal] = useState(0);
   const [dishName, setDishName] = useState("");
   const [qty, setQty] = useState("");
   const [price, setPrice] = useState("");
   const [dishImageUrl, setDishImageUrl] = useState("");
 
   useEffect(() => {
+    setItems(JSON.parse(localStorage.getItem("items") || '[]'));
+    setCart(JSON.parse(localStorage.getItem("cart") || '[]'));
     setRestName(cart.restName);
     setRestId(cart.restid);
     setQty(items.qty);
     setDishName(items.dishName);
     setDishImageUrl(items.dishImageUrl);
-    setItems(JSON.parse(localStorage.getItem("items") || []))
-  }, [cart, items]);
+    
+  }, []);
 
   const gotorestaurant = () => {
     console.log("clicked restaurant", restId);
     history.push(`/custrestaurant/${restId}`);
   };
   const openCart = () => {
-    history.push("/cart");
+    setLgShow(true);
+    let t =0;
+    items.map((item)=>{
+      t=(t+(item.qty*item.price))});
+      setTotal(t);
   };
+
   const radioChange = (e) => {
     setModeOfDelivery(e.target.value);
     // console.log(e.target.value);
   };
-console.log("items---",items);
+
+  const emptyCart = () => {
+    localStorage.removeItem("cart");
+    localStorage.removeItem("items");
+    setCart([]);
+    setItems([]);
+   console.log("---empty cart-- cart --", cart);
+   console.log("---empty cart-- items--", items);
+    setTotal(0);
+    // window.location.reload();
+  };
+  
+ const placeOrder = ()=>{
+   history.push('/orderConfirm');
+ }
   return (
     <Container fluid>
       <Row className="justify-conent-center">
@@ -251,7 +273,7 @@ console.log("items---",items);
                   type="submit"
                   variant="dark"
                   size="md"
-                  onClick={() => setLgShow(true)}
+                  onClick={openCart}
                 >
                   {" "}
                   {<AiOutlineShoppingCart />}
@@ -290,7 +312,10 @@ console.log("items---",items);
             <Container>
               <Row>
                 <Col xs={3} sm={4} md={4} lg={4}>
-                  <Button
+                 
+                </Col>
+                <Col xs={3} sm={4} md={4} lg={4}>
+                <Button
                     className="auto-ms mb-3"
                     type="submit"
                     variant="primary"
@@ -302,7 +327,6 @@ console.log("items---",items);
                     Add Item
                   </Button>
                 </Col>
-                <Col xs={3} sm={4} md={4} lg={4}></Col>
                 <Col xs={3} sm={4} md={4} lg={4}></Col>
               </Row>
 
@@ -316,7 +340,8 @@ console.log("items---",items);
                     {`Qty ${item.qty}`}
                   </Col>
                   <Col xs={2} sm={6} md={6} lg={6}>
-                    {item.dishName}
+                   <Row> {item.dishName}</Row>
+                   <Row>${item.price*item.qty}</Row>
                   </Col>
                   <Col xs={4} sm={4} md={4} lg={4}>
                     <img
@@ -331,12 +356,16 @@ console.log("items---",items);
                  })
 }
               </Row>
+           { (cart!=='[]' || cart!==null) ? (  <div>
+            <h5>Total ${total}</h5> 
+             <Row className="justify-content-end"> <Button onClick={emptyCart} className="mb-3"style={{width:"20%"}}>Empty cart</Button></Row>
              <Button   className="auto-ms mb-3"
                     type="submit"
                     variant="primary"
                     size="md"
                     style={{ width: "100%" }}
-                    onClick={gotorestaurant}>Place order</Button>
+                    onClick={placeOrder}>Place order</Button>
+                    </div>) : null}
             </Container>
           </Modal.Body>
         </Modal>

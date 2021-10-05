@@ -42,6 +42,7 @@ function DishList(props) {
             custName={props.custName}
             restName={props.restName}
             modeOfDelivery={props.modeOfDelivery}
+            custId={props.custId}
           />
         ))}
       </div>
