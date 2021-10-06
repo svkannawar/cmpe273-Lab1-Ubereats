@@ -17,13 +17,14 @@ import { Link } from "react-router-dom";
 import { BsJustify } from "react-icons/bs";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
+import CustDashboard from './CustDashboard';
 
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || '[]');
 const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || '[]');
 
- function CustNavbar() {
+ function CustNavDash() {
  
   let history = useHistory();
   
@@ -48,8 +49,8 @@ const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || '[]');
   const[showPlaceOrder, setShowPlaceOrder]= useState(localStorage.getItem("placeOrder"))
 
   useEffect(() => {
-    setItems(JSON.parse(localStorage.getItem("items"||'[]')));
-    setCart(JSON.parse(localStorage.getItem("cart"||'[]')));
+    setItems(JSON.parse(localStorage.getItem("items") || '[]'));
+    setCart(JSON.parse(localStorage.getItem("cart") || '[]'));
     setRestName(cart.restName);
     setRestId(cart.restid);
     setQty(items.qty);
@@ -59,6 +60,10 @@ const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || '[]');
     
   }, []);
 
+  const getUpdatedLS=()=>{
+    setItems(JSON.parse(localStorage.getItem("items") || '[]'));
+    setCart(JSON.parse(localStorage.getItem("cart") || '[]'));
+  }
   const gotorestaurant = () => {
     console.log("clicked restaurant", restId);
     history.push(`/custrestaurant/${restId}`);
@@ -92,6 +97,7 @@ const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || '[]');
    history.push('/orderConfirm');
  }
   return (
+      <div>
     <Container fluid>
       <Row className="justify-conent-center">
         <Col
@@ -374,7 +380,8 @@ const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || '[]');
         </Modal>
       </>
     </Container>
+    <CustDashboard getUpdatedLS={getUpdatedLS}/></div>
   );
 }
 
-export default CustNavbar;
+export default CustNavDash;

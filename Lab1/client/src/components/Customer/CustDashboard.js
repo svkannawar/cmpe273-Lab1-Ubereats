@@ -7,7 +7,7 @@ import RestList from './RestList';
 import rest2 from './../../images/rest2.jpg';
 import rest3 from './../../images/rest3.jpg';
 
-function CustDashBoard() {
+function CustDashBoard(props) {
     const [cart, setCart] = useState([]);
     const [id, setId] = useState('id');
     const [isVeg, setIsVeg] = useState('');
@@ -23,7 +23,8 @@ function CustDashBoard() {
     // const [modeOfDelivery, setmMdeOfDelivery] = useState('modeOfDelivery');
 
 useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
+  //  localStorage.setItem("cart", JSON.stringify(cart));
+    
    
 }, [])
 
@@ -115,7 +116,7 @@ useEffect(() => {
 
     return (
         <div>
-            <CustNavbar/>
+             <CustNavbar/> 
             <Container fluid>
                 <Row>
                     <Col sm={3} md={3} lg={2} className="mt-3 text-center"  style={{borderRight:'1px solid #adabab'}}>
@@ -159,7 +160,7 @@ useEffect(() => {
                     <Col sm={9} md={9} lg={10} className="mt-3" >
                         <section>
                         <h3> All Restaurants</h3>
-                        <RestList restaurants={dummy_data}/>
+                        <RestList restaurants={dummy_data} getUpdatedLS={props.getUpdatedLS}/>
                          </section>
                        
                     </Col>

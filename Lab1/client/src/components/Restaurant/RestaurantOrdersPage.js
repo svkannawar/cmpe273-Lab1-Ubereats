@@ -20,8 +20,9 @@ function RestaurantOrdersPage() {
       orderId: 13,
       restId: 23,
       restName: "Sukanta",
-      orderStatus: "Received",
+      orderStatus: "Order Received",
       modeOfDelivery: "Pick Up",
+      deliveryStatus: "New Order",
       total: 70,
       custId: 24,
       custName: "Saurabh",
@@ -84,7 +85,7 @@ setOrderStatus("Preparing");
 
   const renderComponent=()=>{
     switch(orderStatus){
-        case "Received": return  <td>
+        case "Order Received": return  <td>
         <select className="dropcustom p-2" onChange={handleCategoryChange}>
  <option disabled selected>
    {" "}
@@ -174,7 +175,7 @@ setOrderStatus("Preparing");
               </tbody>
             </Table>
             <div className="text-end">
-            { (orderStatus==="Received" ) ? ( <Button onClick={changeStatusToPreparing} type="submit" variant="primary" size="md">
+            { (orderStatus==="Order Received" ) ? ( <Button onClick={changeStatusToPreparing} type="submit" variant="primary" size="md">
                 Update status
               </Button>) : null
                 }

@@ -35,6 +35,7 @@ function OrderConfirm() {
   const [custAddress, setCustAddress] = useState([]);
   const [address, setAddress] = useState("initial");
   const [newAddress, setNewAddress] = useState("");
+  const[showPlaceOrder, setShowPlaceOrder]= useState(localStorage.getItem("placeOrder"))
 
   const cust_addresses = [
     {
@@ -63,7 +64,7 @@ function OrderConfirm() {
     setCustAddress(cust_addresses);
     setModeOfDelivery(cart.modeOfDelivery);
     setCustName(cart.custName);
-    
+    setShowPlaceOrder(localStorage.getItem("placeOrder"));
 
     let t = 0;
     items.map((item) => {
@@ -104,10 +105,10 @@ if(modeOfDelivery==="delivery" && address==="initial"){
       alert("Thank you for the order");
       localStorage.removeItem("cart");
     localStorage.removeItem("items");
-   
+    localStorage.setItem("placeOrder", "No");
    
     setTotal(0);
-     window.location.reload();
+    // window.location.reload();
       history.push('/custDashboard');
 }
   }
@@ -115,6 +116,7 @@ if(modeOfDelivery==="delivery" && address==="initial"){
     <div>
       <CustNavbar />
       <Container fluid>
+      { showPlaceOrder==="Yes" ? (
         <Row>
           <Col xs={10} sm={7} md={7} lg={7}>
             <h1>{restName}</h1>
@@ -199,7 +201,10 @@ if(modeOfDelivery==="delivery" && address==="initial"){
               <h5>Total ${total}</h5>
             </Row>
           </Col>
-        </Row>
+        </Row>) : 
+        <div>
+          Nothing in the cart!
+          </div>}
       </Container>
     </div>
   );

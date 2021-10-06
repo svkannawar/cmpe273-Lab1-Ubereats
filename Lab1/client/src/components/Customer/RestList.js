@@ -17,6 +17,7 @@ function RestList(props) {
               address={restaurant.address}
               description={restaurant.description}
               modeOfDelivery={restaurant.modeOfDelivery}
+              getUpdatedLS={props.getUpdatedLS}
             />
           ))}     
       </div> 

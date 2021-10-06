@@ -14,6 +14,7 @@ export const OrderList = (props) => {
               id={order.orderId}
               restName={order.restName}
               orderStatus={order.orderStatus}
+              deliveryStatus={order.deliveryStatus}
               deliveryMode={order.deliveryMode}
               total={order.total}
               custName={order.custName}

@@ -18,82 +18,61 @@ function CustOrdrs() {
       orderId: 1,
       restId: 23,
       restName: "Sukanta",
-      orderStatus: "New Order",
+      orderStatus: "Order Received",
       deliveryMode: "Delivery",
       total: 60,
       custId: 24,
       custName: "Saurabh",
-      dishes: [
-        {
-          dishName: "Paneer Bhurji",
-          qty: 2,
-          price: 20,
-        },
-        {
-          dishName: "Sizzler",
-          qty: 1,
-          price: 20,
-        },
-        {
-          dishName: "Basundi",
-          qty: 2,
-          price: 20,
-        },
-      ],
+      deliveryStatus: "New Order"
+     
     },
     {
       orderId: 10,
       restId: 243,
       restName: "Marvel",
-      orderStatus: "In Progress",
+      orderStatus: "Preparing",
       deliveryMode: "Pickup",
       total: 60,
       custId: 24,
       custName: "Rohit",
-      dishes: [
-        {
-          dishName: "Paneer Bhurji",
-          qty: 2,
-          price: 20,
-        },
-        {
-          dishName: "Sizzler",
-          qty: 1,
-          price: 20,
-        },
-        {
-          dishName: "Basundi",
-          qty: 2,
-          price: 20,
-        },
-      ],
+      deliveryStatus: "New Order"
+      
     },
     {
       orderId: 13,
       restId: 23,
       restName: "Sukanta",
-      orderStatus: "New Order",
+      orderStatus: "Delivered",
       deliveryMode: "Delivery",
       total: 70,
       custId: 24,
       custName: "Saurabh",
-      dishes: [
-        {
-          dishName: "Paneer Bhurji",
-          qty: 2,
-          price: 30,
-        },
-        {
-          dishName: "Sizzler",
-          qty: 1,
-          price: 20,
-        },
-        {
-          dishName: "Basundi",
-          qty: 2,
-          price: 20,
-        },
-      ],
+      deliveryStatus: "Delivered"
+      
+    },
+    {
+      orderId: 113,
+      restId: 23,
+      restName: "Jack In The Box",
+      orderStatus: "Cancelled",
+      deliveryMode: "Delivery",
+      total: 70,
+      custId: 24,
+      custName: "Saurabh",
+      deliveryStatus: "Cancelled"
+      
+    },
+    {
+      orderId: 43,
+      restId: 23,
+      restName: "Sukanta",
+      orderStatus: "Picked up",
+      deliveryMode: "Delivery",
+      total: 70,
+      custId: 24,
+      custName: "Saurabh",
+      deliveryStatus: "Delivered"
+      
     },
   ];
  
@@ -109,6 +88,7 @@ function CustOrdrs() {
               <th>Customer Name</th>
               <th>Order Status</th>
               <th>Mode of Delivery</th>
+              <th>Delivery Status</th>
               <th>Total</th>
             </tr>
           </thead>

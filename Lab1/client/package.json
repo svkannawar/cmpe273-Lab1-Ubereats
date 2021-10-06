@@ -23,6 +23,7 @@
     "react-scripts": "4.0.3",
     "react-select": "^5.0.0",
     "react-select-country-list": "^2.2.3",
+    "react-use-cart": "^1.11.2",
     "redux": "^4.1.1",
     "redux-devtools-extension": "^2.13.9",
     "styletron-engine-atomic": "^1.4.8",

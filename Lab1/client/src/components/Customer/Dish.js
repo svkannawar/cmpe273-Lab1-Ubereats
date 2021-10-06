@@ -18,7 +18,7 @@ function Dish(props) {
       modeOfDelivery: props.modeOfDelivery,
     };
     const items = {
-      dishid: props.id,
+      id: props.id,
       dishName: props.name,
       dishImageUrl: props.dishImageUrl,
       description: props.description,
