@@ -14,29 +14,58 @@ import {
   Modal,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { BsJustify } from "react-icons/bs";
+import { BsFullscreenExit, BsJustify } from "react-icons/bs";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
-
+import { useCart } from "react-use-cart";
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || '[]');
-const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || '[]');
+//const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || '[]');
 
  function CustNavbar() {
  
+
+  const {
+    isEmpty,
+    totalUniqueItems,
+    items,
+    updateItemQuantity,
+    removeItem,
+  } = useCart();
+
+  const { emptyCart } = useCart();
+
+
+console.log("react cart in navbar", items);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   let history = useHistory();
-  
-
-  const [show, setShow] = useState(false);
-
+    const [show, setShow] = useState(false);
   const [lgShow, setLgShow] = useState(false);
   const [smShow, setSmShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   const [cart, setCart] = useState(cartFromLocalStorage);
-  const [items, setItems] = useState(itemsFromLocalStorage);
+  //const [items, setItems] = useState(itemsFromLocalStorage);
   const [restName, setRestName] = useState("");
   const [restId, setRestId] = useState("");
   const [modeOfDelivery, setModeOfDelivery] = useState("");
@@ -48,26 +77,33 @@ const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || '[]');
   const[showPlaceOrder, setShowPlaceOrder]= useState(localStorage.getItem("placeOrder"))
 
   useEffect(() => {
-    setItems(JSON.parse(localStorage.getItem("items"||'[]')));
+   // setItems(JSON.parse(localStorage.getItem("items"||'[]')));
     setCart(JSON.parse(localStorage.getItem("cart"||'[]')));
-    setRestName(cart.restName);
-    setRestId(cart.restid);
-    setQty(items.qty);
-    setDishName(items.dishName);
-    setDishImageUrl(items.dishImageUrl);
-    setShowPlaceOrder(localStorage.getItem("placeOrder"));
+    
+    // setQty(items.qty);
+    // setDishName(items.dishName);
+    // setDishImageUrl(items.dishImageUrl);
+    
     
   }, []);
+ 
+  
+
 
   const gotorestaurant = () => {
     console.log("clicked restaurant", restId);
-    history.push(`/custrestaurant/${restId}`);
+    if(localStorage.getItem("cart")==='[]'){
+      history.push('/custDashboard');
+    }else{
+    history.push(`/custrestaurant/${cart.restId}`);
+    }
   };
   const openCart = () => {
+    setShowPlaceOrder(localStorage.getItem("placeOrder"));
     setLgShow(true);
     let t =0;
     items.map((item)=>{
-      t=(t+(item.qty*item.price))});
+      t=(t+(item.itemTotal))});
       setTotal(t);
   };
 
@@ -76,16 +112,15 @@ const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || '[]');
     // console.log(e.target.value);
   };
 
-  const emptyCart = () => {
+  const emptyCart1 = () => {
     localStorage.removeItem("cart");
-    localStorage.removeItem("items");
-    setCart([]);
-    setItems([]);
-    localStorage.setItem("placeOrder", "No");
-   console.log("---empty cart-- cart --", cart);
-   console.log("---empty cart-- items--", items);
-    setTotal(0);
-    // window.location.reload();
+    emptyCart();
+    localStorage.setItem("placeOrder", "No")
+    setShowPlaceOrder(localStorage.getItem("placeOrder"));
+    localStorage.setItem("cart", '[]');
+    setCart(JSON.parse(localStorage.getItem("cart"||'[]')));
+    setRestName("");
+
   };
   
  const placeOrder = ()=>{
@@ -359,9 +394,10 @@ const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || '[]');
                  })
 }
               </Row>
+              {}
            { showPlaceOrder==="Yes" ? (  <div>
             <h5>Total ${total}</h5> 
-             <Row className="justify-content-end"> <Button onClick={emptyCart} className="mb-3"style={{width:"20%"}}>Empty cart</Button></Row>
+             <Row className="justify-content-end"> <Button onClick={emptyCart1} className="mb-3"style={{width:"20%"}}>Empty cart</Button></Row>
              <Button   className="auto-ms mb-3"
                     type="submit"
                     variant="primary"

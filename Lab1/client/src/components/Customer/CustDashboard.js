@@ -38,7 +38,7 @@ useEffect(() => {
             phone: 536276727,
             timing: "Monday to Sunday 10 am to 10 pm",
             restProfileUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg',
-            modeOfDelivery: "delivery"
+            modeOfDelivery: "pickup"
 
 
         },

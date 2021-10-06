@@ -21,12 +21,12 @@ function RestaurantPage() {
   const [phone, setPhone] = useState("phone");
   const [timing, setTiming] = useState("");
   const [restProfileUrl, setRestProfileUrl] = useState("");
-  const [modeOfDelivery, setMdeOfDelivery] = useState("delivery");
+  const [modeOfDelivery, setMdeOfDelivery] = useState("");
 
   const dummy_rest_data = [
     {
-      id: 83,
-      name: "Swaraj",
+      id: 84,
+      name: "Suknta",
       address: "562, Trends Avenue, Milpitas",
       location: "San Jose",
       description: "We serve Maharashtrian chat!!",

@@ -31,7 +31,10 @@ function Login() {
     if(isPassedCust){
       // console.log("----customer---",redux_data);
       dispatch(clear());
+   
+      localStorage.setItem("cart", '[]');
       localStorage.setItem("placeOrder", "No");
+
       history.push('/custDashboard');
     }else if(isPassedRest){
       // console.log("----restaurant---",redux_data);

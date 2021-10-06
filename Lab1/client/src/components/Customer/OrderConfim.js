@@ -16,15 +16,27 @@ import {
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import CustNavbar from "./CustNavbar";
-const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
-const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || "[]");
+import { useCart } from "react-use-cart";
+const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || '[]');
+//const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || "[]");
 
 function OrderConfirm() {
+  const {
+    isEmpty,
+    totalUniqueItems,
+    items,
+    updateItemQuantity,
+    removeItem,
+  } = useCart();
+
+  const { emptyCart } = useCart();
+
+const [noItem, setNoItem]=useState(items.totalItems);
 
     const history=useHistory();
   const [userid, setUserId] = useState(localStorage.getItem("id"));
   const [cart, setCart] = useState(cartFromLocalStorage);
-  const [items, setItems] = useState(itemsFromLocalStorage);
+  //const [items, setItems] = useState(itemsFromLocalStorage);
   const [restName, setRestName] = useState("");
   const [restId, setRestId] = useState("");
   const [modeOfDelivery, setModeOfDelivery] = useState("delivery");
@@ -57,6 +69,7 @@ function OrderConfirm() {
   ];
 
   useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem("cart") || '[]'))
     setRestName(cart.restName);
     setRestId(cart.restid);
     setQty(items.qty);
@@ -65,19 +78,27 @@ function OrderConfirm() {
     setModeOfDelivery(cart.modeOfDelivery);
     setCustName(cart.custName);
     setShowPlaceOrder(localStorage.getItem("placeOrder"));
+    
 
     let t = 0;
     items.map((item) => {
-      t = t + item.qty * item.price;
+      setModeOfDelivery(item.modeOfDelivery);
     });
-    setTotal(t);
+    
+
+    // let t = 0;
+    // items.map((item) => {
+    //   t = t + item.qty * item.price;
+    // });
+    // setTotal(t);
   }, []);
 
   //   const radioChange = (e) => {
   //     setModeOfDelivery(e.target.value);
   //     console.log(e.target.value);
   //   };
-
+  console.log("cart in confirm oder", cart)
+console.log("---modeofdelivery in confirm order--", modeOfDelivery);
   const radioChangeAddress = (e) => {
     setAddress(e.target.value);
     console.log("gyhthh");
@@ -103,11 +124,12 @@ if(modeOfDelivery==="delivery" && address==="initial"){
       const data = { cart: cart, items:items, total:total, address:address };
       console.log(data);
       alert("Thank you for the order");
-      localStorage.removeItem("cart");
-    localStorage.removeItem("items");
+      localStorage.setItem("cart", '[]');
+   
     localStorage.setItem("placeOrder", "No");
    
     setTotal(0);
+    emptyCart();
     // window.location.reload();
       history.push('/custDashboard');
 }
@@ -116,7 +138,7 @@ if(modeOfDelivery==="delivery" && address==="initial"){
     <div>
       <CustNavbar />
       <Container fluid>
-      { showPlaceOrder==="Yes" ? (
+      { !isEmpty ? (
         <Row>
           <Col xs={10} sm={7} md={7} lg={7}>
             <h1>{restName}</h1>

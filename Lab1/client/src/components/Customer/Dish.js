@@ -19,15 +19,17 @@ function Dish(props) {
     };
     const items = {
       id: props.id,
+      restName: props.restName,
+      restid: props.restid,
+      modeOfDelivery: props.modeOfDelivery,
       dishName: props.name,
       dishImageUrl: props.dishImageUrl,
       description: props.description,
       price: props.price,
       qty: qty,
     };
-    console.log("----inside add to cart from Dish----", cart);
-    console.log("----inside add to cart from Dish----", items);
-    props.addToCart(cart, items);
+  
+    props.addToCart(cart, items, qty);
   };
 
   return (
