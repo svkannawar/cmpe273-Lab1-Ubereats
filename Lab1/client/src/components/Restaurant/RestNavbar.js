@@ -76,13 +76,19 @@ function RestNavbar() {
                 </Button>
               </NavDropdown.Item>
             </NavDropdown>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href="#home"> <Link
+                    style={{ textDecoration: "none", color: "black" }}
+                    id="tocustdash"
+                    className="nav-link"
+                    to="/restDashboard"
+                  >
               <h2>
                 Uber
                 <span className="load" style={{ color: "#3FC060" }}>
                   Eats
                 </span>
               </h2>
+              </Link>
             </Navbar.Brand>
             </Navbar.Collapse>
         </div>

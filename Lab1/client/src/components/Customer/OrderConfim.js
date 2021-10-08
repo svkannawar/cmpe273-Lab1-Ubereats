@@ -80,17 +80,17 @@ const [noItem, setNoItem]=useState(items.totalItems);
     setShowPlaceOrder(localStorage.getItem("placeOrder"));
     
 
-    let t = 0;
+    
     items.map((item) => {
       setModeOfDelivery(item.modeOfDelivery);
     });
     
 
-    // let t = 0;
-    // items.map((item) => {
-    //   t = t + item.qty * item.price;
-    // });
-    // setTotal(t);
+    let t = 0;
+    items.map((item) => {
+      t = t + item.qty * item.price;
+    });
+    setTotal(t);
   }, []);
 
   //   const radioChange = (e) => {
@@ -120,7 +120,8 @@ if(modeOfDelivery==="delivery" && address==="initial"){
       console.log("Thank you for placing the order");
     //   const cart1={custName: cart.custName, modeOfDelivery: modeOfDelivery, restName:restName , restid:restId };
     //   const items1={description: , dishImageUrl: , dishName: , dishid: , price: , qty: };
-      
+      console.log("------final order cart---", cart)
+      console.log("------final order items---", items)
       const data = { cart: cart, items:items, total:total, address:address };
       console.log(data);
       alert("Thank you for the order");

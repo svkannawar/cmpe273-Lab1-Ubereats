@@ -4,7 +4,7 @@ import { Row } from "react-bootstrap";
 
 
 function RestList(props) {
-  console.log("restaurant data new", props);
+ // console.log("restaurant data new", props);
   return (
     <Row>
       <div className="card-group">
@@ -13,7 +13,7 @@ function RestList(props) {
               key={restaurant.id}
               id={restaurant.id}
               name={restaurant.name}
-              restProfileUrl={restaurant.restProfileUrl}
+              restProfileUrl={restaurant.profileUrl}
               address={restaurant.address}
               description={restaurant.description}
               modeOfDelivery={restaurant.modeOfDelivery}

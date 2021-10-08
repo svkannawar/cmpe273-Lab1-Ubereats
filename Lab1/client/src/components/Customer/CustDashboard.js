@@ -2,32 +2,66 @@ import React from 'react'
 import CustNavbar from './CustNavbar'
 import img from './../../images/showcase.svg'
 import { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import RestList from './RestList';
 import rest2 from './../../images/rest2.jpg';
 import rest3 from './../../images/rest3.jpg';
+import axios from 'axios';
+import BACKEND_URL from '../../config/configBackendURL';
+import {restlist, restlistfordashue} from "../../action/DashBoardActionsUE";
+import { useSelector, useDispatch } from "react-redux";
 
 function CustDashBoard(props) {
     const [cart, setCart] = useState([]);
-    const [id, setId] = useState('id');
-    const [isVeg, setIsVeg] = useState('');
-    const [isNonVeg, setIsNonVeg] = useState('');
-    const [isVegan, setIsVegan] = useState('');
-    // const [restId, setRestId] = useState('');
-    // const [name, setName] = useState('name');
-    // const [location, setLocation] = useState('location');
-    // const [description, setDescription] = useState('description');
-    // const [phone, setPhone] = useState('phone');
-    // const [timing, setTiming] = useState('');
-    // const [restProfileUrl, setrestProfileUrl] = useState(img);
-    // const [modeOfDelivery, setmMdeOfDelivery] = useState('modeOfDelivery');
-
-useEffect(() => {
-  //  localStorage.setItem("cart", JSON.stringify(cart));
+    const [id, setId] = useState(0);
     
-   
-}, [])
+    const [bearer, setBearer] = useState("");
+    const [restaurantsList, setRestaurantsList]=useState([]);
+    const [checked, setChecked] = useState(false);
+    const [isVeg, setIsVeg] = useState(false);
+    const [isNonVeg, setIsNonVeg] = useState(false);
+    const [isVegan, setIsVegan] = useState(false);
 
+
+    const newId = localStorage.getItem('id');
+    const dispatch = useDispatch();
+    
+    const handleClickVeg = () => setIsVeg(!isVeg)
+    console.log("isVeg", isVeg);
+
+    const handleClickNonVeg = () => setIsNonVeg(!isNonVeg)
+    console.log("isNonVeg", isNonVeg);
+
+    const handleClickVegan = () => setIsVegan(!isVegan)
+    console.log("isVegan", isVegan);
+
+useEffect( () => {
+
+var body={
+    id: newId
+}
+dispatch(restlistfordashue(body));
+    //  axios({
+    //     method: "post",
+    //     url: BACKEND_URL + "/displayAllRest",
+    //     data: body,
+    //     headers: { "Content-Type": "application/json","Authorization": bearer  },
+        
+    //   })
+    //     .then((response) => {
+            
+    //    //   console.log("axios response", response.data);
+    //       setRestaurantsList(response.data);
+    //     })
+    //     .catch((error) => {
+    //    //   console.log((error.response.data));
+    //     });
+
+    },[])
+
+    const redux_data=useSelector(state=>state.restaurantListDashboardue);
+
+    const listofrestaurants=redux_data.restList;
    const dummy_data=[
         {
             id: 83,
@@ -103,29 +137,48 @@ useEffect(() => {
         }
     ]
 
-// credid
-// email
-// name
-// location
-// description
-// phone
-// timing
-// modeOfDelivery
-// restProfileUrl
+const handleChangeisVeg=(e)=>{
+    setIsVeg()
+}
+ 
+const applyFilter=()=>{
 
+    console.log("veg",isVeg);
+    console.log("nonveg",isNonVeg);
+    console.log("vegan",isVegan);
+
+    var body={ id: newId, veg: isVeg, nonVeg: isNonVeg, vegan: isVegan}
+    axios({
+        method: "post",
+        url: BACKEND_URL + "/filter",
+        data: body,
+        headers: { "Content-Type": "application/json","Authorization": bearer  },
+      })
+        .then((response) => {
+          console.log("axios filter", response.data);
+          setRestaurantsList(response.data);
+        })
+        .catch((error) => {
+          console.log((error.response.data));
+        });
+        // setIsVeg("");
+        // setIsNonVeg("");
+        // setIsVegan("");
+
+}
 
     return (
         <div>
-             <CustNavbar/> 
+           <CustNavbar/>
             <Container fluid>
                 <Row>
-                    <Col sm={3} md={3} lg={2} className="mt-3 text-center"  style={{borderRight:'1px solid #adabab'}}>
-                        <h5 className="text-start">Filters</h5>
+                    <Col sm={3} md={3} lg={2} className="mt-3 text-center mb-2"  style={{borderRight:'1px solid #adabab'}}>
+                        <h5 className="text-start mb-3">Filters</h5>
                         <Row>
                             <Col md-5>
                             <div   className="text-start checkbox mb-2" >
                             <label>
-                            <input  className="text-start" type="checkbox" value="veg" onChange= {(e)=>{setIsVeg(e.target.value)}}/>
+                            <input  className="text-start" type="checkbox" value="veg" onClick={handleClickVeg} checked={isVeg}/>
                             <span class="cr" style={{padding: "5px"}}><i class="cr-icon glyphicon glyphicon-ok"></i></span>
                            Veg
                             </label>
@@ -134,7 +187,7 @@ useEffect(() => {
                             <Col md-5>
                             <div className="text-start checkbox mb-2">
                             <label>
-                            <input type="checkbox" value="non-veg" onChange= {(e)=>{setIsNonVeg(e.target.value)}}/>
+                            <input type="checkbox" value="non-veg" onClick={handleClickNonVeg} checked={isNonVeg} />
                             <span class="cr" style={{padding: "5px"}}><i class="cr-icon glyphicon glyphicon-ok"></i></span>
                            Non-veg
                             </label>
@@ -145,7 +198,7 @@ useEffect(() => {
                             <Col md-5>
                             <div className="text-start checkbox">
                             <label>
-                            <input type="checkbox" value="vegan" onChange= {(e)=>{setIsVegan(e.target.value)}}/>
+                            <input type="checkbox" value="vegan" onClick={handleClickVegan} checked={isVegan}/>
                             <span class="cr" style={{padding: "5px"}}><i class="cr-icon glyphicon glyphicon-ok"></i></span>
                             Vegan
                             </label>
@@ -154,13 +207,17 @@ useEffect(() => {
                             <Col md-5>
                            
                             </Col>
+                            <Row className="mt-2 p-4"><Button style={{width:"60%"}} onClick={applyFilter}>Apply</Button></Row>
                         </Row>
+                        
                     </Col>
-                   
+                    
+  
+  
                     <Col sm={9} md={9} lg={10} className="mt-3" >
                         <section>
                         <h3> All Restaurants</h3>
-                        <RestList restaurants={dummy_data} getUpdatedLS={props.getUpdatedLS}/>
+                        <RestList restaurants={listofrestaurants} getUpdatedLS={props.getUpdatedLS}/>
                          </section>
                        
                     </Col>
@@ -171,6 +228,9 @@ useEffect(() => {
             
         </div>
     )
+
+    
+
 }
 
 export default CustDashBoard

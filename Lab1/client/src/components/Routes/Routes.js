@@ -22,6 +22,7 @@ import RestaurantOrdersPage from '../Restaurant/RestaurantOrdersPage';
 import OrderConfirm from '../Customer/OrderConfim'
 import CustNavDash from '../Customer/CustNavDash';
 import CustDashBoard from '../Customer/CustDashboard';
+import CustDashboardParent from '../Customer/CustDashboardParent';
 
 function Routes() {
    
@@ -33,7 +34,7 @@ function Routes() {
                 <Route path='/login' component={ Login } />
                 <Route path='/restaurants/orders' component={ RestOrders } />
                 <Route path='/addDish' component={ AddDishForm } />
-                <Route path='/custDashboard' exact component={ CustDashBoard } />
+                <Route path='/custDashboard' exact component={ CustDashboard } />
                 <Route path='/restDashBoard' exact component={ RestDashboard } />
                 <Route path='/customer/profile' component={ CustProfile } />
                 <Route path='/restaurants/profile' exact component={ RestProfile } />

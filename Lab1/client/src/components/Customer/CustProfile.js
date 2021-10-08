@@ -45,7 +45,9 @@ const handlecontactNumberChange = (e) =>{
     setContactNumber(e.target.value);
 }
 const handledateOfBirthChange = (e) =>{
+    e.preventDefault();
     setDateOfBirth(e.target.value);
+    console.log("bday",e.target.value);
 }
 const handleCityChange = (e) =>{
     setCity(e.target.value);
@@ -61,6 +63,7 @@ const handleCountryChange = (e) => {
 
     const handleOnSubmit = e => {
         e.preventDefault();
+        console.log(name);
         console.log( "in handle submit" )
     
 

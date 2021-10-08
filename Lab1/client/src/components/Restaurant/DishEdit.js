@@ -2,16 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import axios from "axios"
+import BACKEND_URL from '../../config/configBackendURL';
 
 function DishEdit() {
   let { id } = useParams();
 
  // const [restId, setRestId] = useState("");
+ const [bearer, setBearer] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [description, setDescription] = useState("");
-  
+  const[dishData, setDishData] = useState([]);
   const [category, setCategory] = useState("");
   const [type, setType] = useState("");
   const [dishImageUrl, setDishImageUrl] = useState("");
@@ -32,13 +35,34 @@ function DishEdit() {
   ];
 
   useEffect(() => {
-    setName(dishes_data[0].name);
-    setPrice(dishes_data[0].price);
-    setIngredients(dishes_data[0].ingredients);
-    setDescription(dishes_data[0].description);
-    setCategory(dishes_data[0].category);
-    setType(dishes_data[0].type);
-    setDishImageUrl(dishes_data[0].dishImageUrl);
+
+    var body={
+      id:id
+    }
+   
+         axios({
+            method: "get",
+            url: BACKEND_URL + `/editDish?id=${id}`,
+            data: body,
+            headers: { "Content-Type": "application/json","Authorization": bearer  },
+            
+          })
+            .then((response) => {
+                
+          console.log("axios response dish data get", response.data);
+          setDishData(response.data);
+          setName(response.data[0].name);
+          setPrice(response.data[0].price);
+          setIngredients(response.data[0].ingredients);
+          setDescription(response.data[0].description);
+          setCategory(response.data[0].category);
+          setType(response.data[0].type);
+          setDishImageUrl(response.data[0].dishImageUrl);
+            })
+            .catch((error) => {
+              console.log((error.response));
+            });
+   
   }, []);
 
   const handleNameChange = (e) => {
@@ -67,11 +91,42 @@ function DishEdit() {
 
   const editDish=(e)=>{
       e.preventDefault();
-      const dish={name:name, price:price, ingredients:ingredients, description:description, category:category, type:type }
-    console.log("inside edit dish submit", dish)
+      const body={
+        id:id,
+        dishName:name, 
+        dishPrice:price, 
+        mainIngredients:ingredients,
+        description:description, 
+        dishCategory:category,
+        type:type
+        
+         }
+
+         axios({
+          method: "put",
+          url: BACKEND_URL + "/editDishes",
+          data: body,
+          headers: { "Content-Type": "application/json","Authorization": bearer  },
+          
+        })
+          .then((response) => {
+              
+        console.log("axios response edit dishes data", response.data);
+        
+          })
+          .catch((error) => {
+            console.log((error.response));
+          });
+
+
+    console.log("inside edit dish submit", dishData)
   }
+
+
+
   return (
-    <Container style={{ width: "50%" }}>
+<div>
+{dishData[0] && <Container style={{ width: "50%" }}>
       <h1 className="text-center"> Edit Dish</h1>
       <form onSubmit={editDish}>
         <div className="row m-1">
@@ -157,7 +212,8 @@ function DishEdit() {
           </div>
         </div>
       </form>
-    </Container>
+    </Container>}
+    </div>
   );
 }
 

@@ -1,3 +1,5 @@
+import {restlist} from "../../action/DashBoardActions";
+import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
 import "./Navbar.css";
 import {
@@ -21,10 +23,14 @@ import { useHistory } from "react-router-dom";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import { useCart } from "react-use-cart";
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || '[]');
+
+
 //const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || '[]');
 
  function CustNavbar() {
- 
+
+  const dispatch = useDispatch();
+
 
   const {
     isEmpty,
@@ -35,28 +41,6 @@ const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || '[]');
   } = useCart();
 
   const { emptyCart } = useCart();
-
-
-console.log("react cart in navbar", items);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   let history = useHistory();
     const [show, setShow] = useState(false);
@@ -75,7 +59,9 @@ console.log("react cart in navbar", items);
   const [price, setPrice] = useState("");
   const [dishImageUrl, setDishImageUrl] = useState("");
   const[showPlaceOrder, setShowPlaceOrder]= useState(localStorage.getItem("placeOrder"))
+  const [search, setSearch] = useState("")
 
+const id=localStorage.getItem("id");
   useEffect(() => {
    // setItems(JSON.parse(localStorage.getItem("items"||'[]')));
     setCart(JSON.parse(localStorage.getItem("cart"||'[]')));
@@ -125,6 +111,25 @@ console.log("react cart in navbar", items);
   
  const placeOrder = ()=>{
    history.push('/orderConfirm');
+ }
+
+ const searchRest=(e)=>{
+  e.preventDefault();
+  var body={
+    id:id,
+    search:search
+  }
+
+  //action 
+  console.log("body", body);
+  dispatch(restlist(body));
+  
+ }
+
+ const handleSearchChange = (e)=>{
+   
+  setSearch(e.target.value);
+
  }
   return (
     <Container fluid>
@@ -280,14 +285,15 @@ console.log("react cart in navbar", items);
             className="justify-content-center"
             style={{ height: "70px" }}
           >
-            <Form className="d-flex">
+            <Form className="d-flex" onSubmit={searchRest}>
               <FormControl
                 className="l-5 mr-2"
-                type="search"
+                type="text"
                 placeholder="Search"
                 aria-label="Search"
+                onChange={handleSearchChange}
               />
-              <Button variant="outline-success">Search</Button>
+              <Button variant="outline-success" type="submit">Search</Button>
             </Form>
           </Navbar>
         </Col>

@@ -1,5 +1,5 @@
 import CustNavbar from "./../Customer/CustNavbar";
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -9,7 +9,7 @@ import { useMemo } from "react";
 import Select from "react-select";
 import countryList from "react-select-country-list";
 import RestNavbar from "./RestNavbar";
-
+const x="https://lab1-s3-bucket.s3.us-east-2.amazonaws.com/cc962f16c50cb72a3e295834e5e15980"
 function RestProfile({ props }) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
@@ -25,8 +25,33 @@ function RestProfile({ props }) {
   const [toDate, setToDate] = useState("thatday");
   const [fromTime, setFromTime] = useState("thistime");
   const [toTime, setToTime] = useState("thattime");
+  const [fileUpload, setFileUpload] = useState("");
 
+  let uid = localStorage.getItem("id");
+  let role = localStorage.getItem("role");
   const options = useMemo(() => countryList().getData(), []);
+
+  useEffect(() => {
+    console.log("id and role below");
+  console.log("id here", uid);
+  console.log("role here",role);
+
+    axios
+      .get(
+        BACKEND_URL + `/getImage?id=${uid}&role=${role}`
+      )
+      .then((response) => {
+        console.log(response);
+        const fetchedUrlFromDb = response.data[0].profileUrl;
+        console.log(fetchedUrlFromDb);
+        console.log("image get axios res",response.data[0].profileUrl);
+        setProfileImagePath(fetchedUrlFromDb);
+      })
+      .catch((error) => {
+        console.log("Error occured while ssssssssadding image to data base", error);
+      });
+  }, [profileImagePath]);
+
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -70,7 +95,7 @@ function RestProfile({ props }) {
 
   //     //Image Upload
   const handleImageUpload = (e) => {
-    setNewProfileImage(e.target.files[0]);
+    setFileUpload(e.target.files[0]);
   };
 
   //     //Image Submit
@@ -78,6 +103,50 @@ function RestProfile({ props }) {
     e.preventDefault();
     console.log("in on submit for image change");
   };
+
+  const uploadPicture = async (e) => {
+    e.preventDefault();
+
+    const file = fileUpload;
+    console.log("file", file);
+
+    // get secure url from our server
+    const uploadUrl = await fetch(
+      "http://localhost:5000/uploadImage"
+    ).then((res) => res.json());
+
+    // post the image direclty to the s3 bucket
+    await fetch(uploadUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      body: file,
+    });
+
+    const imageUrl = uploadUrl.split("?")[0];
+    // console.log("After", imageUrl);
+
+    // fetch from localhos
+    let userInfo = {
+      id: uid,
+      url: imageUrl,
+      role: role,
+    };
+
+    //req for adding url to db api
+    axios
+      .put("http://localhost:5000/addImage", userInfo)
+      .then((response) => {
+        const urlFromDb = response.data[0].profileUrl;
+        setProfileImagePath(urlFromDb);
+        console.log("urlfromdb",urlFromDb);
+      })
+      .catch((error) => {
+        alert("Error occured while adding image to data base");
+      });
+  };
+
 
   // var redirectVar = null;
   // if ( !( cookie.load( "auth" ) && cookie.load( "type" ) === "users" ) ) {
@@ -99,6 +168,9 @@ function RestProfile({ props }) {
               <h3>Edit Profile</h3>
             </div>
           </div>
+          <div>
+            <img src={profileImagePath} alt="img"></img>
+          </div>
           <div className="col-10">
             <div className="row ml-3">
               <button className="btn btn-primary text-center" style={{width:"15%", marginLeft: "34%"}} onClick={toggleImageUpdate}>
@@ -115,7 +187,9 @@ function RestProfile({ props }) {
                     name="newProfileImage"
                     onChange={handleImageUpload}
                   />
-                  <button className="btn btn-primary" type="submit">
+                  <button className="btn btn-primary" type="submit"   onClick={(e) => {
+                      uploadPicture(e);
+                    }}>
                     Done
                   </button>
                   <button
