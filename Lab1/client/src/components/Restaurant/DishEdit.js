@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import ReactModal from "react-modal";
 import axios from "axios"
 import BACKEND_URL from '../../config/configBackendURL';
 
@@ -18,7 +19,9 @@ function DishEdit() {
   const [category, setCategory] = useState("");
   const [type, setType] = useState("");
   const [dishImageUrl, setDishImageUrl] = useState("");
-
+  const [profileImageUpdate, setProfileImageUpdate] = useState(false);
+  const [fileUpload, setFileUpload] = useState("");
+  const [profileImagePath, setProfileImagePath] = useState("");
   const dishes_data = [
     {
       restid: 83,
@@ -89,6 +92,51 @@ function DishEdit() {
     setDishImageUrl(e.target.value);
   };
 
+
+
+  const uploadPicture = async (e) => {
+    e.preventDefault();
+
+    const file = fileUpload;
+    console.log("file", file);
+
+    // get secure url from our server
+    const uploadUrl = await fetch(
+      "http://localhost:5000/uploadImage"
+    ).then((res) => res.json());
+
+    // post the image direclty to the s3 bucket
+    await fetch(uploadUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      body: file,
+    });
+
+    const imageUrl = uploadUrl.split("?")[0];
+    // console.log("After", imageUrl);
+
+    // fetch from localhos
+    let body = {
+      dishId: id,
+      imageUrl: imageUrl
+    };
+
+    //req for adding url to db api
+    axios
+      .put("http://localhost:5000/editDishImage", body)
+      .then((response) => {
+        // const urlFromDb = response.data[0].profileUrl;
+        // setProfileImagePath(urlFromDb);
+        // console.log("urlfromdb",urlFromDb);
+      })
+      .catch((error) => {
+        alert("Error occured while adding image to data base");
+      });
+  };
+
+
   const editDish=(e)=>{
       e.preventDefault();
       const body={
@@ -121,13 +169,54 @@ function DishEdit() {
 
     console.log("inside edit dish submit", dishData)
   }
+  const handleImageUpload = (e) => {
+    setFileUpload(e.target.files[0]);
+  };
 
 
+  const toggleImageUpdate = (e) => {
+    setProfileImageUpdate(!profileImageUpdate);
+  };
+
+
+ const handleImageSubmit = (e) => {
+    e.preventDefault();
+    console.log("in on submit for image change");
+  };
 
   return (
 <div>
 {dishData[0] && <Container style={{ width: "50%" }}>
       <h1 className="text-center"> Edit Dish</h1>
+      <div className="row ml-3">
+              <button className="btn btn-primary text-center" style={{width:"35%", marginLeft: "34%"}} onClick={toggleImageUpdate}>
+                Change Dish Image
+              </button>
+              <ReactModal isOpen={profileImageUpdate}>
+                <form
+                  onSubmit={handleImageSubmit}
+                  encType="multipart/form-data"
+                  style={{ textAlign: "Center" }}
+                >
+                  <input
+                    type="file"
+                    name="newProfileImage"
+                    onChange={handleImageUpload}
+                  />
+                  <button className="btn btn-primary" type="submit"   onClick={(e) => {
+                      uploadPicture(e);
+                    }}>
+                    Done
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={toggleImageUpdate}
+                  >
+                    Cancel
+                  </button>
+                </form>
+              </ReactModal>
+            </div>
       <form onSubmit={editDish}>
         <div className="row m-1">
           <label>Dish Name </label>

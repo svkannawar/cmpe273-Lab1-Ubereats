@@ -9,61 +9,64 @@ import { useMemo } from "react";
 import Select from "react-select";
 import countryList from "react-select-country-list";
 import RestNavbar from "./RestNavbar";
-const x="https://lab1-s3-bucket.s3.us-east-2.amazonaws.com/cc962f16c50cb72a3e295834e5e15980"
+import { useHistory } from "react-router-dom";
+
+
+
 function RestProfile({ props }) {
-  const [id, setId] = useState("");
+  //const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [location, setLocaion] = useState("");
   const [phone, setPhone] = useState("");
   const [description, setDescription] = useState("");
   const [profileImageUpdate, setProfileImageUpdate] = useState(false);
   const [profileImagePath, setProfileImagePath] = useState("");
-  const [error, setError] = useState("");
-  const [newProfileImage, setNewProfileImage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [fromDate, setFromDate] = useState("thisday");
-  const [toDate, setToDate] = useState("thatday");
-  const [fromTime, setFromTime] = useState("thistime");
-  const [toTime, setToTime] = useState("thattime");
+  const [fromDate, setFromDate] = useState("---");
+  const [toDate, setToDate] = useState("---");
+  const [fromTime, setFromTime] = useState("---");
+  const [toTime, setToTime] = useState("---");
   const [fileUpload, setFileUpload] = useState("");
-
+  const [bearer, setBearer] = useState("");
   let uid = localStorage.getItem("id");
   let role = localStorage.getItem("role");
   const options = useMemo(() => countryList().getData(), []);
+  let history = useHistory();
+  const id =localStorage.getItem("id");
 
   useEffect(() => {
-    console.log("id and role below");
-  console.log("id here", uid);
-  console.log("role here",role);
-
-    axios
-      .get(
-        BACKEND_URL + `/getImage?id=${uid}&role=${role}`
-      )
-      .then((response) => {
-        console.log(response);
-        const fetchedUrlFromDb = response.data[0].profileUrl;
-        console.log(fetchedUrlFromDb);
-        console.log("image get axios res",response.data[0].profileUrl);
-        setProfileImagePath(fetchedUrlFromDb);
-      })
-      .catch((error) => {
-        console.log("Error occured while ssssssssadding image to data base", error);
-      });
-  }, [profileImagePath]);
-
+    
+    var body={
+      restId:id
+    }
+         axios({
+            method: "post",
+            url: BACKEND_URL + "/getRestProfile",
+            data: body,
+            headers: { "Content-Type": "application/json","Authorization": bearer  },
+            
+          })
+            .then((response) => {
+                
+          console.log("restaurant data", response.data);
+          //setRestData(response.data);
+          setName(response.data[0].name);
+          setLocaion(response.data[0].location);
+          setPhone(response.data[0].phone);
+          setDescription(response.data[0].description);
+               
+            })
+            .catch((error) => {
+              console.log((error.response.data));
+            });
+   
+  }, []);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
-
   const handleLocationChange = (e) => {
     setLocaion(e.target.value);
   };
-
-  //   const handleEmailChange = (e) => {
-  //     setEmail(e.target.value);
-  //   };
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
   };
@@ -82,26 +85,47 @@ function RestProfile({ props }) {
   const handleToTimeChange = (e) => {
     setToTime(e.target.value);
   };
-
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log("in handle submit");
-  };
 
-  //     //Image Upload toggle
+    const timing=fromDate+" to "+toDate+" " +fromTime+" to "+toTime;
+    let body = {
+      id:id,
+      name:name,
+      location:location,
+      phone:phone,
+      description:description,
+      timing:timing,
+      restProfileUrl:profileImagePath
+    }
+   
+    axios({
+      method: "put",
+      url: BACKEND_URL + "/updateRestProfile",
+      data: body,
+      headers: { "Content-Type": "application/json", Authorization: bearer },
+    })
+      .then((response) => {
+        console.log("update prifile status", response.data);
+        
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+
+      history.push('/restDashBoard');
+  };
   const toggleImageUpdate = (e) => {
     setProfileImageUpdate(!profileImageUpdate);
   };
-
-  //     //Image Upload
   const handleImageUpload = (e) => {
     setFileUpload(e.target.files[0]);
   };
 
-  //     //Image Submit
   const handleImageSubmit = (e) => {
     e.preventDefault();
-    console.log("in on submit for image change");
+
+
   };
 
   const uploadPicture = async (e) => {
@@ -145,6 +169,7 @@ function RestProfile({ props }) {
       .catch((error) => {
         alert("Error occured while adding image to data base");
       });
+      toggleImageUpdate();
   };
 
 
@@ -376,8 +401,10 @@ function RestProfile({ props }) {
 
               <div className="row mt-3 ml-1 ">
                 <div className="col-5 text-end">
-                  <button type="submit" className="btn btn-primary ">
+                   <button type="submit" className="btn btn-primary ">
+              
                     Update
+                 
                   </button>
                 </div>
                 <div className="col-5">

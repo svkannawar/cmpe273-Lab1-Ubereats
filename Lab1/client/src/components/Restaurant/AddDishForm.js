@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Container } from 'react-bootstrap';
+import axios from 'axios';
+import BACKEND_URL from '../../config/configBackendURL';
+import { useHistory } from "react-router-dom";
+import ReactModal from "react-modal";
+
 
 function AddDishForm() {
+
+  let history = useHistory();
+
   const [restId, setRestId] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -11,6 +19,14 @@ function AddDishForm() {
   const [category, setCategory] = useState("");
   const [type, setType] = useState("");
   const [dishImageUrl, setDishImageUrl] = useState("");
+  const [bearer, setBearer] = useState("");
+  const [profileImageUpdate, setProfileImageUpdate] = useState(false);
+  const [fileUpload, setFileUpload] = useState("");
+  const [profileImagePath, setProfileImagePath] = useState("");
+
+
+
+  const restid=localStorage.getItem("id");
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -35,18 +51,107 @@ function AddDishForm() {
   const handleDishImageUrlChange = (e) => {
     setDishImageUrl(e.target.value);
   };
-
-  const addDish=(e)=>{
+ const handleImageSubmit = (e) => {
     e.preventDefault();
-    console.log("inside Adddish");
-    const dish={name:name, price:price, ingredients:ingredients, description:description, category:category, type:type }
-    console.log("inside Adddish data object", dish);
+
+
+  };
+
+    function addDish(e){
     
+    // console.log("imagepath inside add dish", profileImagePath);
+    // console.log("inside Adddish");
+    // const body={restid:restid, dishName:name, dishPrice:price, mainIngredients:ingredients, description:description, dishCategory:category, type:type, dishImage:profileImagePath}
+   
+    
+    // axios({
+    //     method: "post",
+    //     url: BACKEND_URL + "/addDishes",
+    //     data: body,
+    //     headers: { "Content-Type": "application/json","Authorization": bearer  },
+    //   })
+    //     .then((response) => {
+                    
+    //     })
+    //     .catch((error) => {
+    //       console.log((error.response));
+    //     });
+      
+    //  history.push('/restDashBoard');
   }
+  const toggleImageUpdate = (e) => {
+    setProfileImageUpdate(!profileImageUpdate);
+  };
+  const handleImageUpload = (e) => {
+    setFileUpload(e.target.files[0]);
+  };
+  const uploadPicture = async (e) => {
+  
+    e.preventDefault();
+    const file = fileUpload;
+    console.log("file", file);
+
+    // get secure url from our server
+    const uploadUrl = await fetch(
+      "http://localhost:5000/uploadImage"
+    ).then((res) => res.json());
+
+    // post the image direclty to the s3 bucket
+    await fetch(uploadUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      body: file,
+    });
+
+    const imageUrl = uploadUrl.split("?")[0];
+    setProfileImagePath(imageUrl);
+     console.log("After s3 dishimage", imageUrl);
+    //  console.log("imagepath inside add dish", profileImagePath);
+    //  console.log("inside Adddish");
+     const body={restid:restid, dishName:name, dishPrice:price, mainIngredients:ingredients, description:description, dishCategory:category, type:type, dishImage:imageUrl}
+    
+     
+     axios({
+         method: "post",
+         url: BACKEND_URL + "/addDishes",
+         data: body,
+         headers: { "Content-Type": "application/json","Authorization": bearer  },
+       })
+         .then((response) => {
+                     console.log("after add dishes",response.data)
+         })
+         .catch((error) => {
+           console.log((error.response));
+         });
+       
+     // history.push('/restDashBoard');
+    // // fetch from localhos
+    // let userInfo = {
+    //   id: restid,
+    //   url: imageUrl,
+      
+    // };
+
+    // //req for adding url to db api
+    // axios
+    //   .put("http://localhost:5000/addImage", userInfo)
+    //   .then((response) => {
+    //     const urlFromDb = response.data[0].profileUrl;
+    //     setProfileImagePath(urlFromDb);
+    //     console.log("urlfromdb",urlFromDb);
+    //   })
+    //   .catch((error) => {
+    //     alert("Error occured while adding image to data base");
+    //   });
+    //   toggleImageUpdate();
+  };
+
   return (
         <Container style={{width:"50%"}}>
             <h1 className="text-center"> Add New Dish</h1>
-      <form onSubmit={addDish}>
+      <form onSubmit={uploadPicture}>
         <div className="row m-1">
           <label>Dish Name </label>
           <input
@@ -126,14 +231,48 @@ function AddDishForm() {
               <option value="Vegan">Vegan</option>
                          
             </select>
+            <input
+                    type="file"
+                    name="newdishpic"
+                    onChange={handleImageUpload}
+                    required
+                  />
           </div>
 
-        
+          <div className="row ml-3">
+              {/* <button className="btn btn-primary text-center mt-2" style={{width:"35%", marginLeft: "32%"}} onClick={toggleImageUpdate}>
+                Add Dish Image
+              </button> */}
+              {/* <ReactModal isOpen={profileImageUpdate}>
+                <form
+                  onSubmit={handleImageSubmit}
+                  encType="multipart/form-data"
+                  style={{ textAlign: "Center" }}
+                >
+                  <input
+                    type="file"
+                    name="newProfileImage"
+                    onChange={handleImageUpload}
+                  />
+                  <button className="btn btn-primary" type="submit"   onClick={(e) => {
+                      uploadPicture(e);
+                    }}>
+                    Done
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={toggleImageUpdate}
+                  >
+                    Cancel
+                  </button>
+                </form>
+              </ReactModal> */}
+            </div>
 
         <div className="row mt-3 ml-1 ">
           <div className="col-6 text-end">
             <button type="submit" className="btn btn-primary ">
-              Update
+              Add
             </button>
           </div>
           <div className="col-6">

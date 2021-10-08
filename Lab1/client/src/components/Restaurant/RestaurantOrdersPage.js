@@ -2,18 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
 import RestNavbar from "./RestNavbar";
+import BACKEND_URL from "../../config/configBackendURL";
+import axios from "axios";
+
 function RestaurantOrdersPage() {
   let { id } = useParams();
 
-  const [orderId, setOrderId] = useState("");
+  //const [orderId, setOrderId] = useState("");
   const [restName, setRestName] = useState("");
   const [orderStatus, setOrderStatus] = useState("");
   const [modeOfDelivery, setModeOfDelivery] = useState("");
   const [total, setTotal] = useState("");
-
+  const [bearer, setBearer] = useState("");
   const [custName, setCustName] = useState("");
   const [custProfileImage, setCustProfileImage] = useState("");
   const [dishes, setDishes] = useState([]);
+  const [order, setOrder] = useState([]);
 
   const dummy_order = [
     {
@@ -49,91 +53,145 @@ function RestaurantOrdersPage() {
     },
   ];
   useEffect(() => {
-    setRestName(dummy_order[0].restName);
-    setOrderId(dummy_order[0].orderId);
-    setOrderStatus(dummy_order[0].orderStatus);
-    setModeOfDelivery(dummy_order[0].modeOfDelivery);
-    setTotal(dummy_order[0].total);
-    setCustName(dummy_order[0].custName);
-    setCustProfileImage(dummy_order[0].custProfileImage);
-    setDishes(dummy_order_dishes);
+    //    console.log("orderid", id);
+    axios({
+      method: "get",
+      url: BACKEND_URL + `/getOrderDetails?orderId=${id}`,
+      headers: { "Content-Type": "application/json", Authorization: bearer },
+    })
+      .then((response) => {
+        //console.log("axios response orders  data get", response.data.orderDetails);
+        //console.log("axios response dishes data get", response.data.orderDishes);
+        //setOrdersData(response.data)
+        setOrder(response.data.orderDetails);
+        setDishes(response.data.orderDishes);
+        setRestName(response.data.orderDetails[0].restName);
+        setOrderStatus(response.data.orderDetails[0].orderStatus);
+        setModeOfDelivery(response.data.orderDetails[0].modeOfDelivery);
+        setTotal(response.data.orderDetails[0].total);
+        setCustName(response.data.orderDetails[0].custName);
+        setCustProfileImage(response.data.orderDetails[0].custProfileImage);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   }, []);
 
-  const changeStatusToPreparing=(e)=>{
-setOrderStatus("Preparing");
-  }
 
-  const changeStatusToOnTheWay=(e)=>{
-  setOrderStatus("On the way");
-   }
+  const changeStatusToPreparing = (e) => {
+    setOrderStatus("Preparing");
+    let body = {
+      orderId: id,
+      orderStatus: "Preparing",
+    };
+    axios({
+      method: "put",
+      url: BACKEND_URL + "/updateOrderStatus",
+      data: body,
+      headers: { "Content-Type": "application/json", Authorization: bearer },
+    })
+      .then((response) => {
+        console.log("update order status", response.data);
+        
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
 
-  const changeStatusToDelivered=(e)=>{
-  setOrderStatus("Delivered");
-  }
+  const changeStatusToOnTheWay = (e) => {
+    setOrderStatus("On the way");
+    let body = {
+      orderId: id,
+      orderStatus: "On the way",
+    };
+    axios({
+      method: "put",
+      url: BACKEND_URL + "/updateOrderStatus",
+      data: body,
+      headers: { "Content-Type": "application/json", Authorization: bearer },
+    })
+      .then((response) => {
+        console.log("update order status", response.data);
+        
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
 
-  const changeStatusToPickUpReady=(e)=>{
-  setOrderStatus("Pick up Ready");
-  }
+  const changeStatusToDelivered = (e) => {
+    setOrderStatus("Delivered");
+    let body = {
+      orderId: id,
+      orderStatus: "Delivered",
+    };
+    axios({
+      method: "put",
+      url: BACKEND_URL + "/updateOrderStatus",
+      data: body,
+      headers: { "Content-Type": "application/json", Authorization: bearer },
+    })
+      .then((response) => {
+        console.log("update order status", response.data);
+        
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
 
-  const changeStatusToPickedUp=(e)=>{
-  setOrderStatus("Picked Up");
-  }
-  const handleCategoryChange=(e)=>{
-    //setOrderStatus("Pickd ssssUp");
-    }
+  const changeStatusToPickUpReady = (e) => {
+    setOrderStatus("Pick up Ready");
+    let body = {
+      orderId: id,
+      orderStatus: "Pick up Ready",
+    };
+    axios({
+      method: "put",
+      url: BACKEND_URL + "/updateOrderStatus",
+      data: body,
+      headers: { "Content-Type": "application/json", Authorization: bearer },
+    })
+      .then((response) => {
+        console.log("update order status", response.data);
+       
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
+
+  const changeStatusToPickedUp = (e) => {
+    setOrderStatus("Picked Up");
+    let body = {
+      orderId: id,
+      orderStatus: "Picked Up",
+    };
+    axios({
+      method: "put",
+      url: BACKEND_URL + "/updateOrderStatus",
+      data: body,
+      headers: { "Content-Type": "application/json", Authorization: bearer },
+    })
+      .then((response) => {
+        console.log("update order status", response.data);
+        
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
   
-
-  const renderComponent=()=>{
-    switch(orderStatus){
-        case "Order Received": return  <td>
-        <select className="dropcustom p-2" onChange={handleCategoryChange}>
- <option disabled selected>
-   {" "}
- 
- </option>
- <option value="Preparing">Preparing</option>
-
-</select>
-</td>;
-        case 'Preparing': return <td>
-        <select className="dropcustom p-2" onChange={handleCategoryChange}>
- <option disabled selected>
-   {" "}
- 
- </option>
- <option value="On the way">On the way</option>
-
-</select>
-</td>;
-        case 'On the way': return <td>
-        <select className="dropcustom p-2" onChange={handleCategoryChange}>
- <option disabled selected>
-   {" "}
- 
- </option>
- <option value="Delivered">Delivered</option>
-
-</select>
-</td>;
-        ;
-        default: return {orderStatus}
-    }
-}
 
   return (
     <div>
-      {/* <RestNavbar />
-      <Container fluid>
-        <Row>
-          <h1>Order Details</h1>
-          <h3> {custName}</h3>
-           </Row>
-      </Container> */}
+     
       <RestNavbar />
       <Container fluid>
         <Row>
           <h1>Order Details</h1>
-          <h5> Order id: {orderId}</h5>
+          <h5> Order id: {id}</h5>
           <h3> {custName}</h3>
         </Row>
         <Row>
@@ -149,7 +207,7 @@ setOrderStatus("Preparing");
             <div style={{ paddingTop: "1rem", paddingLeft: "2rem" }}>
               {dishes.map((dish) => (
                 <Row>
-                  <h6>{`${dish.dishName} X ${dish.qty}  ${dish.price}`}</h6>
+                  <h6>{`${dish.name}  ${dish.qty}  X  ${dish.price}`}</h6>
                 </Row>
               ))}
               <span>
@@ -158,43 +216,69 @@ setOrderStatus("Preparing");
             </div>
           </Col>
           <Col xs={3} sm={6} md={6} lg={6}>
-            <Table striped bordered hover style={{width:"60%"}}>
+            <Table striped bordered hover style={{ width: "60%" }}>
               <thead>
                 <tr>
                   <th>Order Status</th>
-                 
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>{orderStatus}</td>
-
-               
-              
                 </tr>
               </tbody>
             </Table>
             <div className="text-end">
-            { (orderStatus==="Order Received" ) ? ( <Button onClick={changeStatusToPreparing} type="submit" variant="primary" size="md">
-                Update status
-              </Button>) : null
-                }
-                { orderStatus==="Preparing" && modeOfDelivery==="Delivery" ? ( <Button onClick={changeStatusToOnTheWay} type="submit" variant="primary" size="md">
-                Update status
-              </Button>) : null
-                }
-                 { orderStatus==="Preparing" && modeOfDelivery==="Pick Up" ? ( <Button onClick={changeStatusToPickUpReady} type="submit" variant="primary" size="md">
-                Update status
-              </Button>) : null
-                }
-                { orderStatus==="On the way" ? ( <Button onClick={changeStatusToDelivered} type="submit" variant="primary" size="md">
-                Update status
-              </Button>) : null
-                }
-                 { orderStatus==="Pick up Ready" ? ( <Button onClick={changeStatusToPickedUp} type="submit" variant="primary" size="md">
-                Update status
-              </Button>) : null
-                }
+              {orderStatus === "Order Received" ? (
+                <Button
+                  onClick={changeStatusToPreparing}
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                >
+                  Update status
+                </Button>
+              ) : null}
+              {orderStatus === "Preparing" && modeOfDelivery === "delivery" ? (
+                <Button
+                  onClick={changeStatusToOnTheWay}
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                >
+                  Update status
+                </Button>
+              ) : null}
+              {orderStatus === "Preparing" && modeOfDelivery === "pick up" ? (
+                <Button
+                  onClick={changeStatusToPickUpReady}
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                >
+                  Update status
+                </Button>
+              ) : null}
+              {orderStatus === "On the way" ? (
+                <Button
+                  onClick={changeStatusToDelivered}
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                >
+                  Update status
+                </Button>
+              ) : null}
+              {orderStatus === "Pick up Ready" ? (
+                <Button
+                  onClick={changeStatusToPickedUp}
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                >
+                  Update status
+                </Button>
+              ) : null}
             </div>
           </Col>
         </Row>

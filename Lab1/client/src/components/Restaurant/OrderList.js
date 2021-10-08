@@ -10,12 +10,12 @@ export const OrderList = (props) => {
           
               
             <Order
-              key={order.id}
-              id={order.orderId}
+              key={order.orderid}
+              id={order.orderid}
               restName={order.restName}
               orderStatus={order.orderStatus}
               deliveryStatus={order.deliveryStatus}
-              deliveryMode={order.deliveryMode}
+              modeOfDelivery={order.modeOfDelivery}
               total={order.total}
               custName={order.custName}
               price={order.price}

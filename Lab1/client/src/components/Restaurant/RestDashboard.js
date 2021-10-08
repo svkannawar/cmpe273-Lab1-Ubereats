@@ -12,11 +12,11 @@ function RestDashboard() {
   const[dishData, setDishData]= useState([]);
 
   const id=localStorage.getItem("id");
-console.log("b4useeffect");
+//console.log("b4useeffect");
 
 
   useEffect(() => {
-    console.log("inside useeffect")
+  //  console.log("inside useeffect")
 
     var body={
       restId:id
@@ -31,12 +31,12 @@ console.log("b4useeffect");
           })
             .then((response) => {
                 
-          console.log("axios response", response.data);
+    //      console.log("axios response", response.data);
           setRestData(response.data);
            
             })
             .catch((error) => {
-              console.log((error.response.data));
+      //        console.log((error.response.data));
             });
 
 
@@ -49,12 +49,12 @@ console.log("b4useeffect");
             })
               .then((response) => {
                   
-            console.log("axios response", response.data);
+        //    console.log("axios response", response.data);
             setDishData(response.data);
              
               })
               .catch((error) => {
-                console.log((error.response.data));
+          //      console.log((error.response.data));
               });
     
         },[])
