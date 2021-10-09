@@ -19,10 +19,10 @@ import { Link } from "react-router-dom";
 import { BsFullscreenExit, BsJustify } from "react-icons/bs";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
-
+import { restaurantlistfilter , searcByhModeOfDeliveryOnly} from '../../action/DashBoardActions'
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import { useCart } from "react-use-cart";
-const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || '[]');
+const cartFromLocalStorage = localStorage.getItem("cart") || '[]';
 
 
 //const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || '[]');
@@ -63,18 +63,7 @@ const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || '[]');
 
 const id=localStorage.getItem("id");
   useEffect(() => {
-   // setItems(JSON.parse(localStorage.getItem("items"||'[]')));
-    setCart(JSON.parse(localStorage.getItem("cart"||'[]')));
-    
-    // setQty(items.qty);
-    // setDishName(items.dishName);
-    // setDishImageUrl(items.dishImageUrl);
-    
-    
   }, []);
- 
-  
-
 
   const gotorestaurant = () => {
     console.log("clicked restaurant", restId);
@@ -93,11 +82,16 @@ const id=localStorage.getItem("id");
       setTotal(t);
   };
 
-  const radioChange = (e) => {
-    setModeOfDelivery(e.target.value);
-    // console.log(e.target.value);
-  };
-
+  const searchByModeOfDelivery = (e)=>{
+    
+  setModeOfDelivery(e.target.value);
+  let body={
+    userId : id,
+    modeOfDelivery: e.target.value
+  }
+  history.push('/custDashboard');
+  dispatch(searcByhModeOfDeliveryOnly(body));
+}
   const emptyCart1 = () => {
     localStorage.removeItem("cart");
     emptyCart();
@@ -131,6 +125,8 @@ const id=localStorage.getItem("id");
   setSearch(e.target.value);
 
  }
+
+ 
   return (
     <Container fluid>
       <Row className="justify-conent-center">
@@ -255,7 +251,7 @@ const id=localStorage.getItem("id");
                 variant="light"
                 id="tbg-radio-2"
                 value={"delivery"}
-                onChange={radioChange}
+                onChange={searchByModeOfDelivery}
               >
                 <span style={{ padding: "10px", borderRadius: "5px" }}>
                   Delivery
@@ -264,10 +260,11 @@ const id=localStorage.getItem("id");
               <ToggleButton
                 variant="light"
                 id="tbg-radio-3"
-                value={"pickup"}
-                onChange={radioChange}
+                value={"pick up"}
+                onChange={searchByModeOfDelivery}
+                
               >
-                <span style={{ padding: "10px" }}>Pickup</span>
+                <span style={{ padding: "10px" }}>Pick Up</span>
               </ToggleButton>
             </ToggleButtonGroup>
           </Navbar>
@@ -381,11 +378,11 @@ const id=localStorage.getItem("id");
                 <div>
                   <Row>
                   <Col xs={2} sm={2} md={2} lg={2}>
-                    {`Qty ${item.qty}`}
+                    {`Qty ${item.quantity}`}
                   </Col>
                   <Col xs={2} sm={6} md={6} lg={6}>
                    <Row> {item.dishName}</Row>
-                   <Row>${item.price*item.qty}</Row>
+                   <Row>${item.price*item.quantity}</Row>
                   </Col>
                   <Col xs={4} sm={4} md={4} lg={4}>
                     <img

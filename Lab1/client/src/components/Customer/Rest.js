@@ -9,9 +9,10 @@ function Rest(props) {
 const [displayRest, setDisplayRest] = useState(false);
 
 const gotorestaurant= () =>{
-console.log("clicked restaurant", props.id);
+
 history.push(`/custrestaurant/${props.id}`)
 }
+
     return (
     <Col sm={3} md={3} lg={3}>
     <div className="card p-1 mb-4" onClick={gotorestaurant}>
@@ -19,7 +20,7 @@ history.push(`/custrestaurant/${props.id}`)
     <div className="card-body">
       <h5 className="card-title">{props.name}</h5>
       <p className="card-text">{props.description}</p>
-      <p className="card-text">{props.address}</p>
+      <p className="card-text">{props.location}</p>
       <p className="card-text">Mode of Delivery : {props.modeOfDelivery}</p>
     </div>
   </div>

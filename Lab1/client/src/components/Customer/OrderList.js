@@ -11,7 +11,7 @@ export const OrderList = (props) => {
               
             <Order
               key={order.id}
-              id={order.orderId}
+              id={order.orderid}
               restName={order.restName}
               orderStatus={order.orderStatus}
               delivaryMode={order.delivaryMode}

@@ -16,7 +16,7 @@ function Order(props) {
     <td>{props.id}</td>
     <td>{props.custName}</td>
     <td>{props.orderStatus}</td>
-    <td>{props.deliveryMode}</td>
+    <td>{props.modeOfDelivery}</td>
     <td>{props.deliveryStatus}</td>
     <td>{`$${props.total}`}</td>
     

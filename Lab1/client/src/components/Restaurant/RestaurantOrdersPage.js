@@ -189,19 +189,16 @@ function RestaurantOrdersPage() {
      
       <RestNavbar />
       <Container fluid>
-        <Row>
-          <h1>Order Details</h1>
-          <h5> Order id: {id}</h5>
-          <h3> {custName}</h3>
+        <Row className="mt-3">
+          <Col>
+        
+          </Col>
         </Row>
         <Row>
           <Col xs={2} sm={3} md={3} lg={3}>
-            <img
-              className="card_image"
-              style={{}}
-              src={custProfileImage}
-              alt={custName}
-            />
+          <h1>Order Details</h1>
+          <h5> Order id: {id}</h5>
+          <h3> {custName}</h3>
           </Col>
           <Col xs={4} sm={3} md={3} lg={3}>
             <div style={{ paddingTop: "1rem", paddingLeft: "2rem" }}>
@@ -216,18 +213,11 @@ function RestaurantOrdersPage() {
             </div>
           </Col>
           <Col xs={3} sm={6} md={6} lg={6}>
-            <Table striped bordered hover style={{ width: "60%" }}>
-              <thead>
-                <tr>
-                  <th>Order Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{orderStatus}</td>
-                </tr>
-              </tbody>
-            </Table>
+           
+                  <h3>Order Status</h3>
+               
+                  <h4>{orderStatus}</h4>
+               
             <div className="text-end">
               {orderStatus === "Order Received" ? (
                 <Button

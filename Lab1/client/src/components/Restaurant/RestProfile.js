@@ -169,7 +169,7 @@ function RestProfile({ props }) {
       .catch((error) => {
         alert("Error occured while adding image to data base");
       });
-      toggleImageUpdate();
+      toggleImageUpdate()
   };
 
 

@@ -8,7 +8,7 @@ import RestDashboard from '../Restaurant/RestDashboard'
 import RestProfile from '../Restaurant/RestProfile'
 import RestOrders from '../Restaurant/RestOrders'
 import CustProfile from '../Customer/CustProfile'
-import CustOrdrs from '../Customer/CustOrdrs'
+import CustOrders from '../Customer/CustOrders'
 import CustAbout from '../Customer/CustAbout'
 import CustNavbar from '../Customer/CustNavbar'
 import HomeNavbar from '../Common/HomeNavbar'
@@ -38,7 +38,7 @@ function Routes() {
                 <Route path='/restDashBoard' exact component={ RestDashboard } />
                 <Route path='/customer/profile' component={ CustProfile } />
                 <Route path='/restaurants/profile' exact component={ RestProfile } />
-                <Route path='/customer/orders' component={ CustOrdrs } />
+                <Route path='/customer/orders' component={ CustOrders } />
                 <Route path='/customer/about' component={ CustAbout } />
                 <Route path='/customer/favourites' component={ Favourites } />
                 <Route path='/orderConfirm' component={ OrderConfirm } exact />

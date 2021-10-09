@@ -10,14 +10,15 @@ function RestList(props) {
       <div className="card-group">
           {props.restaurants.map((restaurant) => (
             <Rest
-              key={restaurant.id}
-              id={restaurant.id}
+              key={restaurant.credid}
+              id={restaurant.credid}
               name={restaurant.name}
               restProfileUrl={restaurant.profileUrl}
-              address={restaurant.address}
+              phone={restaurant.phone}
               description={restaurant.description}
               modeOfDelivery={restaurant.modeOfDelivery}
-              getUpdatedLS={props.getUpdatedLS}
+              timings={restaurant.timings}
+              location={restaurant.location}
             />
           ))}     
       </div> 

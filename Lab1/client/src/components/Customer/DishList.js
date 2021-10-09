@@ -8,61 +8,29 @@ const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
 //const itemsFromLocalStorage = JSON.parse(localStorage.getItem("items") || "[]");
 
 function DishList(props) {
+  console.log("restid", props.dishes.restid);
   const { addItem } = useCart();
 
-
-  const products = [
-    {
-      id: 1,
-      name: "Malm",
-      price: 9900,
-      quantity: 1
-    },
-    {
-      id: 2,
-      name: "Nordli",
-      price: 16500,
-      quantity: 5
-    },
-    {
-      id: 3,
-      name: "Kullen",
-      price: 4500,
-      quantity: 1
-    },
-  ];
-
-
   const [cart, setCart] = useState(cartFromLocalStorage);
-  //const [items, setItems] = useState(itemsFromLocalStorage);
 
-  useEffect(() => {
-    
-    //localStorage.setItem("cart", JSON.stringify(cart));
-    
-   // localStorage.setItem("items", JSON.stringify(items));
-   
-  }, [cart]);
 
-  const addToCart = (cartaa, itemsaa,qty) => {
+  const addToCart = (cartaa, itemsaa, qty) => {
+
+    
     localStorage.setItem("placeOrder", "Yes");
     setCart(cartaa);
-    //setItems([...items, { ...itemsaa }]);
     localStorage.setItem("cart", JSON.stringify(cartaa));
-   // localStorage.setItem("items", JSON.stringify(items));
+    addItem(itemsaa, qty);
+console.log(localStorage.getItem("cart").restid);
 
-console.log("react wala cart", itemsaa);
-   
-      addItem(itemsaa, qty);
-    
   };
   return (
-    <Row >
+    <Row>
       <div className="card-group p-3">
         {props.dishes.map((dish) => (
           <Dish
-          cart={cart}
-          addToCart={addToCart}
+            cart={cart}
+            addToCart={addToCart}
             key={dish.id}
             id={dish.id}
             name={dish.name}

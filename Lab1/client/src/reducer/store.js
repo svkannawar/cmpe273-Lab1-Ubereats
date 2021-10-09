@@ -4,12 +4,16 @@ import LoginReducer from "./LoginReducer";
 import SignupReducer from "./SignupReducer";
 import DashBoardReducer from "./DashBoardReducer";
 import DashBoardUseEffectReducer, { restaurantListUE } from "./DashBoardUseEffectReducer";
+import restaurantListFilter from "./filterReducer";
+
 
 export default configureStore({
     reducer: {
         signin: LoginReducer,
         signup: SignupReducer,
         restaurantList: DashBoardReducer,
-        restaurantListDashboardue: DashBoardUseEffectReducer
+        restaurantListDashboardue: DashBoardUseEffectReducer,
+        restaurantListFilter: restaurantListFilter,
+
     },
 });

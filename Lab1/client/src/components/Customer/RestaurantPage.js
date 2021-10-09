@@ -3,14 +3,15 @@ import { useParams } from "react-router-dom";
 import { Row, Col, Container } from "react-bootstrap";
 import CustNavbar from "./../Customer/CustNavbar";
 import DishList from "../Customer/DishList";
-import restimg from "./../../images/rest2.jpg";
-
+import BACKEND_URL from '../../config/configBackendURL';
+import axios from "axios"
 
 const idFromLS= localStorage.getItem("id");
 function RestaurantPage() {
 
   let { id } = useParams();
 
+  const [bearer, setBearer] = useState("");
   const [restId, setRestId] = useState("");
   const [name, setName] = useState("name");
   const [custName, setCustName] = useState("custName");
@@ -22,30 +23,76 @@ function RestaurantPage() {
   const [timing, setTiming] = useState("");
   const [restProfileUrl, setRestProfileUrl] = useState("");
   const [modeOfDelivery, setMdeOfDelivery] = useState("");
+const [dishesData, setDishesData]= useState([]);
+  // const dummy_rest_data = [
+  //   {
+  //     id: 84,
+  //     name: "Suknta",
+  //     address: "562, Trends Avenue, Milpitas",
+  //     location: "San Jose",
+  //     description: "We serve Maharashtrian chat!!",
+  //     phone: 536276727,
+  //     timing: "Monday to Sunday 10 am to 10 pm",
+  //     restProfileUrl:
+  //       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
+  //     modeOfDelivery: "delivery",
+  //   },
+  // ];
 
-  const dummy_rest_data = [
-    {
-      id: 84,
-      name: "Suknta",
-      address: "562, Trends Avenue, Milpitas",
-      location: "San Jose",
-      description: "We serve Maharashtrian chat!!",
-      phone: 536276727,
-      timing: "Monday to Sunday 10 am to 10 pm",
-      restProfileUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
-      modeOfDelivery: "delivery",
-    },
-  ];
+  localStorage.setItem("restid", id);
+  const rest=localStorage.getItem("restid")
   useEffect(() => {
-    setName(dummy_rest_data[0].name);
-    setAddress(dummy_rest_data[0].address);
-    setLocation(dummy_rest_data[0].location);
-    setDescription(dummy_rest_data[0].description);
-    setTiming(dummy_rest_data[0].timing);
-    setRestProfileUrl(dummy_rest_data[0].restProfileUrl);
-    setMdeOfDelivery(dummy_rest_data[0].modeOfDelivery);
-    setPhone(dummy_rest_data[0].phone);
+
+
+
+    var body={
+      restId:id
+    }
+   
+         axios({
+            method: "post",
+            url: BACKEND_URL + "/getRestProfile",
+            data: body,
+            headers: { "Content-Type": "application/json","Authorization": bearer  },
+            
+          })
+            .then((response) => {
+        console.log("restprofurl", response.data);
+    setName(response.data[0].name);
+    setAddress(response.data[0].address);
+    setLocation(response.data[0].location);
+    setDescription(response.data[0].description);
+    setTiming(response.data[0].timing);
+    setRestProfileUrl(response.data[0].profileUrl);
+    setMdeOfDelivery(response.data[0].modeOfDelivery);
+    setPhone(response.data[0].phone);
+           
+            })
+            .catch((error) => {
+      //        console.log((error.response.data));
+            });
+
+
+            var body1={
+              id:id
+            }
+            axios({
+              method: "post",
+              url: BACKEND_URL + "/getDishes",
+              data: body,
+              headers: { "Content-Type": "application/json","Authorization": bearer  },
+              
+            })
+              .then((response) => {
+          console.log("restprofurl", response.data);
+      setDishesData(response.data)
+             
+              })
+              .catch((error) => {
+        //        console.log((error.response.data));
+              });
+        
+
   }, []);
 
   const dishes_data = [
@@ -164,11 +211,11 @@ function RestaurantPage() {
       <CustNavbar />
       <Row className="p-4">
         <div class="card-body">
-          <h5 class="card-title">{name}</h5>
-          <p class="card-text">{description}</p>
+          <h1 class="card-title">{name}</h1>
+          <h4 class="card-text">{description}</h4>
           <p class="card-text">
-            <p>{address}</p>
-            <p>{timing}</p>
+            <h5>{location}</h5>
+            <h5>{timing}</h5>
           </p>
         </div>
         <img
@@ -186,7 +233,7 @@ function RestaurantPage() {
       <h2>Our Menu</h2>
       <Row>
         <Col className="mt-3">
-            <DishList dishes={dishes_data} custName={custName} restName={name} modeOfDelivery={modeOfDelivery} custId={custId} />   
+            <DishList dishes={dishesData} id={id} custName={custName} restName={name} modeOfDelivery={modeOfDelivery} custId={custId} />   
         </Col>
       </Row>
       {}

@@ -1,27 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { restlist, restlistfordashue } from "../action/DashBoardActions";
 
-export const restaurantList = createSlice({
-  name: "restaurantList",
+export const restaurantListUE = createSlice({
+  name: "restaurantListSearch",
   initialState: {
-    restList: ""
+    restList: []
   },
   reducers: {
     setUser: () => {}
   },
   extraReducers: {
-    [restlist.fulfilled]: (state, action) => {
-    
-      if (action.payload.auth) {
-      
-        
-          state.restList = action.payload.restList;
-    
-    }
-  },
 
   [restlistfordashue.fulfilled]: (state, action) => {
-   
+    console.log("---action payload restlist all rests ue------", action.payload);
     if (action.payload.auth) {
     
         state.restList = action.payload.restList;
@@ -32,4 +23,4 @@ export const restaurantList = createSlice({
   
 }});
 
-export default restaurantList.reducer;
+export default restaurantListUE.reducer;

@@ -9,11 +9,12 @@ import rest3 from './../../images/rest3.jpg';
 import axios from 'axios';
 import BACKEND_URL from '../../config/configBackendURL';
 import {restlist, restlistfordashue} from "../../action/DashBoardActionsUE";
+import { restaurantlistfilter , searcByhModeOfDeliveryOnly} from '../../action/DashBoardActions'
 import { useSelector, useDispatch } from "react-redux";
 
 function CustDashBoard(props) {
     const [cart, setCart] = useState([]);
-    const [id, setId] = useState(0);
+    //const [id, setId] = useState(0);
     
     const [bearer, setBearer] = useState("");
     const [restaurantsList, setRestaurantsList]=useState([]);
@@ -23,22 +24,22 @@ function CustDashBoard(props) {
     const [isVegan, setIsVegan] = useState(false);
 
 
-    const newId = localStorage.getItem('id');
+    const id = localStorage.getItem('id');
     const dispatch = useDispatch();
     
     const handleClickVeg = () => setIsVeg(!isVeg)
-    console.log("isVeg", isVeg);
+   
 
     const handleClickNonVeg = () => setIsNonVeg(!isNonVeg)
-    console.log("isNonVeg", isNonVeg);
+    
 
     const handleClickVegan = () => setIsVegan(!isVegan)
-    console.log("isVegan", isVegan);
+   
 
 useEffect( () => {
 
 var body={
-    id: newId
+    id: id
 }
 dispatch(restlistfordashue(body));
     //  axios({
@@ -143,24 +144,31 @@ const handleChangeisVeg=(e)=>{
  
 const applyFilter=()=>{
 
-    console.log("veg",isVeg);
-    console.log("nonveg",isNonVeg);
-    console.log("vegan",isVegan);
+   
 
-    var body={ id: newId, veg: isVeg, nonVeg: isNonVeg, vegan: isVegan}
-    axios({
-        method: "post",
-        url: BACKEND_URL + "/filter",
-        data: body,
-        headers: { "Content-Type": "application/json","Authorization": bearer  },
-      })
-        .then((response) => {
-          console.log("axios filter", response.data);
-          setRestaurantsList(response.data);
-        })
-        .catch((error) => {
-          console.log((error.response.data));
-        });
+    if (!isVeg && !isNonVeg && !isVegan){
+        var body={
+            id: id
+        }
+        dispatch(restlistfordashue(body));
+    }else{
+
+    var body1={ id: id, veg: isVeg, nonVeg: isNonVeg, vegan: isVegan}
+    dispatch(restaurantlistfilter(body1));
+    }
+    // axios({
+    //     method: "post",
+    //     url: BACKEND_URL + "/filter",
+    //     data: body,
+    //     headers: { "Content-Type": "application/json","Authorization": bearer  },
+    //   })
+    //     .then((response) => {
+    //       console.log("axios filter", response.data);
+    //       setRestaurantsList(response.data);
+    //     })
+    //     .catch((error) => {
+    //       console.log((error.response.data));
+    //     });
         // setIsVeg("");
         // setIsNonVeg("");
         // setIsVegan("");
@@ -178,7 +186,7 @@ const applyFilter=()=>{
                             <Col md-5>
                             <div   className="text-start checkbox mb-2" >
                             <label>
-                            <input  className="text-start" type="checkbox" value="veg" onClick={handleClickVeg} checked={isVeg}/>
+                            <input  className="text-start" type="checkbox" value="veg" onClick={handleClickVeg}/>
                             <span class="cr" style={{padding: "5px"}}><i class="cr-icon glyphicon glyphicon-ok"></i></span>
                            Veg
                             </label>
@@ -198,7 +206,7 @@ const applyFilter=()=>{
                             <Col md-5>
                             <div className="text-start checkbox">
                             <label>
-                            <input type="checkbox" value="vegan" onClick={handleClickVegan} checked={isVegan}/>
+                            <input type="checkbox" value="vegan" onClick={handleClickVegan} />
                             <span class="cr" style={{padding: "5px"}}><i class="cr-icon glyphicon glyphicon-ok"></i></span>
                             Vegan
                             </label>
@@ -222,15 +230,10 @@ const applyFilter=()=>{
                        
                     </Col>
                 </Row>
-                {/* {console.log(isVeg, isNonVeg, isVegan)} */}
+               
                 
             </Container>
-            
         </div>
     )
-
-    
-
 }
-
 export default CustDashBoard

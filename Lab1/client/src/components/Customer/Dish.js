@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Col, Button } from "react-bootstrap";
-
+import { useCart } from "react-use-cart";
 function Dish(props) {
   const [qty, setQty] = useState(1);
+
+  const {
+    isEmpty,
+    totalUniqueItems,
+    items,
+    updateItemQuantity,
+    removeItem,
+  } = useCart();
+
+  const { emptyCart } = useCart();
 
   const handleQtyChange = (e) => {
     setQty(parseInt(e.target.value));
   };
+  console.log("id in cart", items[0].restid);
 
   const getItemData = () => {
     console.log("----inside add to cart from Dish----");
@@ -32,7 +43,10 @@ function Dish(props) {
     props.addToCart(cart, items, qty);
   };
 
+
   return (
+
+    
     <Col sm={2} md={2} lg={2}>
       <div className="card p-2 mb-4">
         <img
@@ -64,6 +78,11 @@ function Dish(props) {
               <option value="8">8</option>
               <option value="9">9</option>
               <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
             </select>
           </div>
           <Button

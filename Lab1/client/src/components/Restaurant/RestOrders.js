@@ -14,16 +14,16 @@ function RestOrders() {
   const [orderId, setOrderId] = useState("");
   const [ordersData, setOrdersData] = useState([]);
  
-
+  const id = localStorage.getItem("id");
 
 
   useEffect(()=>{
     
     
-   
+   console.log("Id", id)
          axios({
             method: "get",
-            url: BACKEND_URL + "/getAllOrders",
+            url: BACKEND_URL + `/getAllOrdersRestaurant?id=${id}`,
             headers: { "Content-Type": "application/json","Authorization": bearer  },
             
           })
