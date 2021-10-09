@@ -2,9 +2,8 @@ const sql = require("../models/db.js");
 const Credential = require("../models/creds.model.js");
 const Customer = require("../models/custDetails.model.js");
 const Restaurant = require("../models/restDetails.model.js");
+const Dishes = require("../models/dishes.model")
 
-
-// update rest and cust image on db
 exports.updateImageUrl = async (req, res) => {
     try {
       const requestBody = req.body;
@@ -61,7 +60,7 @@ exports.updateImageUrl = async (req, res) => {
     }
   };
   
-  // fetch cust and rest image from db
+
   exports.fetchImageUrl = async (req, res) => {
     try {
       console.log("inside restimgchangeapidd")
@@ -98,3 +97,31 @@ exports.updateImageUrl = async (req, res) => {
     }
   };
   
+  exports.addImageForDish = async (req, res) => {
+    try {
+      const dishId = req.body.dishId;
+      const imageUrl = req.body.imageUrl;
+  
+      const [err1, result1] = await Dishes.upadateDishPicPromise(dishId, imageUrl);
+  
+      if (err1) {
+        res.status(400).json({
+          msg: "Unable to update Dish image in database.",
+        });
+        return;
+      }
+  
+      const [err2, result2] = await Dishes.getDishPicUrl(dishId);
+  
+      if (err2) {
+        res.status(400).json({
+          msg: "Unable to fetch updated dish image url from database.",
+        });
+        return;
+      }
+  
+      res.status(200).json(result2);
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  };

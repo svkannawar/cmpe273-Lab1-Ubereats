@@ -1,7 +1,7 @@
 //import { generateUploadURL } from "../UploadImagesS3/s3Bucket";
 
 const R =require("../UploadImagesS3/s3Bucket")
-// upload picture function
+
 exports.uploadToS3Bucket = async (req, res) => {
   try {
     const uploadUrl = await R.generateUploadURL();

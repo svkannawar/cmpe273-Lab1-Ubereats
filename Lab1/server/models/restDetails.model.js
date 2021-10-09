@@ -65,10 +65,10 @@ Restaurant.getAllRest = () => {
   });
 }
 
-// promise that returns all rests with mode of delivery and location like
+
 Restaurant.getRestWithSearAndMod = (searchStr, modeOfDel) => {
   return new Promise((resolve) => {
-      // const query = `select * from RestDetails where lower(location) like lower('%${city}%') and lower(modeOfDelivery) = lower('${modeOfDel}'); `;
+   
       const query = `select * from RestDetails where credid in (select restid from Dishes where name like lower('%${searchStr}%')) or location like lower('%${searchStr}%') and modeOfDelivery = '${modeOfDel}';`; // query not good
 
       sql.query(query, (err, result) => {
@@ -77,7 +77,7 @@ Restaurant.getRestWithSearAndMod = (searchStr, modeOfDel) => {
   });
 }
 
-// promise that returns all rests based on filter applied (veg, non-veg, vegan)
+
 Restaurant.getFilteredRsts = (veg, nonVeg, vegan, city) => {
   return new Promise((resolve) => {
     const query = `select * from RestDetails where credid in (select restid from Dishes where type = lower('${veg}') or type = lower('${nonVeg}') or type = lower('${vegan}')) and location like lower('%${city}%');`;
@@ -126,7 +126,7 @@ Restaurant.upadateRestPicPromise = (id, url) => {
   });
 };
 
-// promise for getting rest image url back from DB
+
 Restaurant.getRestPicUrl = (id) => {
   return new Promise((resolve) => {
     const query = `select profileUrl from RestDetails where credid = '${id}';`;
@@ -140,7 +140,6 @@ Restaurant.getRestPicUrl = (id) => {
 
 
 
-// promise to get all the fav rests
 Restaurant.getAllFavRestsPromise = (id) => {
   return new Promise((resolve) => {
 
@@ -153,7 +152,7 @@ Restaurant.getAllFavRestsPromise = (id) => {
 }
 
 
-// promise that returns all rests based on mod applied (pickup or delivery and userLocation)
+
 Restaurant.getModRestsPromise = (modeOfDelivery, city) => {
   return new Promise((resolve) => {
     const query = `select * from RestDetails where modeOfDelivery='${modeOfDelivery}' and location like lower('${city}');`;
@@ -164,7 +163,7 @@ Restaurant.getModRestsPromise = (modeOfDelivery, city) => {
   });
 };
 
-// promise that returns all rests based on mod applied (pickup or delivery not userLocation)
+
 Restaurant.getModRestsNotLocPromise = (modeOfDelivery, city) => {
   return new Promise((resolve) => {
     const query = `select * from RestDetails where modeOfDelivery='${modeOfDelivery}' and location not like lower('${city}');`;
@@ -175,7 +174,7 @@ Restaurant.getModRestsNotLocPromise = (modeOfDelivery, city) => {
   });
 };
 
-// promise that returns all rests based on filter applied (veg, non-veg, vegan and not userLocation)
+
 Restaurant.getFilteredRstsNotLoc = (veg, nonVeg, vegan, city) => {
   return new Promise((resolve) => {
     const query = `select * from RestDetails where credid in (select restid from Dishes where type = lower('${veg}') or type = lower('${nonVeg}') or type = lower('${vegan}')) and location not like lower('%${city}%');`;

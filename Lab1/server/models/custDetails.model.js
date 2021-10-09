@@ -38,7 +38,6 @@ const Customer = function(customer) {
     });
 }
 
-// promise for fetching customer profile
 Customer.getCustProfilePromise = (id) => {
   return new Promise((resolve) => {
     const query = `select * from CustDetails where credid = '${id}'; `;
@@ -49,7 +48,7 @@ Customer.getCustProfilePromise = (id) => {
   });
 };
 
-// promise for updating customer profile
+
 Customer.updateCustProfilePromise = (
   name,
   DOB,
@@ -58,10 +57,11 @@ Customer.updateCustProfilePromise = (
   country,
   nickname,
   phone,
-  id
+  id,
+  about
 ) => {
   return new Promise((resolve) => {
-    const query = `update CustDetails set name = '${name}', DOB = '${DOB}', city = '${city}', state = '${state}', country = '${country}', nickname = '${nickname}', phone = '${phone}' where credid = '${id}';`;
+    const query = `update CustDetails set name = '${name}', DOB = '${DOB}', city = '${city}', state = '${state}', country = '${country}', nickname = '${nickname}', phone = '${phone}', about = '${about}' where credid = '${id}';`;
 
     sql.query(query, (err, result) => {
       resolve([err, result]);
@@ -69,7 +69,7 @@ Customer.updateCustProfilePromise = (
   });
 };
 
-// promise for getting cust image url back from DB
+
 Customer.getCustPicUrl = (id) => {
   return new Promise((resolve) => {
     const query = `select profileUrl from CustDetails where credid = '${id}';`;
@@ -90,4 +90,25 @@ Customer.upadateCustPicPromise = (id, url) => {
   });
 };
   
+Customer.getCustPicUrl = (id) => {
+  return new Promise((resolve) => {
+    const query = `select profileUrl from CustDetails where credid = '${id}';`;
+
+    sql.query(query, (err, result) => {
+      resolve([err, result]);
+    });
+  });
+};
+
+Customer.getRestPicUrl = (id) => {
+  return new Promise((resolve) => {
+    const query = `select profileUrl from RestDetails where credid = '${id}';`;
+
+    sql.query(query, (err, result) => {
+      resolve([err, result]);
+    });
+  });
+};
+
+
   module.exports = Customer;

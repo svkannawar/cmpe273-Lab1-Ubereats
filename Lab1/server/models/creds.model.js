@@ -11,14 +11,14 @@ const Credential = function(credential) {
 
 Credential.create = (newCredential, result) => {
   sql.query("INSERT INTO Creds SET ?", newCredential, (err, res) => {
-    console.log("new -----creds",newCredential.email );
+    console.log("new -----creds",newCredential );
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("User created: ", { id: res.insertId, ...newCredential });
+    console.log("User created: res is next", res, { id: res.insertId, ...newCredential });
     result(null, { id: res.insertId, ...newCredential, msg: "success" });
   });
 };
