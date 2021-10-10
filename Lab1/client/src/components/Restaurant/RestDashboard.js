@@ -66,7 +66,7 @@ function RestDashboard() {
      {restData[0] && <Container fluid>
         <Row className="p-4">
           <img
-            className="centerimg mt-4"
+            className="card-img-top mt-4"
             style={{
               width: "100%",
               height: "70vh",

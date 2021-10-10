@@ -56,7 +56,7 @@ function CustOrderPage() {
     })
       .then((response) => {
         console.log("cust orders sssssget data", response.data);
-        setOrder(response.data);
+        setOrder(response.data.orderDetails);
         setDishes(response.data.orderDishes);
         //
         setTotal(response.data[0].total);
@@ -67,15 +67,15 @@ function CustOrderPage() {
         console.log(error.response);
       });
   }, []);
-  console.log(order);
-  console.log(dishes)
+  console.log("ordttttttttttter",order);
+  console.log("ordtttttttdishestttter",dishes);
   return (
     <div>
       <CustNavbar />
-      <Container>
+      {order[0] &&  <Container>
         <Row>
           <h1>Order Details</h1>
-          <h3> {`${order.orderDetails[0].restName}`}</h3>
+          <h3> {`${order[0].restName}`}</h3>
           <Col className="mt-4">
             {dishes.map((dish) => (
               <Row>{`${dish.name} X ${dish.qty}  ${dish.price}`}</Row>
@@ -84,8 +84,10 @@ function CustOrderPage() {
          </div><div>
             {`Mode of Delivery ${order[0].modeOfDelivery}`}</div></h4>
           </Col>
+
         </Row>
-      </Container>
+      </Container>}
+      
     </div>
   );
 }

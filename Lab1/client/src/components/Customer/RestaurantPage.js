@@ -39,8 +39,10 @@ const [dishesData, setDishesData]= useState([]);
   //   },
   // ];
 
-  localStorage.setItem("restid", id);
+  
   const rest=localStorage.getItem("restid")
+  console.log("restid from param", rest)
+
   useEffect(() => {
 
 
@@ -57,7 +59,7 @@ const [dishesData, setDishesData]= useState([]);
             
           })
             .then((response) => {
-        console.log("restprofurl", response.data);
+        console.log("xcvbnmnbvcxxcvbn", response.data);
     setName(response.data[0].name);
     setAddress(response.data[0].address);
     setLocation(response.data[0].location);

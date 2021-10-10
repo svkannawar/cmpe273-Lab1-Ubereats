@@ -33,7 +33,7 @@ function CustProfile ({props})  {
         const [bearer, setBearer] = useState("");
         const [fileUpload, setFileUpload] = useState("");
         const [about, setAbout]= useState("");
-
+        const [profileUrl, setProfileUrl] = useState("");
         let uid = localStorage.getItem("id");
   let role = localStorage.getItem("role");
 
@@ -62,11 +62,13 @@ function CustProfile ({props})  {
         setState(response.data[0].state);
         setCity(response.data[0].city);
         setCountry(response.data[0].country);
+        setProfileUrl(response.data[0].profileUrl);
         //setDateOfBirth(response.data[0].DOB)
-         setAbout(response.data[0].about)      
+         setAbout(response.data[0].about)   
+            
             })
             .catch((error) => {
-              console.log((error.response.data));
+              console.log((error.response));
             });
    
   }, []);
@@ -215,6 +217,9 @@ const handleCountryChange = value => {
         return (
             <div>
                 <CustNavbar/>
+                <div className="text-center mb-5">
+            <img className="card-img-top" style={{width:"50%", height:"400px"}}src={profileUrl} alt="img"></img>
+          </div>
                 {/* { redirectVar } */}
                 <div className="container-fluid">
                     <div className="row h-100 mt-2">
@@ -224,6 +229,8 @@ const handleCountryChange = value => {
                                 <h3>Edit Profile</h3>
                             </div>
                         </div>
+
+                        
                         <div className="col-10">
 
                              <div className="row ml-3">

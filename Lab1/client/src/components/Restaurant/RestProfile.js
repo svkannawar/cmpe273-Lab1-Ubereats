@@ -11,8 +11,6 @@ import countryList from "react-select-country-list";
 import RestNavbar from "./RestNavbar";
 import { useHistory } from "react-router-dom";
 
-
-
 function RestProfile({ props }) {
   //const [id, setId] = useState("");
   const [name, setName] = useState("");
@@ -21,44 +19,42 @@ function RestProfile({ props }) {
   const [description, setDescription] = useState("");
   const [profileImageUpdate, setProfileImageUpdate] = useState(false);
   const [profileImagePath, setProfileImagePath] = useState("");
-  const [fromDate, setFromDate] = useState("---");
-  const [toDate, setToDate] = useState("---");
-  const [fromTime, setFromTime] = useState("---");
-  const [toTime, setToTime] = useState("---");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [fromTime, setFromTime] = useState("");
+  const [toTime, setToTime] = useState("");
   const [fileUpload, setFileUpload] = useState("");
   const [bearer, setBearer] = useState("");
+  const [modeOfDelivery, setModeOfDelivery] = useState("");
+  const [profileUrl, setProfileUrl] = useState("");
   let uid = localStorage.getItem("id");
   let role = localStorage.getItem("role");
   const options = useMemo(() => countryList().getData(), []);
   let history = useHistory();
-  const id =localStorage.getItem("id");
+  const id = localStorage.getItem("id");
 
   useEffect(() => {
-    
-    var body={
-      restId:id
-    }
-         axios({
-            method: "post",
-            url: BACKEND_URL + "/getRestProfile",
-            data: body,
-            headers: { "Content-Type": "application/json","Authorization": bearer  },
-            
-          })
-            .then((response) => {
-                
-          console.log("restaurant data", response.data);
-          //setRestData(response.data);
-          setName(response.data[0].name);
-          setLocaion(response.data[0].location);
-          setPhone(response.data[0].phone);
-          setDescription(response.data[0].description);
-               
-            })
-            .catch((error) => {
-              console.log((error.response.data));
-            });
-   
+    var body = {
+      restId: id,
+    };
+    axios({
+      method: "post",
+      url: BACKEND_URL + "/getRestProfile",
+      data: body,
+      headers: { "Content-Type": "application/json", Authorization: bearer },
+    })
+      .then((response) => {
+        console.log("restaurant data", response.data);
+        //setRestData(response.data);
+        setName(response.data[0].name);
+        setLocaion(response.data[0].location);
+        setPhone(response.data[0].phone);
+        setDescription(response.data[0].description);
+        setProfileUrl(response.data[0].profileUrl);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   }, []);
 
   const handleNameChange = (e) => {
@@ -76,6 +72,9 @@ function RestProfile({ props }) {
   const handleFromDateChange = (e) => {
     setFromDate(e.target.value);
   };
+  const handleDeliveryModeChange = (e) => {
+    setModeOfDelivery(e.target.value)
+  };
   const handleToDateChange = (e) => {
     setToDate(e.target.value);
   };
@@ -88,17 +87,19 @@ function RestProfile({ props }) {
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
-    const timing=fromDate+" to "+toDate+" " +fromTime+" to "+toTime;
+    const timing =
+      fromDate + " to " + toDate + " " + fromTime + " to " + toTime;
     let body = {
-      id:id,
-      name:name,
-      location:location,
-      phone:phone,
-      description:description,
-      timing:timing,
-      restProfileUrl:profileImagePath
-    }
-   
+      id: id,
+      name: name,
+      location: location,
+      phone: phone,
+      description: description,
+      timing: timing,
+      restProfileUrl: profileImagePath,
+      modeOfDelivery: modeOfDelivery,
+    };
+
     axios({
       method: "put",
       url: BACKEND_URL + "/updateRestProfile",
@@ -107,13 +108,12 @@ function RestProfile({ props }) {
     })
       .then((response) => {
         console.log("update prifile status", response.data);
-        
       })
       .catch((error) => {
         console.log(error.response.data);
       });
 
-      history.push('/restDashBoard');
+    history.push("/restDashBoard");
   };
   const toggleImageUpdate = (e) => {
     setProfileImageUpdate(!profileImageUpdate);
@@ -124,20 +124,17 @@ function RestProfile({ props }) {
 
   const handleImageSubmit = (e) => {
     e.preventDefault();
-
-
   };
 
   const uploadPicture = async (e) => {
     e.preventDefault();
-
     const file = fileUpload;
     console.log("file", file);
 
     // get secure url from our server
-    const uploadUrl = await fetch(
-      "http://localhost:5000/uploadImage"
-    ).then((res) => res.json());
+    const uploadUrl = await fetch("http://localhost:5000/uploadImage").then(
+      (res) => res.json()
+    );
 
     // post the image direclty to the s3 bucket
     await fetch(uploadUrl, {
@@ -163,28 +160,22 @@ function RestProfile({ props }) {
       .put("http://localhost:5000/addImage", userInfo)
       .then((response) => {
         const urlFromDb = response.data[0].profileUrl;
-        setProfileImagePath(urlFromDb);
-        console.log("urlfromdb",urlFromDb);
+        setProfileUrl(urlFromDb);
+        console.log("urlfromdb", urlFromDb);
       })
       .catch((error) => {
         alert("Error occured while adding image to data base");
       });
-      toggleImageUpdate()
+    toggleImageUpdate();
   };
 
-
-  // var redirectVar = null;
-  // if ( !( cookie.load( "auth" ) && cookie.load( "type" ) === "users" ) ) {
-  //     redirectVar = <Redirect to="/login" />
-  // }
-  // let renderError = null
-  // if ( this.state.error ) {
-  //     renderError = <div style={ { 'color': 'red' } }>{ this.state.errorMessage }</div>
-  // }
   return (
     <div>
       {/* { redirectVar } */}
       <RestNavbar />
+      <div className="text-center mb-5">
+            <img className="card-img-top" style={{width:"50%", height:"400px"}}src={profileUrl} alt="img"></img>
+          </div>
       <div className="container-fluid">
         <div className="row h-100 mt-2">
           <div className="col-2">
@@ -193,12 +184,14 @@ function RestProfile({ props }) {
               <h3>Edit Profile</h3>
             </div>
           </div>
-          <div>
-            <img src={profileImagePath} alt="img"></img>
-          </div>
+         
           <div className="col-10">
             <div className="row ml-3">
-              <button className="btn btn-primary text-center" style={{width:"15%", marginLeft: "34%"}} onClick={toggleImageUpdate}>
+              <button
+                className="btn btn-primary text-center"
+                style={{ width: "15%", marginLeft: "34%" }}
+                onClick={toggleImageUpdate}
+              >
                 Change Profile Picture
               </button>
               <ReactModal isOpen={profileImageUpdate}>
@@ -212,9 +205,13 @@ function RestProfile({ props }) {
                     name="newProfileImage"
                     onChange={handleImageUpload}
                   />
-                  <button className="btn btn-primary" type="submit"   onClick={(e) => {
+                  <button
+                    className="btn btn-primary"
+                    type="submit"
+                    onClick={(e) => {
                       uploadPicture(e);
-                    }}>
+                    }}
+                  >
                     Done
                   </button>
                   <button
@@ -273,6 +270,31 @@ function RestProfile({ props }) {
                 </div>
               </div>
 
+              <div className="row m-1">
+                {" "}
+                <label>Mode of Delivery:</label>{" "}
+                <div className="col-5">
+                  {" "}
+                 
+                  <select
+                    className="drop p-2"
+                    value={modeOfDelivery}
+                    onChange={handleDeliveryModeChange}
+                  >
+                    {" "}
+                    <option disabled selected>
+                      {" "}
+                       {modeOfDelivery}
+                    </option>
+                    <option value={modeOfDelivery}>
+                    
+                    </option>
+                    <option value="delivery">Delivery</option>{" "}
+                    <option value="pick up">Pick up</option>{" "}
+                    <option value="pick up and delivery">Pick up and Delivery</option>{" "}
+                  </select>{" "}
+                </div>{" "}
+              </div>
               <div className="row m-1">
                 <label>Timings:</label>
                 <div className="col-5">
@@ -401,10 +423,8 @@ function RestProfile({ props }) {
 
               <div className="row mt-3 ml-1 ">
                 <div className="col-5 text-end">
-                   <button type="submit" className="btn btn-primary ">
-              
+                  <button type="submit" className="btn btn-primary ">
                     Update
-                 
                   </button>
                 </div>
                 <div className="col-5">

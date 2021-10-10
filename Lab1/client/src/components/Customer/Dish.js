@@ -17,7 +17,8 @@ function Dish(props) {
   const handleQtyChange = (e) => {
     setQty(parseInt(e.target.value));
   };
-  console.log("id in cart", items[0].restid);
+
+  //console.log("id in cart", items[0].restid);
 
   const getItemData = () => {
     console.log("----inside add to cart from Dish----");

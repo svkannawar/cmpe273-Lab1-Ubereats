@@ -153,7 +153,7 @@ const applyFilter=()=>{
         dispatch(restlistfordashue(body));
     }else{
 
-    var body1={ id: id, veg: isVeg, nonVeg: isNonVeg, vegan: isVegan}
+    var body1={ id: id, veg: isVeg, nonveg: isNonVeg, vegan: isVegan}
     dispatch(restaurantlistfilter(body1));
     }
     // axios({

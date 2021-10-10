@@ -4,7 +4,7 @@ import { restlist, restlistfordashue } from "../action/DashBoardActions";
 export const restaurantList = createSlice({
   name: "restaurantList",
   initialState: {
-    restList: ""
+    restList: []
   },
   reducers: {
     setUser: () => {}
