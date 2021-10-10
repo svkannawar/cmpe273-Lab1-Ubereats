@@ -15,9 +15,16 @@
 
 
 
-module.exports = {
-    HOST: "localhost",
-    USER: "root",
-    PASSWORD: "Svk@78784578",
+// module.exports = {
+//     HOST: "localhost",
+//     USER: "root",
+//     PASSWORD: "Svk@78784578",
+//     DB: "uber_eats"
+//   };
+
+  module.exports = {
+    HOST: "ubereats.cx4qddu6crt9.us-east-2.rds.amazonaws.com",
+    USER: "uberAdmin",
+    PASSWORD: "Svk78784578",
     DB: "uber_eats"
   };

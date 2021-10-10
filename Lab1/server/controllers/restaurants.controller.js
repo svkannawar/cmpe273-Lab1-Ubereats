@@ -10,7 +10,7 @@ exports.displayAllRests = async (req, res) => {
     const [err1, result1] = await Customer.getCustLocation(req.body.id);
 
     if (result1.length === 0) {
-        res.staus(400).json({msg: `No user with id ${req.body.id}`});
+        res.status(400).json({msg: `No user with id ${req.body.id}`});
         return
     }
 
@@ -47,14 +47,16 @@ exports.displayAllRests = async (req, res) => {
         if (err4) {
             res.status(400).json({msg: `Error in fetching all restaurants`})
             return
+
         }else {
             const allRestWithLoc = result4;
-            console.log("in display all");
+         
             res.status(200).json(allRestWithLoc);
         }
     }
 } catch (error) {
-    res.status(400).json(error);
+  
+    res.status(402).json(error);
 }
 
 
@@ -76,7 +78,7 @@ exports.displaySearch = async (req, res) => {
         } else {
             const emptyArr = [];
             res.staus(400).json(emptyArr);
-            // console.log(emptyArr);
+            
         }
 
         const [err1, result1] = await Restaurant.getRestWithSearAndMod(searchStr, req.body.modeOfDelivery);
@@ -153,7 +155,7 @@ exports.displayFilteredRests = async (req, res) => {
       let veg = req.body.veg ? "veg" : "";
       let nonVeg = req.body.nonveg ? "non-veg" : "";
       let vegan = req.body.vegan ? "vegan" : "";
-      // console.log(veg, nonVeg, vegan);
+      
   
       const [err2, result2] = await Restaurant.getFilteredRsts(veg, nonVeg, vegan, city);
   
@@ -196,7 +198,8 @@ exports.updateRestProfile = async (req, res) => {
         requestBody.phone,
         requestBody.description,
         requestBody.timing,
-        requestBody.restProfileUrl
+        requestBody.restProfileUrl,
+        requestBody.modeOfDelivery
       );
   
       if (err1) {

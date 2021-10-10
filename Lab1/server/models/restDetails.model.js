@@ -15,7 +15,7 @@ const Restaurant = function(restaurant) {
   
   Restaurant.create = (newRestaurant, result) => {
     sql.query("INSERT INTO RestDetails  SET ?", newRestaurant, (err, res) => {
-      console.log("new -----rest",newRestaurant.email );
+  
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -57,7 +57,7 @@ Restaurant.getAllRestExceptLoc = (city) => {
 
 Restaurant.getAllRest = () => {
   return new Promise((resolve) => {
-    console.log("inside getallrest");
+    
       const query = `select * from RestDetails; `;
       sql.query(query, (err, result) => {
           resolve([err, result]);
@@ -95,10 +95,12 @@ Restaurant.updateRestProfilePromise = (
   phone,
   description,
   timing,
-  profileUrl
-) => {
+  profileUrl,
+  modeOfDelivery
+  ) => {
   return new Promise((resolve) => {
-    const query = `update RestDetails set name = '${name}',  location = '${location}', phone = '${phone}', description = '${description}', timing = '${timing}', profileUrl = '${profileUrl}' where credid = '${id}';`;
+    console.log("inside restprofileupdate query")
+    const query = `update RestDetails set name = '${name}',  location = '${location}', phone = '${phone}', description = '${description}', timing = '${timing}', profileUrl = '${profileUrl}', modeOfDelivery = '${modeOfDelivery}' where credid = '${id}';`;
 
     sql.query(query, (err, result) => {
       resolve([err, result]);

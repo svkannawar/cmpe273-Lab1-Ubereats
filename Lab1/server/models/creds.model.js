@@ -10,7 +10,7 @@ const Credential = function(credential) {
 };
 
 Credential.create = (newCredential, result) => {
-  sql.query("INSERT INTO Creds SET ?", newCredential, (err, res) => {
+  sql.query("INSERT INTO creds SET ?", newCredential, (err, res) => {
     console.log("new -----creds",newCredential );
     if (err) {
       console.log("error: ", err);
@@ -27,7 +27,7 @@ Credential.create = (newCredential, result) => {
 
 Credential.findByEmail = (email, cb) => {
   console.log("---------findbyemail entry----------")
-  sql.query(`SELECT * FROM Creds WHERE email = "${email}"`, (err, res) => {
+  sql.query(`SELECT * FROM creds WHERE email = "${email}"`, (err, res) => {
    // console.log("emailfinder model me", email );
     if (err) {
       console.log("error: ", err);
@@ -36,7 +36,7 @@ Credential.findByEmail = (email, cb) => {
     }
     else{
        
-      console.log("VAle count ",res.length);
+    
       cb(null, res);
     }
    
