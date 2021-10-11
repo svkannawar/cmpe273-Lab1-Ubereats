@@ -129,30 +129,10 @@ function RestDashboard() {
         console.log(error.response);
       });
 
-    // history.push('/restDashBoard');
-    // // fetch from localhos
-    // let userInfo = {
-    //   id: restid,
-    //   url: imageUrl,
-
-    // };
-
-    // //req for adding url to db api
-    // axios
-    //   .put("http://localhost:5000/addImage", userInfo)
-    //   .then((response) => {
-    //     const urlFromDb = response.data[0].profileUrl;
-    //     setProfileImagePath(urlFromDb);
-    //     console.log("urlfromdb",urlFromDb);
-    //   })
-    //   .catch((error) => {
-    //     alert("Error occured while adding image to data base");
-    //   });
-    //   toggleImageUpdate();
   };
 
-  useEffect(() => {
-    //  console.log("inside useeffect")
+  const fetchRestProfileAndDishes = () => {
+    console.log("inside useeffect check check")
 
     var body = {
       restId: id,
@@ -185,7 +165,11 @@ function RestDashboard() {
       .catch((error) => {
         //      console.log((error.response.))
       });
-  }, [profileImageUpdate, price]);
+  }
+
+  useEffect(() => {
+    fetchRestProfileAndDishes();
+  }, [profileImageUpdate, lgShow]);
 
 
   const filtDataAppetizer = dishData.filter(
@@ -257,31 +241,31 @@ function RestDashboard() {
           <Row>
             <Col className="mt-1 p-3">
               <h1>Salads</h1>
-              <DishList dishes={filtDataSalads} />
+              <DishList dishes={filtDataSalads} onEditDone={fetchRestProfileAndDishes} />
             </Col>
           </Row>
           <Row>
             <Col className="mt-1 p-3">
               <h1>Appetizers</h1>
-              <DishList dishes={filtDataAppetizer} />
+              <DishList dishes={filtDataAppetizer} onEditDone={fetchRestProfileAndDishes} />
             </Col>
           </Row>
           <Row>
             <Col className="mt-1 p-3">
               <h1>Main Course</h1>
-              <DishList dishes={filtDataMainCourse} />
+              <DishList dishes={filtDataMainCourse} onEditDone={fetchRestProfileAndDishes} />
             </Col>
           </Row>
           <Row>
             <Col className="mt-1 p-3">
               <h1>Beverages</h1>
-              <DishList dishes={filtDataBeverages} />
+              <DishList dishes={filtDataBeverages} onEditDone={fetchRestProfileAndDishes} />
             </Col>
           </Row>
           <Row>
             <Col className="mt-1 p-3">
               <h1>Desserts</h1>
-              <DishList dishes={filtDataDesserts} />
+              <DishList dishes={filtDataDesserts} onEditDone={fetchRestProfileAndDishes} />
             </Col>
           </Row>
           <Modal

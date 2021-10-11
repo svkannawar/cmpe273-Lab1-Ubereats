@@ -181,10 +181,10 @@ const applyFilter=()=>{
            <CustNavbar/>
             <Container fluid>
                 <Row>
-                    <Col sm={3} md={3} lg={2} className="mt-3 text-center mb-2"  style={{borderRight:'1px solid #adabab'}}>
+                
                         <h5 className="text-start mb-3">Filters</h5>
-                        <Row>
-                            <Col md-5>
+                        
+                            <Col md-3>
                             <div   className="text-start checkbox mb-2" >
                             <label>
                             <input  className="text-start" type="checkbox" value="veg" onClick={handleClickVeg}/>
@@ -193,7 +193,7 @@ const applyFilter=()=>{
                             </label>
                             </div>
                             </Col>
-                            <Col md-5>
+                            <Col md-3>
                             <div className="text-start checkbox mb-2">
                             <label>
                             <input type="checkbox" value="non-veg" onClick={handleClickNonVeg} checked={isNonVeg} />
@@ -202,9 +202,9 @@ const applyFilter=()=>{
                             </label>
                             </div>
                             </Col>
-                        </Row>
-                        <Row>
-                            <Col md-5>
+                        
+                        
+                            <Col md-3>
                             <div className="text-start checkbox">
                             <label>
                             <input type="checkbox" value="vegan" onClick={handleClickVegan} />
@@ -213,24 +213,24 @@ const applyFilter=()=>{
                             </label>
                             </div>
                             </Col>
-                            <Col md-5>
-                           
+                            <Col md-3>
+                             <Button btn btn-dark style={{width:"60%"}} onClick={applyFilter}>Apply</Button>
                             </Col>
-                            <Row className="mt-2 p-4"><Button style={{width:"60%"}} onClick={applyFilter}>Apply</Button></Row>
-                        </Row>
+                            </Row>
+                       
                         
-                    </Col>
+                    
                     
   
   
-                    <Col sm={9} md={9} lg={10} className="mt-3" >
+                    <Col  className="mt-3" >
                         <section>
-                        <h3> All Restaurants</h3>
+                        <h5> Jump on the restaurant and get the hunger killed!!</h5>
                         <RestList restaurants={listofrestaurants} getUpdatedLS={props.getUpdatedLS}/>
                          </section>
                        
                     </Col>
-                </Row>
+            
                
                 
             </Container>

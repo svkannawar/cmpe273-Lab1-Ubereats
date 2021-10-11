@@ -103,11 +103,13 @@ exports.addOrderDetails = async (req, res) => {
   }
 };
 
-exports.filterOrderDetails = async (req, res) => {
+exports.filterOrderDetailsCust = async (req, res) => {
   try {
     const orderStatus = req.body.orderStatus;
+    const id= req.body.id;
+    const [err1, result1] = await Order.filterOrderDetailsPromise(orderStatus, id);
 
-    const [err1, result1] = await Order.filterOrderDetailsPromise(orderStatus);
+    console.log('----RESULT----', err1, result1, req.body)
 
     if (err1) {
       res.status(400).json({
@@ -121,6 +123,30 @@ exports.filterOrderDetails = async (req, res) => {
     res.status(400).json(error);
   }
 };
+
+
+
+exports.filterOrderDetailsRest = async (req, res) => {
+  try {
+    const orderStatus = req.body.orderStatus;
+    const id= req.body.id;
+    const [err1, result1] = await Order.filterOrderDetailsPromiseRest(orderStatus, id);
+
+    console.log('----RESULT----', err1, result1, req.body)
+
+    if (err1) {
+      res.status(400).json({
+        msg: "Unable to fetch order details from OrderSmmmary.",
+      });
+      return;
+    }
+
+    res.status(200).json(result1);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
 
 
 exports.getAllOrders = async (req, res) => {

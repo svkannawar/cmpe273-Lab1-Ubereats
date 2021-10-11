@@ -82,6 +82,14 @@ function DishForRest(props) {
     })
       .then((response) => {
         console.log("axios response edit dishes data", response.data);
+
+        if (props.onEditDone) {
+          console.log("chek check edit dishes data", response.data);
+          if (props.onEditDone) {
+            props.onEditDone();
+          }
+          setLgShow(false);
+        }
       })
       .catch((error) => {
         console.log(error.response);

@@ -46,9 +46,21 @@ const Order = function(order) {
     });
   };
 
-Order.filterOrderDetailsPromise = (orderStatus) => {
+Order.filterOrderDetailsPromise = (orderStatus, id) => {
   return new Promise((resolve) => {
-    const query = `select * from OrderSummary where orderStatus='${orderStatus}';`;
+    const query = `select * from OrderSummary where orderStatus='${orderStatus}' AND custid=${id};`;
+
+    sql.query(query, (err, result) => {
+      resolve([err, result]);
+    });
+  });
+};
+
+
+
+Order.filterOrderDetailsPromiseRest = (orderStatus, id) => {
+  return new Promise((resolve) => {
+    const query = `select * from OrderSummary where orderStatus='${orderStatus}' AND restid=${id};`;
 
     sql.query(query, (err, result) => {
       resolve([err, result]);

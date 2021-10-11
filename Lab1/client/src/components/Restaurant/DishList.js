@@ -18,6 +18,7 @@ function DishList(props) {
             price={dish.price}
             ingredients={dish.ingredients}
             restid={dish.restid}
+            onEditDone={props.onEditDone}
           />
         ))}
       </div>

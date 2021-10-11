@@ -5,7 +5,8 @@ module.exports = app => {
     
     app.put("/updateOrderStatus", orders.updateOrderStatus);
     app.post("/addOrderDetails",  orders.addOrderDetails);
-    app.post("/filterOrderDetails",  orders.filterOrderDetails);
+    app.post("/filterOrderDetailsCust",  orders.filterOrderDetailsCust);
+    app.post("/filterOrderDetailsRest",  orders.filterOrderDetailsRest);
     app.get("/getOrderDetails",  orders.getOrderDetails);
     // app.get("/getOrderDetailsCustomer",  orders.getOrderDetailsCustomer);
     // app.get("/getOrderDetailsRestaurant",  orders.getOrderDetailsRestaurant);

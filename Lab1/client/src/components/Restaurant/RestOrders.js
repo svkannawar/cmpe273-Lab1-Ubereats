@@ -13,6 +13,7 @@ function RestOrders() {
   const [custName, setCustName] = useState("");
   const [orderId, setOrderId] = useState("");
   const [ordersData, setOrdersData] = useState([]);
+  const [statFilter, setStatFilter] = useState("")
  
   const id = localStorage.getItem("id");
 
@@ -37,69 +38,42 @@ function RestOrders() {
             });
 
   },[])
-  // const dummy_orders = [
-  //   {
-  //     orderId: 1,
-  //     restId: 23,
-  //     restName: "Sukanta",
-  //     orderStatus: "Order Received",
-  //     deliveryMode: "Delivery",
-  //     total: 60,
-  //     custId: 24,
-  //     custName: "Saurabh",
-  //     deliveryStatus: "New Order"
-     
-  //   },
-  //   {
-  //     orderId: 10,
-  //     restId: 243,
-  //     restName: "Marvel",
-  //     orderStatus: "Preparing",
-  //     deliveryMode: "Pickup",
-  //     total: 60,
-  //     custId: 24,
-  //     custName: "Rohit",
-  //     deliveryStatus: "New Order"
-      
-  //   },
-  //   {
-  //     orderId: 13,
-  //     restId: 23,
-  //     restName: "Sukanta",
-  //     orderStatus: "Delivered",
-  //     deliveryMode: "Delivery",
-  //     total: 70,
-  //     custId: 24,
-  //     custName: "Saurabh",
-  //     deliveryStatus: "Delivered"
-      
-  //   },
-  //   {
-  //     orderId: 113,
-  //     restId: 23,
-  //     restName: "Jack In The Box",
-  //     orderStatus: "Cancelled",
-  //     deliveryMode: "Delivery",
-  //     total: 70,
-  //     custId: 24,
-  //     custName: "Saurabh",
-  //     deliveryStatus: "Cancelled"
-      
-  //   },
-  //   {
-  //     orderId: 43,
-  //     restId: 23,
-  //     restName: "Sukanta",
-  //     orderStatus: "Picked up",
-  //     deliveryMode: "Delivery",
-  //     total: 70,
-  //     custId: 24,
-  //     custName: "Saurabh",
-  //     deliveryStatus: "Delivered"
-      
-  //   },
-  // ];
+
  
+  const handlefilterchange=(e)=>{
+    setStatFilter(e.target.value);
+    
+    console.log(e.target.value);
+    
+    const body={
+      id:id,
+      orderStatus: e.target.value
+    }
+    
+        axios({
+          method: "post",
+          url: BACKEND_URL + "/filterOrderDetailsCust",
+          data: body,
+          headers: { "Content-Type": "application/json","Authorization": bearer  },
+          
+        })
+          .then((response) => {
+              
+        console.log("cust orders sssssget data", response.data);
+        setOrdersData(response.data);
+        setOrderStatus(response.data[0].name);
+       
+        setCustName(response.data[0].ingredients);
+        setOrderId(response.data[0].orderid);
+        setTotal(response.data[0].total);
+        setRestName(response.data[0].type);
+        setModeOfDelivery(response.data[0].dishImageUrl);
+          })
+          .catch((error) => {
+            console.log((error.response));
+          });
+    
+      }
   return (
     <div>
       <RestNavbar />
@@ -119,6 +93,25 @@ function RestOrders() {
 
           <OrderList orders={ordersData} />
         </Table>
+        <Row className="text-center"  style={{width:"50%", marginLeft:"27%"}}>
+        <label className="p-2">Order Status Filter</label>
+                          <select
+                            className="drop p-2"
+                            value={statFilter}
+                            onChange={handlefilterchange}
+                          >
+                            <option disabled selected>
+                              -- select an option --
+                            </option>
+                            <option value="Order Received">Order Received</option>
+                            <option value="Preparing">Preparing</option>
+                            <option value="On the way">On the way</option>
+                            <option value="Pick up ready">Pick up ready</option>
+                            <option value="Picked up">Picked up</option>
+                            <option value="Delivered">Delivered</option>
+                           
+                          </select>
+        </Row>
       </Container>
     </div>
   );
