@@ -38,9 +38,9 @@ exports.addFavRest = async (req, res) => {
   
 
   exports.remFavRest = async (req, res) => {
-    console.log("entry");
+   
     try {
-      console.log("hello");
+     
       const requestBody = req.body;
       const [err1, result1] = await Favorite.remFavRestPromise(
         requestBody.userId,
@@ -84,3 +84,29 @@ exports.addFavRest = async (req, res) => {
       res.status(400).json(error);
     }
   };
+
+  
+  
+
+
+exports.getRestAsFav = async (req, res) => {
+  try {
+    const requestBody = req.body;
+    const [err1, result1] = await Favorite.getRestAsFav(
+      requestBody.userId,
+      requestBody.restId
+    );
+
+    if (err1) {
+      res
+        .status(400)
+        .json({ msg: "Unable to add favorite restaurant into database." });
+      return;
+    }
+
+
+    res.status(200).json(result1);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};

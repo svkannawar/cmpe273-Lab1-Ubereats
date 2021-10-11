@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
 import RestNavbar from "./RestNavbar";
+import Divider from "../Common/Divider";
 import BACKEND_URL from "../../config/configBackendURL";
 import axios from "axios";
 
@@ -18,40 +19,9 @@ function RestaurantOrdersPage() {
   const [custProfileImage, setCustProfileImage] = useState("");
   const [dishes, setDishes] = useState([]);
   const [order, setOrder] = useState([]);
+  const [orderTime, setOrderTime] = useState("");
 
-  const dummy_order = [
-    {
-      orderId: 13,
-      restId: 23,
-      restName: "Sukanta",
-      orderStatus: "Order Received",
-      modeOfDelivery: "Pick Up",
-      deliveryStatus: "New Order",
-      total: 70,
-      custId: 24,
-      custName: "Saurabh",
-      custProfileImage:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
-    },
-  ];
-
-  const dummy_order_dishes = [
-    {
-      dishName: "Paneer Bhurji",
-      qty: 2,
-      price: 30,
-    },
-    {
-      dishName: "Sizzler",
-      qty: 1,
-      price: 20,
-    },
-    {
-      dishName: "Basundi",
-      qty: 2,
-      price: 20,
-    },
-  ];
+ 
   useEffect(() => {
     //    console.log("orderid", id);
     axios({
@@ -60,8 +30,8 @@ function RestaurantOrdersPage() {
       headers: { "Content-Type": "application/json", Authorization: bearer },
     })
       .then((response) => {
-        //console.log("axios response orders  data get", response.data.orderDetails);
-        //console.log("axios response dishes data get", response.data.orderDishes);
+        console.log("axios response orders  data get", response.data.orderDetails);
+        console.log("axios response dishes data get", response.data.orderDishes);
         //setOrdersData(response.data)
         setOrder(response.data.orderDetails);
         setDishes(response.data.orderDishes);
@@ -70,7 +40,8 @@ function RestaurantOrdersPage() {
         setModeOfDelivery(response.data.orderDetails[0].modeOfDelivery);
         setTotal(response.data.orderDetails[0].total);
         setCustName(response.data.orderDetails[0].custName);
-        setCustProfileImage(response.data.orderDetails[0].custProfileImage);
+        setCustProfileImage(response.data.orderDetails[0].custProfileUrl);
+        setOrderTime(response.data.orderDetails[0].time);
       })
       .catch((error) => {
         console.log(error.response);
@@ -95,7 +66,7 @@ function RestaurantOrdersPage() {
         
       })
       .catch((error) => {
-        console.log(error.response.data);
+        console.log(error.response);
       });
   };
 
@@ -116,7 +87,7 @@ function RestaurantOrdersPage() {
         
       })
       .catch((error) => {
-        console.log(error.response.data);
+        console.log(error.response);
       });
   };
 
@@ -137,7 +108,7 @@ function RestaurantOrdersPage() {
         
       })
       .catch((error) => {
-        console.log(error.response.data);
+        console.log(error.response);
       });
   };
 
@@ -158,7 +129,7 @@ function RestaurantOrdersPage() {
        
       })
       .catch((error) => {
-        console.log(error.response.data);
+        console.log(error.response);
       });
   };
 
@@ -179,100 +150,132 @@ function RestaurantOrdersPage() {
         
       })
       .catch((error) => {
-        console.log(error.response.data);
+        console.log(error.response);
       });
   };
+
+  const renderUpdateOrderStatus = () => {
+    return (
+      <div>
+        {orderStatus === "Order Received" ? (
+          <Button
+            onClick={changeStatusToPreparing}
+            type="submit"
+            variant="dark"
+            size="md"
+          >
+            Update status
+          </Button>
+        ) : null}
+        {orderStatus === "Preparing" && modeOfDelivery === "delivery" ? (
+          <Button
+            onClick={changeStatusToOnTheWay}
+            type="submit"
+            variant="dark"
+            size="md"
+          >
+            Update status
+          </Button>
+        ) : null}
+        {orderStatus === "Preparing" && modeOfDelivery === "pick up" ? (
+          <Button
+            onClick={changeStatusToPickUpReady}
+            type="submit"
+            variant="dark"
+            size="md"
+          >
+            Update status
+          </Button>
+        ) : null}
+        {orderStatus === "On the way" ? (
+          <Button
+            onClick={changeStatusToDelivered}
+            type="submit"
+            variant="dark"
+            size="md"
+          >
+            Update status
+          </Button>
+        ) : null}
+        {orderStatus === "Pick up Ready" ? (
+          <Button
+            onClick={changeStatusToPickedUp}
+            type="submit"
+            variant="dark"
+            size="md"
+          >
+            Update status
+          </Button>
+        ) : null}
+      </div>
+    )
+  }
+
+  const renderQuantityBox = (quantity) => {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          border: '1px solid #bdbdbd'
+        }}
+      >
+        {quantity}
+      </div>
+    );
+  }
   
 
   return (
     <div>
      
       <RestNavbar />
-      <Container fluid>
+     {order && <Container fluid>
         <Row className="mt-3">
           <Col>
         
           </Col>
         </Row>
         <Row>
+          <h1>Order Details : {id}</h1>
+        </Row>
+        <Row>
           <Col xs={2} sm={3} md={3} lg={3}>
-          <h1>Order Details</h1>
-          <h5> Order id: {id}</h5>
-          <h3> {custName}</h3>
+            <h3> {custName}</h3>
+            <img src={custProfileImage} width="200px" height="160px" alt="user profile" />
           </Col>
           <Col xs={4} sm={3} md={3} lg={3}>
-            <div style={{ paddingTop: "1rem", paddingLeft: "2rem" }}>
+            <div style={{paddingLeft: "2rem" }}>
               {dishes.map((dish) => (
-                <Row>
-                  <h6>{`${dish.name}  ${dish.qty}  X  ${dish.price}`}</h6>
+                <Row className="mb-3">
+                  <Col xs={2}>
+                    {renderQuantityBox(dish.qty)}
+                  </Col>
+                  <Col>
+                    <h6>{dish.name}</h6>
+                  </Col>
                 </Row>
               ))}
-              <span>
-                <h4> Total- ${total}</h4>
-              </span>
             </div>
           </Col>
-          <Col xs={3} sm={6} md={6} lg={6}>
-           
-                  <h3>Order Status</h3>
-               
-                  <h4>{orderStatus}</h4>
-               
-            <div className="text-end">
-              {orderStatus === "Order Received" ? (
-                <Button
-                  onClick={changeStatusToPreparing}
-                  type="submit"
-                  variant="primary"
-                  size="md"
-                >
-                  Update status
-                </Button>
-              ) : null}
-              {orderStatus === "Preparing" && modeOfDelivery === "delivery" ? (
-                <Button
-                  onClick={changeStatusToOnTheWay}
-                  type="submit"
-                  variant="primary"
-                  size="md"
-                >
-                  Update status
-                </Button>
-              ) : null}
-              {orderStatus === "Preparing" && modeOfDelivery === "pick up" ? (
-                <Button
-                  onClick={changeStatusToPickUpReady}
-                  type="submit"
-                  variant="primary"
-                  size="md"
-                >
-                  Update status
-                </Button>
-              ) : null}
-              {orderStatus === "On the way" ? (
-                <Button
-                  onClick={changeStatusToDelivered}
-                  type="submit"
-                  variant="primary"
-                  size="md"
-                >
-                  Update status
-                </Button>
-              ) : null}
-              {orderStatus === "Pick up Ready" ? (
-                <Button
-                  onClick={changeStatusToPickedUp}
-                  type="submit"
-                  variant="primary"
-                  size="md"
-                >
-                  Update status
-                </Button>
-              ) : null}
+          <Col sm={3}>
+            <div>
+              {dishes.length} items for ${total}
+            </div>
+            <div>
+                {orderTime && (orderTime.split('T')[0] + " at " + orderTime.split('T')[1])}
+            </div>
+          </Col>
+          <Col sm={3}>
+            <div>
+              <h5>Status : {orderStatus}</h5>
+              {renderUpdateOrderStatus()}
             </div>
           </Col>
         </Row>
-      </Container>
+        <Divider />
+      </Container>}
     </div>
   );
 }

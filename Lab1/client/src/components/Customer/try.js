@@ -92,7 +92,7 @@ function AddDishForm() {
 
     // get secure url from our server
     const uploadUrl = await fetch(
-      "http://localhost:5000/uploadImage"
+      BACKEND_URL+"/uploadImage"
     ).then((res) => res.json());
 
     // post the image direclty to the s3 bucket
@@ -116,7 +116,7 @@ function AddDishForm() {
 
     //req for adding url to db api
     axios
-      .put("http://localhost:5000/addImage", userInfo)
+      .put(BACKEND_URL+"/addImage", userInfo)
       .then((response) => {
         const urlFromDb = response.data[0].profileUrl;
         setProfileImagePath(urlFromDb);
@@ -214,7 +214,7 @@ function AddDishForm() {
           </div>
 
           <div className="row ml-3">
-              <button className="btn btn-primary text-center mt-2" style={{width:"35%", marginLeft: "32%"}} onClick={toggleImageUpdate}>
+              <button className="btn btn-dark text-center mt-2" style={{width:"35%", marginLeft: "32%"}} onClick={toggleImageUpdate}>
                 Add Dish Image
               </button>
               <ReactModal isOpen={profileImageUpdate}>
@@ -228,13 +228,13 @@ function AddDishForm() {
                     name="newProfileImage"
                     onChange={handleImageUpload}
                   />
-                  <button className="btn btn-primary" type="submit"   onClick={(e) => {
+                  <button className="btn btn-dark" type="submit"   onClick={(e) => {
                       uploadPicture(e);
                     }}>
                     Done
                   </button>
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-dark"
                     onClick={toggleImageUpdate}
                   >
                     Cancel
@@ -245,7 +245,7 @@ function AddDishForm() {
 
         <div className="row mt-3 ml-1 ">
           <div className="col-6 text-end">
-            <button type="submit" className="btn btn-primary ">
+            <button type="submit" className="btn btn-dark">
               Add
             </button>
           </div>

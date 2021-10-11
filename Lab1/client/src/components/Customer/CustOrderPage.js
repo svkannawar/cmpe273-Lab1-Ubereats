@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
+import Divider from "../Common/Divider";
 import CustNavbar from "./CustNavbar";
 import axios from "axios";
 import BACKEND_URL from "../../config/configBackendURL";
@@ -17,37 +18,22 @@ function CustOrderPage() {
   const [dishes, setDishes] = useState([]);
   const [modeOfDelivery, setModeOfDelivery] = useState("");
   const [bearer, setBearer] = useState("");
-  // const dummy_order = [
-  //   {
-  //     orderId: 13,
-  //     restId: 23,
-  //     restName: "Sukanta",
-  //     orderStatus: "New Order",
-  //     deliveryMode: "Delivery",
-  //     total: 70,
-  //     custId: 24,
-  //     custName: "Saurabh",
-  //   },
-  // ];
+  const [orderTime, setOrderTime] = useState("");
 
-  // const dummy_order_dishes = [
-  //   {
-  //     dishName: "Paneer Bhurji",
-  //     qty: 2,
-  //     price: 30,
-  //   },
-  //   {
-  //     dishName: "Sizzler",
-  //     qty: 1,
-  //     price: 20,
-  //   },
-  //   {
-  //     dishName: "Basundi",
-  //     qty: 2,
-  //     price: 20,
-  //   },
-  // ];
-
+  const renderQuantityBox = (quantity) => {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          border: '1px solid #bdbdbd'
+        }}
+      >
+        {quantity}
+      </div>
+    );
+  }
   useEffect(() => {
     axios({
       method: "get",
@@ -59,33 +45,64 @@ function CustOrderPage() {
         setOrder(response.data.orderDetails);
         setDishes(response.data.orderDishes);
         //
-        setTotal(response.data[0].total);
-        setRestName(response.data[0].restName);
-        setModeOfDelivery(response.data[0].modeOfDelivery);
+        setTotal(response.data.orderDetails[0].total);
+        setRestName(response.data.orderDetails[0].restName);
+        setOrderStatus(response.data.orderDetails[0].orderStatus);
+        setModeOfDelivery(response.data.orderDetails[0].modeOfDelivery);
+        setOrderTime(response.data.orderDetails[0].time);
       })
       .catch((error) => {
         console.log(error.response);
       });
   }, []);
-  console.log("ordttttttttttter",order);
-  console.log("ordtttttttdishestttter",dishes);
+
   return (
     <div>
       <CustNavbar />
-      {order[0] &&  <Container>
-        <Row>
-          <h1>Order Details</h1>
-          <h3> {`${order[0].restName}`}</h3>
-          <Col className="mt-4">
-            {dishes.map((dish) => (
-              <Row>{`${dish.name} X ${dish.qty}  ${dish.price}`}</Row>
-            ))}
-         <h4><div style={{marginLeft:"-2%"}}>  {`Order Total ${order[0].total}`}
-         </div><div>
-            {`Mode of Delivery ${order[0].modeOfDelivery}`}</div></h4>
+     {order && <Container fluid>
+        <Row className="mt-3">
+          <Col>
+        
           </Col>
-
         </Row>
+        <Row>
+          <h1>Order Details : {id}</h1>
+        </Row>
+        <Row>
+          <Col xs={2} sm={3} md={3} lg={3}>
+            <h3> {restName}</h3>
+            {/* <img src={custProfileImage} width="200px" height="160px" alt="user profile" /> */}
+          </Col>
+          <Col xs={4} sm={3} md={3} lg={3}>
+            <div style={{paddingLeft: "2rem" }}>
+              {dishes.map((dish) => (
+                <Row className="mb-3">
+                  <Col xs={2}>
+                    {renderQuantityBox(dish.qty)}
+                  </Col>
+                  <Col>
+                    <h6>{dish.name}</h6>
+                  </Col>
+                </Row>
+              ))}
+            </div>
+          </Col>
+          <Col sm={3}>
+            <div>
+              {dishes.length} items for ${total}
+            </div>
+            <div>
+            {orderTime && (orderTime.split('T')[0] + " at " + orderTime.split('T')[1])}
+            </div>
+          </Col>
+          <Col sm={3}>
+            <div>
+              <h5>Order Status : {orderStatus}</h5>
+             
+            </div>
+          </Col>
+        </Row>
+        <Divider />
       </Container>}
       
     </div>

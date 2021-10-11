@@ -6,5 +6,5 @@ module.exports = app => {
     app.post("/addFavs",  favourites.addFavRest);
     app.delete("/removeFavs",  favourites.remFavRest);
     app.get("/getFavs",  favourites.getFavRests);
-   
+    app.post("/getRestAsFav",  favourites.getRestAsFav);
   };

@@ -95,13 +95,32 @@ Restaurant.updateRestProfilePromise = (
   phone,
   description,
   timing,
-  profileUrl,
   modeOfDelivery
   ) => {
   return new Promise((resolve) => {
-    console.log("inside restprofileupdate query")
-    const query = `update RestDetails set name = '${name}',  location = '${location}', phone = '${phone}', description = '${description}', timing = '${timing}', profileUrl = '${profileUrl}', modeOfDelivery = '${modeOfDelivery}' where credid = '${id}';`;
+   
+    const query = `update RestDetails set name = '${name}',  location = '${location}', phone = '${phone}', description = '${description}', timing = '${timing}', modeOfDelivery = '${modeOfDelivery}' where credid = '${id}';`;
 
+    sql.query(query, (err, result) => {
+      resolve([err, result]);
+    });
+  });
+};
+
+Restaurant.getRestWithSearAndMod1 = (searchStr, modeOfDel) => {
+  return new Promise((resolve) => {
+    const query = `select * from RestDetails where location like '%${searchStr}%' or credid in (select restid from Dishes where name like '%${searchStr}%');`;
+  
+    sql.query(query, (err, result) => {
+      resolve([err, result]);
+    });
+  });
+};
+
+Restaurant.getRestWithSearAndMod2 = (searchStr, modeOfDel) => {
+  return new Promise((resolve) => {
+    const query = `select * from RestDetails where (location like '%${searchStr}%' or credid in (select restid from Dishes where name like '%${searchStr}%')) and modeOfDelivery in ("delivery","pickup and delivery");`;
+  
     sql.query(query, (err, result) => {
       resolve([err, result]);
     });

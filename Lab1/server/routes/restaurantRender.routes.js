@@ -12,4 +12,5 @@ module.exports = app => {
   app.put("/updateRestProfile", restaurants.updateRestProfile);
   app.post("/getRestProfile", restaurants.getRestProfile);
   app.post("/searcByhModeOfDeliveryOnly", restaurants.searcByhModeOfDeliveryOnly );
+  
   };

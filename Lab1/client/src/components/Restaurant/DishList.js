@@ -5,7 +5,7 @@ import DishForRest from "../Restaurant/DishForRest";
 function DishList(props) {
   return (
     <Row >
-      <div className="card-group p-3">
+      <div className="card-group p-3" style={{borderLeft:"10px"}}>
         {props.dishes.map((dish) => (
           <DishForRest
             key={dish.id}

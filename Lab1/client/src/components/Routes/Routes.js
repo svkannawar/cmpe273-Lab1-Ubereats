@@ -23,6 +23,7 @@ import OrderConfirm from '../Customer/OrderConfim'
 import CustNavDash from '../Customer/CustNavDash';
 import CustDashBoard from '../Customer/CustDashboard';
 import CustDashboardParent from '../Customer/CustDashboardParent';
+import Favorites from '../Customer/Favourites'
 
 function Routes() {
    
@@ -34,13 +35,14 @@ function Routes() {
                 <Route path='/login' component={ Login } />
                 <Route path='/restaurants/orders' component={ RestOrders } />
                 <Route path='/addDish' component={ AddDishForm } />
+                <Route path='/favorites' component={ Favorites } />
                 <Route path='/custDashboard' exact component={ CustDashboard } />
                 <Route path='/restDashBoard' exact component={ RestDashboard } />
                 <Route path='/customer/profile' component={ CustProfile } />
                 <Route path='/restaurants/profile' exact component={ RestProfile } />
                 <Route path='/customer/orders' component={ CustOrders } />
                 <Route path='/customer/about' component={ CustAbout } />
-                <Route path='/customer/favourites' component={ Favourites } />
+                <Route path='/favourites' component={ Favourites } />
                 <Route path='/orderConfirm' component={ OrderConfirm } exact />
                 <Route path='/custrestaurant/:id'  component={ RestaurantPage } exact />
                 <Route path='/custorder/:id'  component={ CustOrderPage } exact />

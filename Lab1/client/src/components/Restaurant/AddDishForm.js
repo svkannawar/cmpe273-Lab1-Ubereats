@@ -93,7 +93,7 @@ function AddDishForm() {
 
     // get secure url from our server
     const uploadUrl = await fetch(
-      "http://localhost:5000/uploadImage"
+      BACKEND_URL+"/uploadImage"
     ).then((res) => res.json());
 
     // post the image direclty to the s3 bucket
@@ -240,38 +240,12 @@ function AddDishForm() {
           </div>
 
           <div className="row ml-3">
-              {/* <button className="btn btn-primary text-center mt-2" style={{width:"35%", marginLeft: "32%"}} onClick={toggleImageUpdate}>
-                Add Dish Image
-              </button> */}
-              {/* <ReactModal isOpen={profileImageUpdate}>
-                <form
-                  onSubmit={handleImageSubmit}
-                  encType="multipart/form-data"
-                  style={{ textAlign: "Center" }}
-                >
-                  <input
-                    type="file"
-                    name="newProfileImage"
-                    onChange={handleImageUpload}
-                  />
-                  <button className="btn btn-primary" type="submit"   onClick={(e) => {
-                      uploadPicture(e);
-                    }}>
-                    Done
-                  </button>
-                  <button
-                    className="btn btn-primary"
-                    onClick={toggleImageUpdate}
-                  >
-                    Cancel
-                  </button>
-                </form>
-              </ReactModal> */}
+              
             </div>
 
         <div className="row mt-3 ml-1 ">
           <div className="col-6 text-end">
-            <button type="submit" className="btn btn-primary ">
+            <button type="submit" className="btn btn-dark">
               Add
             </button>
           </div>

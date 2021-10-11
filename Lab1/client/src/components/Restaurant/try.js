@@ -33,7 +33,7 @@ console.log("inside useeffect")
            console.log("restdata",response.data)
             })
             .catch((error) => {
-           //   console.log((error.response.data));
+           //   console.log((error.response));
             });
 
 
@@ -51,7 +51,7 @@ console.log("inside useeffect")
            console.log("restdata",response.data)
             })
             .catch((error) => {
-           //   console.log((error.response.data));
+           //   console.log((error.response));
             });
     
         },[])

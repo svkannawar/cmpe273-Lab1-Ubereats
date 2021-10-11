@@ -102,7 +102,7 @@ function DishEdit() {
 
     // get secure url from our server
     const uploadUrl = await fetch(
-      "http://localhost:5000/uploadImage"
+      BACKEND_URL+"/uploadImage"
     ).then((res) => res.json());
 
     // post the image direclty to the s3 bucket
@@ -125,7 +125,7 @@ function DishEdit() {
 
     //req for adding url to db api
     axios
-      .put("http://localhost:5000/editDishImage", body)
+      .put(BACKEND_URL+"/editDishImage", body)
       .then((response) => {
         // const urlFromDb = response.data[0].profileUrl;
         // setProfileImagePath(urlFromDb);
@@ -189,7 +189,7 @@ function DishEdit() {
 {dishData[0] && <Container style={{ width: "50%" }}>
       <h1 className="text-center"> Edit Dish</h1>
       <div className="row ml-3">
-              <button className="btn btn-primary text-center" style={{width:"35%", marginLeft: "34%"}} onClick={toggleImageUpdate}>
+              <button className="btn btn-dark text-center" style={{width:"35%", marginLeft: "34%"}} onClick={toggleImageUpdate}>
                 Change Dish Image
               </button>
               <ReactModal isOpen={profileImageUpdate}>
@@ -203,13 +203,13 @@ function DishEdit() {
                     name="newProfileImage"
                     onChange={handleImageUpload}
                   />
-                  <button className="btn btn-primary" type="submit"   onClick={(e) => {
+                  <button className="btn btn-dark" type="submit"   onClick={(e) => {
                       uploadPicture(e);
                     }}>
                     Done
                   </button>
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-dark"
                     onClick={toggleImageUpdate}
                   >
                     Cancel
@@ -290,7 +290,7 @@ function DishEdit() {
 
         <div className="row mt-3 ml-1 ">
           <div className="col-6 text-end">
-            <button type="submit" className="btn btn-primary ">
+            <button type="submit" className="btn btn-dark ">
               Update
             </button>
           </div>

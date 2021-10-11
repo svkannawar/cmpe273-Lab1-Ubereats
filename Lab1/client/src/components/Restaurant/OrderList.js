@@ -9,7 +9,7 @@ export const OrderList = (props) => {
         {props.orders.map((order) => (
           
               
-            <Order
+            <Order 
               key={order.orderid}
               id={order.orderid}
               restName={order.restName}

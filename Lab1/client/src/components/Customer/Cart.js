@@ -11,7 +11,7 @@ export const Cart = () => {
   const handleShow = () => setShow(true);
   return (
     <>
-    <Button variant="primary" onClick={handleShow}>
+    <Button variant="dark" onClick={handleShow}>
       Launch demo modal
     </Button>
 
@@ -24,7 +24,7 @@ export const Cart = () => {
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleClose}>
+        <Button variant="dark" onClick={handleClose}>
           Save Changes
         </Button>
       </Modal.Footer>

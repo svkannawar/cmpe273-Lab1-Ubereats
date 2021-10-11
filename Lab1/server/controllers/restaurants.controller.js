@@ -139,6 +139,52 @@ exports.searcByhModeOfDeliveryOnly = async (req, res) => {
     }
   };
   
+// Display rests depending upon mode of delivery
+exports.displaySearch = async (req, res) => {
+  try {
+    const search_str = req.body.search_str;
+    const modeOfDelivery = req.body.modeOfDelivery;
+
+    if (
+      modeOfDelivery === "pick up" ||
+      modeOfDelivery === "pick up and delivery"
+    ) {
+      const [err1, result1] = await Restaurant.getRestWithSearAndMod1(
+        search_str,
+        modeOfDelivery
+      );
+
+      if (err1) {
+        res
+          .status(400)
+          .json({ msg: "Error while fetching restaurant data from database" });
+        console.log(error);
+        return;
+      }
+
+      res.status(200).json(result1);
+    } else if (
+      modeOfDelivery === "delivery" ||
+      modeOfDelivery === "pick up and delivery"
+    ) {
+      const [err2, result2] = await Restaurant.getRestWithSearAndMod2(
+        search_str,
+        modeOfDelivery
+      );
+
+      if (err2) {
+        res
+          .status(400)
+          .json({ msg: "Error while fetching restaurant data from database" });
+        console.log(error);
+        return;
+      }
+      res.status(200).json(result2);
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
 
 exports.displayFilteredRests = async (req, res) => {
     try {
@@ -198,7 +244,6 @@ exports.updateRestProfile = async (req, res) => {
         requestBody.phone,
         requestBody.description,
         requestBody.timing,
-        requestBody.restProfileUrl,
         requestBody.modeOfDelivery
       );
   

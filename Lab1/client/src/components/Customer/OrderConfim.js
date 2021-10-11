@@ -43,31 +43,13 @@ function OrderConfirm() {
   const [qty, setQty] = useState("");
   const [custName, setCustName] = useState("");
   const [custAddress, setCustAddress] = useState([]);
-  const [address, setAddress] = useState("initial");
+  const [address, setAddress] = useState("no");
   const [newAddress, setNewAddress] = useState("");
   const [showPlaceOrder, setShowPlaceOrder] = useState(
     localStorage.getItem("placeOrder")
   );
+  
   const id = localStorage.getItem("id");
-  // const cust_addresses = [
-  //   {
-  //     id: 6,
-  //     custid: 16,
-  //     address: "190 Ryland Street",
-  //   },
-  //   {
-  //     id: 4,
-  //     custid: 16,
-  //     address: "190 Ryland Street",
-  //   },
-
-  //   {
-  //     id: 7,
-  //     custid: 16,
-  //     address: "754, the alameda",
-  //   },
-  // ];
-
   useEffect(() => {
     axios({
       method: "get",
@@ -105,12 +87,15 @@ function OrderConfirm() {
 
   const radioChangeAddress = (e) => {
     setAddress(e.target.value);
-    console.log("gyhthh");
   };
 
   const newAddressChange = (e) => {
     setNewAddress(e.target.value);
   };
+  const searchByModeOfDelivery = (e)=>{
+    
+    setModeOfDelivery(e.target.value);
+  }
   const addAddress = (e) => {
     let body = {
       userId: id,
@@ -124,19 +109,17 @@ function OrderConfirm() {
       headers: { "Content-Type": "application/json", Authorization: bearer },
     })
       .then((response) => {
-        console.log("newly added address with all", response.data);
         setAddress(response.data);
       })
       .catch((error) => {
-        //        console.log((error.response.data));
+        //        console.log((error.response));
       });
 
-    console.log("inside submit address,", newAddress);
   };
 
   const placeOrder = (e) => {
     e.preventDefault();
-    if (modeOfDelivery === "delivery" && address === "initial") {
+    if (modeOfDelivery === "delivery" && address === "no") {
       alert("Please select the address");
       return;
     } else {
@@ -146,6 +129,7 @@ function OrderConfirm() {
       console.log("------final order cart---", cart);
       console.log("------final order items---", items);
       const body = { cart: cart, items: items, total: total, address: address };
+      
      console.log("body", body);
          axios({
             method: "post",
@@ -158,7 +142,7 @@ function OrderConfirm() {
         console.log("order placed", response.data);
             })
             .catch((error) => {
-           console.log("error",(error.response.data));
+           console.log("error",(error.response));
             });
       alert("Thank you for the order");
       localStorage.setItem("cart", "[]");
@@ -171,12 +155,50 @@ function OrderConfirm() {
       history.push("/custDashboard");
     }
   };
-  console.log(custAddress.length);
+  console.log("mod",modeOfDelivery);
   return (
     <div>
       <CustNavbar />
       <Container fluid>
         {!isEmpty ? (
+        
+
+         <div>
+           {modeOfDelivery==="pick up and delivery" ? (<div>
+             <Row>
+               <Col>
+               <h3>Select the mode of delivery</h3>
+               <ToggleButtonGroup
+              style={{ width: "60%", marginInlineStart: "12%" }}
+              type="radio"
+              name="options"
+              required
+            >
+              <ToggleButton
+                variant="light"
+                id="tbg-radio-2"
+                value={"delivery"}
+                onChange={searchByModeOfDelivery}
+              >
+                <span style={{ padding: "10px", borderRadius: "5px" }}>
+                  Delivery
+                </span>
+              </ToggleButton>
+              <ToggleButton
+                variant="light"
+                id="tbg-radio-3"
+                value={"pick up"}
+                onChange={searchByModeOfDelivery}
+                
+              >
+                <span style={{ padding: "10px" }}>Pick Up</span>
+              </ToggleButton>
+            </ToggleButtonGroup>
+               </Col>
+             </Row>
+            
+           </div>) : null
+           }
           <Row>
             <Col xs={10} sm={7} md={7} lg={7}>
               <h1>{restName}</h1>
@@ -220,7 +242,7 @@ function OrderConfirm() {
                           onChange={newAddressChange}
                         />
                       </Form.Group>
-                      <Button type="submit" variant="primary" size="md">
+                      <Button type="submit" variant="dark" size="md">
                         Add
                       </Button>
                     </Form>
@@ -228,7 +250,7 @@ function OrderConfirm() {
                 </div>
               ) : (
                 <div className="mt-5">
-                  <h4>We alwayas welcome order pickups!!</h4>
+                  <h4>Pick up orders will be ready within 45 minutes once order is placed</h4>
                 </div>
               )}
             </Col>
@@ -274,11 +296,13 @@ function OrderConfirm() {
               </Row>
             </Col>
           </Row>
+          </div>
         ) : (
           <div>Nothing in the cart!</div>
         )}
       </Container>
     </div>
+    
   );
 }
 

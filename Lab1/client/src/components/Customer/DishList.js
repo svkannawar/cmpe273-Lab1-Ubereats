@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row } from "react-bootstrap";
+import { Row , Modal, Container, Col, Button} from "react-bootstrap";
 import Dish from "./Dish";
 
 import { useCart } from "react-use-cart";
@@ -12,11 +12,22 @@ function DishList(props) {
   const { addItem } = useCart();
 
   const [cart, setCart] = useState(cartFromLocalStorage);
+  const [show, setShow] = useState(false);
+  const [smShow, setSmShow] = useState(false);
 
+  const {
+    isEmpty,
+    totalUniqueItems,
+    items,
+    updateItemQuantity,
+    removeItem,
+  } = useCart();
+
+  const { emptyCart } = useCart();
 
   const addToCart = (cartaa, itemsaa, qty) => {
 
-    
+    setSmShow(!smShow);
     localStorage.setItem("placeOrder", "Yes");
     setCart(cartaa);
     localStorage.setItem("cart", JSON.stringify(cartaa));
@@ -24,6 +35,9 @@ function DishList(props) {
 console.log(localStorage.getItem("cart").restid);
 
   };
+  const modalOff=()=>{
+    setSmShow(!smShow);
+  }
   return (
     <Row>
       <div className="card-group p-3">
@@ -48,6 +62,8 @@ console.log(localStorage.getItem("cart").restid);
           />
         ))}
       </div>
+
+     
     </Row>
   );
 }

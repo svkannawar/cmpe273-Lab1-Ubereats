@@ -167,7 +167,7 @@ const handleCountryChange = value => {
     
         // get secure url from our server
         const uploadUrl = await fetch(
-          "http://localhost:5000/uploadImage"
+          BACKEND_URL +"/uploadImage"
         ).then((res) => res.json());
     
         // post the image direclty to the s3 bucket
@@ -191,7 +191,7 @@ const handleCountryChange = value => {
     
         //req for adding url to db api
         axios
-          .put("http://localhost:5000/addImage", userInfo)
+          .put(BACKEND_URL+"/addImage", userInfo)
           .then((response) => {
             const urlFromDb = response.data[0].profileUrl;
             setProfileImagePath(urlFromDb);
@@ -218,7 +218,7 @@ const handleCountryChange = value => {
             <div>
                 <CustNavbar/>
                 <div className="text-center mb-5">
-            <img className="card-img-top" style={{width:"50%", height:"400px"}}src={profileUrl} alt="img"></img>
+            <img className="card-img-top" style={{width:"50%", height:"400px", borderRadius:"70%"}}src={profileUrl} alt="img"></img>
           </div>
                 {/* { redirectVar } */}
                 <div className="container-fluid">
@@ -234,7 +234,7 @@ const handleCountryChange = value => {
                         <div className="col-10">
 
                              <div className="row ml-3">
-                             <button className="btn btn-primary text-center" style={{width:"15%", marginLeft: "34%"}} onClick={toggleImageUpdate}>
+                             <button className="btn btn-dark text-center" style={{width:"15%", marginLeft: "34%"}} onClick={toggleImageUpdate}>
                 Change Profile Picture
               </button>
 
@@ -249,26 +249,20 @@ const handleCountryChange = value => {
                     name="newProfileImage"
                     onChange={handleImageUpload}
                   />
-                  <button className="btn btn-primary" type="submit"   onClick={(e) => {
+                  <button className="btn btn-dark" type="submit"   onClick={(e) => {
                       uploadPicture(e);
                     }}>
                     Done
                   </button>
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-dark"
                     onClick={toggleImageUpdate}
                   >
                     Cancel
                   </button>
                 </form>
               </ReactModal>
-                                 {/* <ReactModal isOpen={ profileImageUpdate } >
-                                    <form onSubmit={ handleImageSubmit } encType='multipart/form-data' style={ { textAlign: "Center" } }>
-                                        <input type="file" name="newProfileImage" onChange={ handleImageUpload } />
-                                        <button className="btn btn-primary" type="submit">Done</button>
-                                        <button className="btn btn-primary" onClick={ toggleImageUpdate }>Cancel</button>
-                                    </form>
-                                </ReactModal>  */}
+                                
 
                             </div> 
                             <form onSubmit={ handleOnSubmit }>
@@ -331,7 +325,7 @@ const handleCountryChange = value => {
                                 
                                 <div className="row mt-3 ml-1">
                                     <div className="col-2">
-                                        <button type="submit" className="btn btn-primary">Update</button>
+                                        <button type="submit" className="btn btn-dark">Update</button>
                                     </div>
                                     <div className="col-8">
                                         <Link className="btn btn-danger" to="/users/about">Cancel</Link>

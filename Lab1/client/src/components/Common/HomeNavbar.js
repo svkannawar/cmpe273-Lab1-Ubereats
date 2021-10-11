@@ -56,7 +56,7 @@ function HomeNavbar() {
                 <Button
                   className="auto-ms"
                   type="submit"
-                  variant="primary"
+                  variant="dark"
                   size="md"
                   style={{ width: "100%", borderRadius: "10px" }}
                 >
@@ -73,6 +73,13 @@ function HomeNavbar() {
   </Row>
   <div class="big-image">
   <div class="overlay">
+  <h1 >
+                Uber
+                <span className="load h1t" style={{ color: "#3FC060" }}>
+                  Eats
+                </span>
+              </h1>
+    <p>"The connection between hungry soul and a masterchef"</p>
   </div>
 </div>
 </Container>

@@ -51,6 +51,7 @@ function RestProfile({ props }) {
         setPhone(response.data[0].phone);
         setDescription(response.data[0].description);
         setProfileUrl(response.data[0].profileUrl);
+        setModeOfDelivery(response.data[0].modeOfDelivery)
       })
       .catch((error) => {
         console.log(error.response);
@@ -96,10 +97,10 @@ function RestProfile({ props }) {
       phone: phone,
       description: description,
       timing: timing,
-      restProfileUrl: profileImagePath,
+
       modeOfDelivery: modeOfDelivery,
     };
-
+console.log("all state values", body);
     axios({
       method: "put",
       url: BACKEND_URL + "/updateRestProfile",
@@ -107,10 +108,10 @@ function RestProfile({ props }) {
       headers: { "Content-Type": "application/json", Authorization: bearer },
     })
       .then((response) => {
-        console.log("update prifile status", response.data);
+        console.log("update profile status", response.data);
       })
       .catch((error) => {
-        console.log(error.response.data);
+        console.log(error.response);
       });
 
     history.push("/restDashBoard");
@@ -132,7 +133,8 @@ function RestProfile({ props }) {
     console.log("file", file);
 
     // get secure url from our server
-    const uploadUrl = await fetch("http://localhost:5000/uploadImage").then(
+    const uploadUrl = await fetch(BACKEND_URL+"/uploadImage")
+    .then(
       (res) => res.json()
     );
 
@@ -157,7 +159,7 @@ function RestProfile({ props }) {
 
     //req for adding url to db api
     axios
-      .put("http://localhost:5000/addImage", userInfo)
+      .put(BACKEND_URL+"/addImage", +userInfo)
       .then((response) => {
         const urlFromDb = response.data[0].profileUrl;
         setProfileUrl(urlFromDb);
@@ -174,7 +176,7 @@ function RestProfile({ props }) {
       {/* { redirectVar } */}
       <RestNavbar />
       <div className="text-center mb-5">
-            <img className="card-img-top" style={{width:"50%", height:"400px"}}src={profileUrl} alt="img"></img>
+            <img className="card-img-top" style={{width:"50%", height:"400px", borderRadius:"70%"}}src={profileUrl} alt="img"></img>
           </div>
       <div className="container-fluid">
         <div className="row h-100 mt-2">
@@ -188,7 +190,7 @@ function RestProfile({ props }) {
           <div className="col-10">
             <div className="row ml-3">
               <button
-                className="btn btn-primary text-center"
+                className="btn dark text-center"
                 style={{ width: "15%", marginLeft: "34%" }}
                 onClick={toggleImageUpdate}
               >
@@ -206,7 +208,7 @@ function RestProfile({ props }) {
                     onChange={handleImageUpload}
                   />
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-dark"
                     type="submit"
                     onClick={(e) => {
                       uploadPicture(e);
@@ -215,7 +217,7 @@ function RestProfile({ props }) {
                     Done
                   </button>
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-dark"
                     onClick={toggleImageUpdate}
                   >
                     Cancel
@@ -278,17 +280,12 @@ function RestProfile({ props }) {
                  
                   <select
                     className="drop p-2"
+                    placeholder={modeOfDelivery}
                     value={modeOfDelivery}
                     onChange={handleDeliveryModeChange}
                   >
-                    {" "}
-                    <option disabled selected>
-                      {" "}
-                       {modeOfDelivery}
-                    </option>
-                    <option value={modeOfDelivery}>
-                    
-                    </option>
+                   
+                   <option value={modeOfDelivery}>{`${modeOfDelivery}`}</option>
                     <option value="delivery">Delivery</option>{" "}
                     <option value="pick up">Pick up</option>{" "}
                     <option value="pick up and delivery">Pick up and Delivery</option>{" "}
@@ -305,7 +302,7 @@ function RestProfile({ props }) {
                     onChange={handleFromDateChange}
                   >
                     <option disabled selected>
-                      -- select an option --{" "}
+                      -- select an option --
                     </option>
                     <option value={fromDate}>{fromDate}</option>
                     <option value="Sunday">Sunday</option>
@@ -423,7 +420,7 @@ function RestProfile({ props }) {
 
               <div className="row mt-3 ml-1 ">
                 <div className="col-5 text-end">
-                  <button type="submit" className="btn btn-primary ">
+                  <button type="submit" className="btn btn-dark ">
                     Update
                   </button>
                 </div>

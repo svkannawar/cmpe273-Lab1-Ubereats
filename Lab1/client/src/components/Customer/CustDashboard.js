@@ -8,8 +8,8 @@ import rest2 from './../../images/rest2.jpg';
 import rest3 from './../../images/rest3.jpg';
 import axios from 'axios';
 import BACKEND_URL from '../../config/configBackendURL';
-import {restlist, restlistfordashue} from "../../action/DashBoardActionsUE";
-import { restaurantlistfilter , searcByhModeOfDeliveryOnly} from '../../action/DashBoardActions'
+import {restlist} from "../../action/DashBoardActionsUE";
+import { restaurantlistfilter , searcByhModeOfDeliveryOnly, restlistfordashue} from '../../action/DashBoardActions'
 import { useSelector, useDispatch } from "react-redux";
 
 function CustDashBoard(props) {
@@ -22,6 +22,7 @@ function CustDashBoard(props) {
     const [isVeg, setIsVeg] = useState(false);
     const [isNonVeg, setIsNonVeg] = useState(false);
     const [isVegan, setIsVegan] = useState(false);
+    
 
 
     const id = localStorage.getItem('id');
@@ -55,7 +56,7 @@ dispatch(restlistfordashue(body));
     //       setRestaurantsList(response.data);
     //     })
     //     .catch((error) => {
-    //    //   console.log((error.response.data));
+    //    //   console.log((error.response));
     //     });
 
     },[])
@@ -167,7 +168,7 @@ const applyFilter=()=>{
     //       setRestaurantsList(response.data);
     //     })
     //     .catch((error) => {
-    //       console.log((error.response.data));
+    //       console.log((error.response));
     //     });
         // setIsVeg("");
         // setIsNonVeg("");

@@ -20,7 +20,7 @@ function Navigationbar() {
                         <a href="#instructors" class="nav-link">3</a>
                     </li>
                     <li class="nav-item" >
-                    <Button className="auto-ms" type="submit" variant="primary" size="md"> <Link id="tologin" to="/login" > Sign In</Link></Button>
+                    <Button className="auto-ms" type="submit" variant="dark" size="md"> <Link id="tologin" to="/login" > Sign In</Link></Button>
                    
                     </li>
                 </ul>

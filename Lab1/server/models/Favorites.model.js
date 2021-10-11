@@ -49,5 +49,13 @@ Favorite.remFavRestPromise = (userId, restId) => {
 };
 
 
+Favorite.getRestAsFav=(userId,restId)=>{
+  return new Promise((resolve) => {
+    const query = `SELECT * FROM Favorites WHERE userid = ${userId} and restaurantid = ${restId};`;
+    sql.query(query, (err, result) => {
+      resolve([err, result]);
+    });
+  });
+}
 
   module.exports = Favorite;

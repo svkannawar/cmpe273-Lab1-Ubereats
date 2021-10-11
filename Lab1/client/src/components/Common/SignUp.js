@@ -106,12 +106,7 @@ import { Row,  Button, ToggleButtonGroup, ToggleButton, InputGroup, Col, Form, C
     //     .catch(error => {
     //       console.log(error);
     //       alert("Error occured while signing up")
-    //       //.response.data.message
-         
-    //      // console.log ("------400", error.response.data.data.errors[0]     );
-    //         // console.error('There was an error!', error.response.data.errors[0].msg);
-    //        // alert(error.response.data.errors[0].msg);
-    //         //console.log(error.errors)
+    //  
     //     });
 
     };

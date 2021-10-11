@@ -72,7 +72,7 @@ Customer.updateCustProfilePromise = (
 
 Customer.getCustPicUrl = (id) => {
   return new Promise((resolve) => {
-    const query = `select profileUrl from CustDetails where credid = '${id}';`;
+    const query = `select profileUrl from CustDetails where credid = ${id};`;
 
     sql.query(query, (err, result) => {
       resolve([err, result]);

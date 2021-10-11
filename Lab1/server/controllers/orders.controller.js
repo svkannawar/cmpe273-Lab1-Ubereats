@@ -86,8 +86,9 @@ exports.addOrderDetails = async (req, res) => {
 
         return;
       }
+    });
 
-      const [err4, result4] = await OrderDishes.fetchAllDishesForOrder(result1.insertId);
+    const [err4, result4] = await OrderDishes.fetchAllDishesForOrder(result1.insertId);
 
       if (err4) {
         res.status(400).json({
@@ -97,7 +98,6 @@ exports.addOrderDetails = async (req, res) => {
       }
 
       res.status(200).json({ orderDetails: result2, orderDishes: result4 });
-    });
   } catch (error) {
     res.status(400).json(error);
   }
@@ -276,6 +276,8 @@ exports.getOrderDetails = async (req, res) => {
       return;
     }
 
+    console.log('------RESULT-----', result1, result3)
+
     const custProfileUrl = result3[0].profileUrl;
 
     const imageUrls = { restProfileUrl, custProfileUrl };
@@ -293,6 +295,7 @@ exports.getOrderDetails = async (req, res) => {
 
     res.status(200).json({ orderDetails, orderDishes: result4 });
   } catch (error) {
+    console.log('------ERROR-----', error)
     res.status(400).json(error);
   }
 };

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { restlist, restlistfordashue, restaurantlistfilter, searcByhModeOfDeliveryOnly } from "../action/DashBoardActions";
+import { restlist, restlistfordashue, restaurantlistfilter, searcByhModeOfDeliveryOnly, restlistforsearch } from "../action/DashBoardActions";
 
 export const restaurantListUE = createSlice({
   name: "restaurantListDashboardue",
@@ -11,8 +11,17 @@ export const restaurantListUE = createSlice({
   },
   extraReducers: {
 
+    [restlistforsearch.fulfilled]: (state, action) => {
+      console.log("inside restlistforsearch of DashBoardUseEffectReducer")
+      if (action.payload.auth) {
+      
+          state.restList = action.payload.restList;
+    
+    }
+  },
+
   [restlistfordashue.fulfilled]: (state, action) => {
-   
+    console.log("inside restlistfordashue of DashBoardUseEffectReducer")
     if (action.payload.auth) {
     
         state.restList = action.payload.restList;
@@ -21,7 +30,7 @@ export const restaurantListUE = createSlice({
 },
 
 [restaurantlistfilter.fulfilled]: (state, action) => {
-
+  console.log("inside restaurantlistfilter of DashBoardUseEffectReducer")
   if (action.payload.auth) {
   
       state.restList = action.payload.restList;
@@ -30,7 +39,7 @@ export const restaurantListUE = createSlice({
 },
 
 [searcByhModeOfDeliveryOnly.fulfilled]: (state, action) => {
-
+  console.log("inside searcByhModeOfDeliveryOnly of DashBoardUseEffectReducer")
   if (action.payload.auth) {
   
       state.restList = action.payload.restList;
