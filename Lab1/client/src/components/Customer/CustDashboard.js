@@ -214,7 +214,7 @@ const applyFilter=()=>{
                             </div>
                             </Col>
                             <Col md-3>
-                             <Button btn btn-dark style={{width:"60%"}} onClick={applyFilter}>Apply</Button>
+                             <Button className="btn btn-dark" style={{width:"60%"}} onClick={applyFilter}>Apply</Button>
                             </Col>
                             </Row>
                        
