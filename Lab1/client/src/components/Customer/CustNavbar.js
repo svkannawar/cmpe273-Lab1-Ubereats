@@ -777,9 +777,9 @@ function CustNavbar() {
               <Col>
                 <Row className="text-center mt-3">
                   {" "}
-                  <button className="btn btn-dark" onClick={toggleSmallModal}>
+                  <Button className="btn btn-dark" onClick={toggleSmallModal}>
                     Change Profile Picture Here
-                  </button>
+                  </Button>
                 </Row>
               </Col>
             </Row>
