@@ -225,7 +225,28 @@ function RestaurantOrdersPage() {
       </div>
     );
   }
-  
+  const statusChange = (e) => {
+    const newStatus = e.target.value;
+    setOrderStatus(newStatus);
+
+    let body = {
+      orderId: id,
+      orderStatus: newStatus,
+    };
+    axios({
+      method: "put",
+      url: BACKEND_URL + "/updateOrderStatus",
+      data: body,
+      headers: { "Content-Type": "application/json", Authorization: bearer },
+    })
+      .then((response) => {
+        console.log("update order status", response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Error while updating order status");
+      });
+  };
 
   return (
     <div>
@@ -270,7 +291,24 @@ function RestaurantOrdersPage() {
           <Col sm={3}>
             <div>
               <h5>Status : {orderStatus}</h5>
-              {renderUpdateOrderStatus()}
+              {orderStatus === "Delivered" ||
+            orderStatus === "Picked Up" ? null : (
+              <div className="row m-1">
+                <select
+                  style={{ width: "50%" }}
+                  className="dropcustom p-2"
+                  required
+                  onChange={statusChange}
+                >
+                  <option value={orderStatus}>{`${orderStatus}`}</option>
+                  <option value="Preparing">Preparing</option>
+                  <option value="On the Way">On the way</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Pickup ready">Pickup ready</option>
+                  <option value="Picked Up">Picked Up</option>
+                </select>
+              </div>
+            )}
             </div>
           </Col>
         </Row>
