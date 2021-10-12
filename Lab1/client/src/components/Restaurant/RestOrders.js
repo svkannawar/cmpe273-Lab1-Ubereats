@@ -52,7 +52,7 @@ function RestOrders() {
     
         axios({
           method: "post",
-          url: BACKEND_URL + "/filterOrderDetailsCust",
+          url: BACKEND_URL + "/filterOrderDetailsRest",
           data: body,
           headers: { "Content-Type": "application/json","Authorization": bearer  },
           

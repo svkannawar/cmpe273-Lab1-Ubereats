@@ -225,6 +225,7 @@ function RestaurantOrdersPage() {
       </div>
     );
   }
+
   const statusChange = (e) => {
     const newStatus = e.target.value;
     setOrderStatus(newStatus);

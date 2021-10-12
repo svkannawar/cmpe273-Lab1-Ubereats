@@ -60,10 +60,10 @@ const body={
   id:id,
   orderStatus: e.target.value
 }
-
+console.log("status filter body", id, e.target.value);
     axios({
       method: "post",
-      url: BACKEND_URL + "/filterOrderDetailsRest",
+      url: BACKEND_URL + "/filterOrderDetailsCust",
       data: body,
       headers: { "Content-Type": "application/json","Authorization": bearer  },
       
